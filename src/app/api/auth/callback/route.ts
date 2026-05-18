@@ -14,7 +14,8 @@ export async function GET(req: NextRequest) {
   });
 
   if (authError) {
-    return NextResponse.json(authError, { status: 500 });
+    console.error('auth-service /v1/exchange-code failed', authError);
+    return NextResponse.json({ error: 'Authentication failed' }, { status: 500 });
   }
 
   const accessToken = authData.accessToken;
@@ -28,7 +29,8 @@ export async function GET(req: NextRequest) {
 
   const isNewUser = userResponse.status === 404;
   if (!isNewUser && userError) {
-    return NextResponse.json(userError, { status: 500 });
+    console.error('user-service /v1/user failed', userError);
+    return NextResponse.json({ error: 'Failed to retrieve user information' }, { status: 500 });
   }
 
   const res = NextResponse.redirect(`${SITE_URL}${isNewUser ? '/register' : '/'}`);
