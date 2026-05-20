@@ -1,5 +1,6 @@
 import { client as exerciseClient } from '@/app/api/exercise/client';
 import { client as workoutClient } from '@/app/api/workout/client';
+import FormattedDateTime from '@/components/FormattedDateTime';
 import { getAccessToken } from '@/lib/session';
 import Link from 'next/link';
 import type { components as exerciseSchema } from '../../../../../gen/exercise/v1/exercise.schema';
@@ -10,13 +11,6 @@ import { finishWorkout } from './actions';
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
 type Exercise = exerciseSchema['schemas']['v1Exercise'];
-
-function formatDateTime(value?: string): string {
-  if (!value) return '—';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '—';
-  return date.toLocaleString();
-}
 
 function exerciseLabel(set: Set, byId: Map<string, Exercise>): string {
   if (!set.exerciseId) return 'Unknown exercise';
@@ -112,9 +106,13 @@ export default async function WorkoutDetailPage({
           </h1>
           <dl className="grid grid-cols-2 gap-y-2 text-sm">
             <dt className="text-zinc-500 dark:text-zinc-400">Started</dt>
-            <dd className="text-zinc-900 dark:text-zinc-50">{formatDateTime(workout.startedAt)}</dd>
+            <dd className="text-zinc-900 dark:text-zinc-50">
+              <FormattedDateTime value={workout.startedAt} />
+            </dd>
             <dt className="text-zinc-500 dark:text-zinc-400">Finished</dt>
-            <dd className="text-zinc-900 dark:text-zinc-50">{formatDateTime(workout.finishedAt)}</dd>
+            <dd className="text-zinc-900 dark:text-zinc-50">
+              <FormattedDateTime value={workout.finishedAt} />
+            </dd>
           </dl>
         </section>
 
@@ -140,7 +138,7 @@ export default async function WorkoutDetailPage({
                     {set.rep ?? 0} reps × {set.weight ?? 0} kg
                   </span>
                   <span className="text-xs text-zinc-500 dark:text-zinc-500">
-                    {formatDateTime(set.trainedAt)}
+                    <FormattedDateTime value={set.trainedAt} />
                   </span>
                 </li>
               ))}

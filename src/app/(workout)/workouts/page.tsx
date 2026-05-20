@@ -1,17 +1,11 @@
 import { client as workoutClient } from '@/app/api/workout/client';
+import FormattedDateTime from '@/components/FormattedDateTime';
 import { getAccessToken } from '@/lib/session';
 import Link from 'next/link';
 import type { components } from '../../../../gen/workout/v1/workout.schema';
 import { startWorkout } from './actions';
 
 type Workout = components['schemas']['v1Workout'];
-
-function formatDateTime(value?: string): string {
-  if (!value) return '—';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '—';
-  return date.toLocaleString();
-}
 
 function statusLabel(workout: Workout): string {
   return workout.finishedAt ? 'Finished' : 'In progress';
@@ -86,10 +80,10 @@ export default async function WorkoutsPage({
                 >
                   <div className="flex flex-col gap-1">
                     <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                      Started: {formatDateTime(workout.startedAt)}
+                      Started: <FormattedDateTime value={workout.startedAt} />
                     </span>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                      Finished: {formatDateTime(workout.finishedAt)}
+                      Finished: <FormattedDateTime value={workout.finishedAt} />
                     </span>
                   </div>
                   <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
