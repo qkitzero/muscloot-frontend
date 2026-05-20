@@ -45,16 +45,24 @@ export default async function WorkoutsPage({
   return (
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">Workouts</h1>
-          <form action={startWorkout}>
-            <button
-              type="submit"
-              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+          <div className="flex items-center gap-2">
+            <Link
+              href="/workouts/stats"
+              className="rounded-full border border-black/[.08] px-5 py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
             >
-              Start workout
-            </button>
-          </form>
+              Stats
+            </Link>
+            <form action={startWorkout}>
+              <button
+                type="submit"
+                className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+              >
+                Start workout
+              </button>
+            </form>
+          </div>
         </div>
 
         {errorParam === 'start_failed' && (
