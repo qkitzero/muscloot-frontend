@@ -73,5 +73,5 @@ export function buildWorkoutVolumes(
       startedAt: workout.startedAt!,
       volume: computeWorkoutVolume(sets),
     }))
-    .sort((a, b) => new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime());
+    .sort((a, b) => a.startedAt.localeCompare(b.startedAt));
 }

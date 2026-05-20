@@ -48,7 +48,7 @@ export default function ActivityHeatmap({ data }: Props) {
     if (monthIndex !== lastMonth) {
       monthLabels.push({
         x: PADDING_LEFT + weekIndex * (CELL_SIZE + CELL_GAP),
-        label: new Date(firstDay.date).toLocaleString('en-US', { month: 'short' }),
+        label: new Date(firstDay.date).toLocaleString(undefined, { month: 'short' }),
       });
       lastMonth = monthIndex;
     }
