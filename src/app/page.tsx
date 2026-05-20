@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/lib/session';
+import Link from 'next/link';
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -10,9 +11,17 @@ export default async function Home() {
           Welcome to Muscloot
         </h1>
         {user ? (
-          <p className="text-lg text-zinc-700 dark:text-zinc-300">
-            Signed in as <span className="font-medium">{user.displayName}</span>.
-          </p>
+          <>
+            <p className="text-lg text-zinc-700 dark:text-zinc-300">
+              Signed in as <span className="font-medium">{user.displayName}</span>.
+            </p>
+            <Link
+              href="/workouts"
+              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+            >
+              Go to workouts
+            </Link>
+          </>
         ) : (
           <>
             <p className="text-lg text-zinc-600 dark:text-zinc-400">

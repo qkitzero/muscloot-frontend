@@ -1,0 +1,110 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "muscle/v1/muscle.proto",
+        "version": "version not set"
+    },
+    "tags": [
+        {
+            "name": "MuscleService"
+        }
+    ],
+    "paths": {
+        "/v1/muscles": {
+            "get": {
+                "operationId": "MuscleService_ListMuscles",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListMusclesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "MuscleService"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "musclev1Muscle": {
+                "type": "object",
+                "properties": {
+                    "muscleId": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1ListMusclesResponse": {
+                "type": "object",
+                "properties": {
+                    "muscles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/musclev1Muscle"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
