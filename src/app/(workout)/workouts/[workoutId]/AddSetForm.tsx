@@ -1,12 +1,27 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useSyncExternalStore } from 'react';
 import type { components } from '../../../../../gen/exercise/v1/exercise.schema';
 import { createSet, type CreateSetFormState } from './actions';
 
 type Exercise = components['schemas']['v1Exercise'];
 
 const initialState: CreateSetFormState = {};
+const noopSubscribe = () => () => {};
+const emptyDefault = () => '';
+
+function toDatetimeLocalInputValue(date: Date): string {
+  const offsetMs = date.getTimezoneOffset() * 60_000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
+
+let cachedClientNow: string | undefined;
+const getClientNow = () => {
+  if (cachedClientNow === undefined) {
+    cachedClientNow = toDatetimeLocalInputValue(new Date());
+  }
+  return cachedClientNow;
+};
 
 export default function AddSetForm({
   workoutId,
@@ -18,7 +33,19 @@ export default function AddSetForm({
   disabled: boolean;
 }) {
   const boundAction = createSet.bind(null, workoutId);
-  const [state, formAction, isPending] = useActionState(boundAction, initialState);
+  const wrappedAction = (prev: CreateSetFormState, formData: FormData) => {
+    const raw = String(formData.get('trainedAt') ?? '');
+    if (raw) {
+      const local = new Date(raw);
+      if (!Number.isNaN(local.getTime())) {
+        formData.set('trainedAt', local.toISOString());
+      }
+    }
+    return boundAction(prev, formData);
+  };
+  const [state, formAction, isPending] = useActionState(wrappedAction, initialState);
+
+  const defaultTrainedAt = useSyncExternalStore(noopSubscribe, getClientNow, emptyDefault);
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
@@ -102,11 +129,13 @@ export default function AddSetForm({
           Trained at
         </label>
         <input
+          key={defaultTrainedAt}
           id="trainedAt"
           name="trainedAt"
           type="datetime-local"
           required
           disabled={disabled}
+          defaultValue={defaultTrainedAt}
           className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
         />
         {state.fieldErrors?.trainedAt && (

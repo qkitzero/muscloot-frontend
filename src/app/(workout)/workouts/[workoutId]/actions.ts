@@ -16,8 +16,11 @@ export type CreateSetFormState = {
   };
 };
 
+const TIMEZONE_SUFFIX = /(Z|[+-]\d{2}:?\d{2})$/i;
+
 function parseTrainedAt(raw: string): string | null {
   if (!raw) return null;
+  if (!TIMEZONE_SUFFIX.test(raw)) return null;
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return null;
   return date.toISOString();
