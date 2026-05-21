@@ -1,6 +1,7 @@
 'use client';
 
-import { useActionState, useSyncExternalStore } from 'react';
+import { useActionState, useState, useSyncExternalStore } from 'react';
+import ExerciseImage from '@/components/ExerciseImage';
 import type { components } from '../../../../../gen/exercise/v1/exercise.schema';
 import { createSet, type CreateSetFormState } from './actions';
 
@@ -32,6 +33,8 @@ export default function AddSetForm({
   exercises: Exercise[];
   disabled: boolean;
 }) {
+  const [selectedExerciseId, setSelectedExerciseId] = useState('');
+
   const boundAction = createSet.bind(null, workoutId);
   const wrappedAction = (prev: CreateSetFormState, formData: FormData) => {
     const raw = String(formData.get('trainedAt') ?? '');
@@ -48,28 +51,46 @@ export default function AddSetForm({
   const defaultTrainedAt = useSyncExternalStore(noopSubscribe, getClientNow, emptyDefault);
 
   return (
-    <form action={formAction} className="flex flex-col gap-3">
+    <form action={formAction} className="flex flex-col gap-4">
       <div>
-        <label
-          htmlFor="exerciseId"
-          className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
+        <span className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Exercise
-        </label>
-        <select
-          id="exerciseId"
-          name="exerciseId"
-          required
-          disabled={disabled || exercises.length === 0}
-          className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
-        >
-          <option value="">Select exercise…</option>
-          {exercises.map((exercise) => (
-            <option key={exercise.exerciseId} value={exercise.exerciseId ?? ''}>
-              {exercise.name ?? exercise.code ?? exercise.exerciseId}
-            </option>
-          ))}
-        </select>
+        </span>
+        <input type="hidden" name="exerciseId" value={selectedExerciseId} />
+        {exercises.length === 0 ? (
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">No exercises available.</p>
+        ) : (
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {exercises.map((exercise) => {
+              const id = exercise.exerciseId ?? '';
+              const isSelected = id !== '' && selectedExerciseId === id;
+              return (
+                <li key={id || exercise.code}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedExerciseId(id)}
+                    disabled={disabled || !id}
+                    aria-pressed={isSelected}
+                    className={`flex w-full flex-col items-center gap-1 rounded-xl border p-2 text-center transition-colors disabled:opacity-50 ${
+                      isSelected
+                        ? 'border-foreground bg-zinc-100 dark:border-zinc-200 dark:bg-zinc-800'
+                        : 'border-black/[.08] bg-white hover:bg-zinc-50 dark:border-white/[.145] dark:bg-zinc-950 dark:hover:bg-zinc-900'
+                    }`}
+                  >
+                    <ExerciseImage
+                      code={exercise.code}
+                      name={exercise.name ?? exercise.code}
+                      className="h-16 w-16"
+                    />
+                    <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                      {exercise.name ?? exercise.code ?? id}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
         {state.fieldErrors?.exerciseId && (
           <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.exerciseId}</p>
         )}
