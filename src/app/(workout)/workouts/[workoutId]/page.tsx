@@ -1,5 +1,6 @@
 import { client as exerciseClient } from '@/app/api/exercise/client';
 import { client as workoutClient } from '@/app/api/workout/client';
+import ExerciseImage from '@/components/ExerciseImage';
 import FormattedDateTime from '@/components/FormattedDateTime';
 import { getAccessToken } from '@/lib/session';
 import Link from 'next/link';
@@ -11,6 +12,11 @@ import { finishWorkout } from './actions';
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
 type Exercise = exerciseSchema['schemas']['v1Exercise'];
+
+function exerciseFor(set: Set, byId: Map<string, Exercise>): Exercise | undefined {
+  if (!set.exerciseId) return undefined;
+  return byId.get(set.exerciseId);
+}
 
 function exerciseLabel(set: Set, byId: Map<string, Exercise>): string {
   if (!set.exerciseId) return 'Unknown exercise';
@@ -126,22 +132,22 @@ export default async function WorkoutDetailPage({
             <p className="text-sm text-zinc-600 dark:text-zinc-400">No sets recorded yet.</p>
           ) : (
             <ul className="flex flex-col divide-y divide-black/[.06] dark:divide-white/[.08]">
-              {sets.map((set) => (
-                <li
-                  key={set.setId}
-                  className="flex items-center justify-between gap-3 py-2 text-sm"
-                >
-                  <span className="text-zinc-900 dark:text-zinc-50">
-                    {exerciseLabel(set, exerciseById)}
-                  </span>
-                  <span className="text-zinc-600 dark:text-zinc-400">
-                    {set.rep ?? 0} reps × {set.weight ?? 0} kg
-                  </span>
-                  <span className="text-xs text-zinc-500 dark:text-zinc-500">
-                    <FormattedDateTime value={set.trainedAt} />
-                  </span>
-                </li>
-              ))}
+              {sets.map((set) => {
+                const exercise = exerciseFor(set, exerciseById);
+                const label = exerciseLabel(set, exerciseById);
+                return (
+                  <li key={set.setId} className="flex items-center gap-3 py-2 text-sm">
+                    <ExerciseImage code={exercise?.code} name={label} className="h-12 w-12" />
+                    <span className="flex-1 text-zinc-900 dark:text-zinc-50">{label}</span>
+                    <span className="text-zinc-600 dark:text-zinc-400">
+                      {set.rep ?? 0} reps × {set.weight ?? 0} kg
+                    </span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-500">
+                      <FormattedDateTime value={set.trainedAt} />
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>
