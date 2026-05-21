@@ -52,10 +52,10 @@ export default function AddSetForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
-      <div>
-        <span className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+      <fieldset disabled={disabled}>
+        <legend className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Exercise
-        </span>
+        </legend>
         <input type="hidden" name="exerciseId" value={selectedExerciseId} />
         {exercises.length === 0 ? (
           <p className="text-sm text-zinc-500 dark:text-zinc-400">No exercises available.</p>
@@ -69,7 +69,7 @@ export default function AddSetForm({
                   <button
                     type="button"
                     onClick={() => setSelectedExerciseId(id)}
-                    disabled={disabled || !id}
+                    disabled={!id}
                     aria-pressed={isSelected}
                     className={`flex w-full flex-col items-center gap-1 rounded-xl border p-2 text-center transition-colors disabled:opacity-50 ${
                       isSelected
@@ -94,7 +94,7 @@ export default function AddSetForm({
         {state.fieldErrors?.exerciseId && (
           <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.exerciseId}</p>
         )}
-      </div>
+      </fieldset>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
@@ -166,7 +166,7 @@ export default function AddSetForm({
 
       <button
         type="submit"
-        disabled={disabled || isPending}
+        disabled={disabled || isPending || !selectedExerciseId}
         className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 dark:hover:bg-[#ccc]"
       >
         {isPending ? 'Recording…' : 'Add set'}
