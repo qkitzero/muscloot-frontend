@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Dumbbell curl">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+    .pl{fill:currentColor;stroke:none}
+  </style>
+  <g class="ex">
+    <circle cx="128" cy="62" r="12"/>
+    <line x1="128" y1="74" x2="128" y2="162"/>
+    <line x1="128" y1="162" x2="108" y2="222"/>
+    <line x1="128" y1="162" x2="148" y2="222"/>
+    <line x1="116" y1="88" x2="90" y2="146"/>
+    <line x1="90" y1="146" x2="108" y2="92"/>
+    <line x1="140" y1="88" x2="166" y2="146"/>
+    <line x1="166" y1="146" x2="148" y2="92"/>
+    <line x1="100" y1="92" x2="116" y2="92" stroke-width="5"/>
+    <rect class="pl" x="88" y="78" width="12" height="28" rx="3"/>
+    <rect class="pl" x="116" y="78" width="12" height="28" rx="3"/>
+    <line x1="140" y1="92" x2="156" y2="92" stroke-width="5"/>
+    <rect class="pl" x="128" y="78" width="12" height="28" rx="3"/>
+    <rect class="pl" x="156" y="78" width="12" height="28" rx="3"/>
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+  </g>
+</svg>
