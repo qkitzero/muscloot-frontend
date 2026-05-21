@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Deadlift">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <circle cx="62" cy="116" r="12"/>
+    <line x1="74" y1="120" x2="148" y2="140"/>
+    <line x1="148" y1="140" x2="164" y2="184"/>
+    <line x1="164" y1="184" x2="154" y2="218"/>
+    <line x1="144" y1="222" x2="174" y2="222"/>
+    <line x1="88" y1="124" x2="88" y2="200"/>
+    <line x1="20" y1="206" x2="236" y2="206" stroke-width="9"/>
+    <circle cx="42" cy="206" r="22"/>
+    <circle cx="214" cy="206" r="22"/>
+    <circle cx="42" cy="206" r="6"/>
+    <circle cx="214" cy="206" r="6"/>
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+  </g>
+</svg>
