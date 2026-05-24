@@ -66,7 +66,7 @@ export default function AddSetForm({
         {exercises.length === 0 ? (
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{dict.noExercises}</p>
         ) : (
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             {exercises.map((exercise) => {
               const id = exercise.exerciseId ?? '';
               const isSelected = id !== '' && selectedExerciseId === id;
@@ -86,7 +86,7 @@ export default function AddSetForm({
                     <ExerciseImage
                       code={exercise.code}
                       name={exercise.name ?? exercise.code}
-                      className="h-16 w-16"
+                      className="h-14 w-14 sm:h-16 sm:w-16"
                     />
                     <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
                       {exercise.name ?? exercise.code ?? id}
@@ -116,11 +116,12 @@ export default function AddSetForm({
             id="rep"
             name="rep"
             type="number"
+            inputMode="numeric"
             min={1}
             step={1}
             required
             disabled={disabled}
-            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
           {state.fieldErrorKeys?.rep && (
             <p className="mt-1 text-sm text-rose-500">{dict.errors[state.fieldErrorKeys.rep]}</p>
@@ -138,11 +139,12 @@ export default function AddSetForm({
             id="weight"
             name="weight"
             type="number"
+            inputMode="decimal"
             min={0}
             step="0.5"
             required
             disabled={disabled}
-            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
           {state.fieldErrorKeys?.weight && (
             <p className="mt-1 text-sm text-rose-500">
@@ -167,7 +169,7 @@ export default function AddSetForm({
           required
           disabled={disabled}
           defaultValue={defaultTrainedAt}
-          className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+          className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
         />
         {state.fieldErrorKeys?.trainedAt && (
           <p className="mt-1 text-sm text-rose-500">
@@ -179,7 +181,7 @@ export default function AddSetForm({
       <button
         type="submit"
         disabled={disabled || isPending || !selectedExerciseId}
-        className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 dark:hover:bg-[#ccc]"
+        className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 sm:w-auto sm:self-start dark:hover:bg-[#ccc]"
       >
         {isPending ? dict.submitting : dict.submit}
       </button>

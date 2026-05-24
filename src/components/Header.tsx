@@ -8,15 +8,15 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
   const user = await getCurrentUser();
 
   return (
-    <header className="sticky top-0 z-20 flex w-full items-center justify-between border-b border-black/[.08] bg-white/80 px-6 py-3 backdrop-blur dark:border-white/[.145] dark:bg-black/80">
+    <header className="sticky top-0 z-20 flex w-full flex-wrap items-center justify-between gap-y-2 border-b border-black/[.08] bg-white/80 px-4 py-3 backdrop-blur sm:px-6 dark:border-white/[.145] dark:bg-black/80">
       <Link
         href={`/${lang}`}
-        className="text-xl font-bold tracking-tight text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
+        className="text-base font-bold tracking-tight text-zinc-900 hover:text-zinc-600 sm:text-lg dark:text-zinc-50 dark:hover:text-zinc-300"
       >
         {dict.common.appName}
       </Link>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:gap-3">
         {user ? (
           <>
             <Link
@@ -25,14 +25,14 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
             >
               {dict.header.workouts}
             </Link>
-            <span className="hidden text-sm text-zinc-600 sm:inline dark:text-zinc-400">
+            <span className="hidden max-w-[10rem] truncate text-sm text-zinc-600 sm:inline-block dark:text-zinc-400">
               {user.displayName}
             </span>
             {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/logout"
-              className="rounded-full border border-solid border-black/[.08] px-5 py-2 text-sm font-medium transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
+              className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-solid border-black/[.08] px-4 py-2 text-sm font-medium transition-colors hover:bg-black/[.04] sm:px-5 dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
             >
               {dict.common.logout}
             </a>
@@ -42,7 +42,7 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
           /* eslint-disable-next-line @next/next/no-html-link-for-pages */
           <a
             href="/api/auth/login"
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+            className="inline-flex min-h-[40px] items-center justify-center rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] sm:px-5 dark:hover:bg-[#ccc]"
           >
             {dict.common.login}
           </a>

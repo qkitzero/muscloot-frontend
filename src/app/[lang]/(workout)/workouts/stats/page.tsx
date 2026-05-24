@@ -29,7 +29,7 @@ export default async function WorkoutStatsPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
           {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
@@ -50,9 +50,9 @@ export default async function WorkoutStatsPage({
 
   if (listResult.error) {
     return (
-      <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
+      <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
         <div className="flex w-full max-w-3xl flex-col gap-6">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-sm text-rose-500">{t.loadFailed}</p>
           <Link
             href={`/${lang}/workouts`}
@@ -92,31 +92,31 @@ export default async function WorkoutStatsPage({
   const detailFailures = detailResults.filter(({ result }) => !!result.error).length;
 
   return (
-    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href={`/${lang}/workouts`}
             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
           >
             ← {t.backToWorkouts}
           </Link>
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
         </div>
 
         {workouts.length === 0 ? (
           <p className="text-zinc-600 dark:text-zinc-400">{t.empty}</p>
         ) : (
           <>
-            <section className="rounded-2xl border border-black/[.08] bg-white p-5 dark:border-white/[.145] dark:bg-zinc-900">
-              <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+            <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+              <h2 className="mb-4 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
                 {t.activityHeading}
               </h2>
               <ActivityHeatmap data={dailyCounts} lang={lang} dict={t.heatmap} />
             </section>
 
-            <section className="rounded-2xl border border-black/[.08] bg-white p-5 dark:border-white/[.145] dark:bg-zinc-900">
-              <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+            <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+              <h2 className="mb-4 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
                 {t.volumeHeading}
               </h2>
               {detailFailures > 0 && (
