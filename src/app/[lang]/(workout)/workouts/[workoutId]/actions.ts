@@ -2,17 +2,25 @@
 
 import { client as setClient } from '@/app/api/set/client';
 import { client as workoutClient } from '@/app/api/workout/client';
+import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+export type CreateSetErrorKey = 'notSignedIn' | 'createFailed';
+export type CreateSetFieldErrorKey =
+  | 'exerciseRequired'
+  | 'repInvalid'
+  | 'weightInvalid'
+  | 'trainedAtInvalid';
+
 export type CreateSetFormState = {
-  error?: string;
-  fieldErrors?: {
-    exerciseId?: string;
-    rep?: string;
-    weight?: string;
-    trainedAt?: string;
+  errorKey?: CreateSetErrorKey;
+  fieldErrorKeys?: {
+    exerciseId?: CreateSetFieldErrorKey;
+    rep?: CreateSetFieldErrorKey;
+    weight?: CreateSetFieldErrorKey;
+    trainedAt?: CreateSetFieldErrorKey;
   };
 };
 
@@ -36,29 +44,29 @@ export async function createSet(
   const weightRaw = String(formData.get('weight') ?? '').trim();
   const trainedAtRaw = String(formData.get('trainedAt') ?? '').trim();
 
-  const fieldErrors: NonNullable<CreateSetFormState['fieldErrors']> = {};
-  if (!exerciseId) fieldErrors.exerciseId = 'Exercise is required.';
+  const fieldErrorKeys: NonNullable<CreateSetFormState['fieldErrorKeys']> = {};
+  if (!exerciseId) fieldErrorKeys.exerciseId = 'exerciseRequired';
 
   const rep = Number(repRaw);
   if (!repRaw || !Number.isInteger(rep) || rep <= 0) {
-    fieldErrors.rep = 'Reps must be a positive integer.';
+    fieldErrorKeys.rep = 'repInvalid';
   }
 
   const weight = Number(weightRaw);
   if (!weightRaw || !Number.isFinite(weight) || weight < 0) {
-    fieldErrors.weight = 'Weight must be zero or a positive number.';
+    fieldErrorKeys.weight = 'weightInvalid';
   }
 
   const trainedAt = parseTrainedAt(trainedAtRaw);
-  if (!trainedAt) fieldErrors.trainedAt = 'A valid trained-at time is required.';
+  if (!trainedAt) fieldErrorKeys.trainedAt = 'trainedAtInvalid';
 
-  if (Object.keys(fieldErrors).length > 0) {
-    return { fieldErrors };
+  if (Object.keys(fieldErrorKeys).length > 0) {
+    return { fieldErrorKeys };
   }
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { error: 'You must be signed in to record a set.' };
+    return { errorKey: 'notSignedIn' };
   }
 
   const { error } = await setClient.POST('/v1/sets', {
@@ -73,14 +81,14 @@ export async function createSet(
   });
 
   if (error) {
-    return { error: 'Failed to record set. Please try again.' };
+    return { errorKey: 'createFailed' };
   }
 
   revalidatePath(`/workouts/${workoutId}`);
   return {};
 }
 
-export async function finishWorkout(workoutId: string) {
+export async function finishWorkout(lang: string, workoutId: string) {
   const accessToken = await getAccessToken();
   if (!accessToken) {
     redirect('/api/auth/login');
@@ -92,11 +100,12 @@ export async function finishWorkout(workoutId: string) {
     body: {},
   });
 
+  const prefix = localePrefix(lang);
   if (error) {
-    redirect(`/workouts/${workoutId}?error=finish_failed`);
+    redirect(`${prefix}/workouts/${workoutId}?error=finish_failed`);
   }
 
   revalidatePath(`/workouts/${workoutId}`);
   revalidatePath('/workouts');
-  redirect('/workouts');
+  redirect(`${prefix}/workouts`);
 }

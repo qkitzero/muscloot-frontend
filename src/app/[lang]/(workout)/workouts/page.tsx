@@ -1,34 +1,42 @@
 import { client as workoutClient } from '@/app/api/workout/client';
 import FormattedDateTime from '@/components/FormattedDateTime';
+import { isLocale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/getDictionary';
 import { getAccessToken } from '@/lib/session';
 import Link from 'next/link';
-import type { components } from '../../../../gen/workout/v1/workout.schema';
+import { notFound } from 'next/navigation';
+import type { components } from '../../../../../gen/workout/v1/workout.schema';
 import { startWorkout } from './actions';
 
 type Workout = components['schemas']['v1Workout'];
 
-function statusLabel(workout: Workout): string {
-  return workout.finishedAt ? 'Finished' : 'In progress';
-}
-
 export default async function WorkoutsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ lang: string }>;
   searchParams: Promise<{ error?: string }>;
 }) {
+  const { lang } = await params;
+  if (!isLocale(lang)) notFound();
+  const dict = await getDictionary(lang);
+  const t = dict.workouts;
+
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">Workouts</h1>
-          <p className="text-zinc-600 dark:text-zinc-400">Sign in to view your workouts.</p>
+          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
+          {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/api/auth/login"
             className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
           >
-            Login
+            {dict.common.login}
           </a>
         </div>
       </main>
@@ -41,40 +49,42 @@ export default async function WorkoutsPage({
 
   const { error: errorParam } = await searchParams;
   const workouts: Workout[] = data?.workouts ?? [];
+  const boundStart = startWorkout.bind(null, lang);
+
+  const statusLabel = (workout: Workout): string =>
+    workout.finishedAt ? t.status.finished : t.status.inProgress;
 
   return (
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">Workouts</h1>
+          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
           <div className="flex items-center gap-2">
             <Link
-              href="/workouts/stats"
+              href={`/${lang}/workouts/stats`}
               className="rounded-full border border-black/[.08] px-5 py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
             >
-              Stats
+              {t.stats}
             </Link>
-            <form action={startWorkout}>
+            <form action={boundStart}>
               <button
                 type="submit"
                 className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
               >
-                Start workout
+                {t.start}
               </button>
             </form>
           </div>
         </div>
 
         {errorParam === 'start_failed' && (
-          <p className="text-sm text-rose-500">Failed to start workout. Please try again.</p>
+          <p className="text-sm text-rose-500">{t.startFailed}</p>
         )}
 
         {error ? (
-          <p className="text-sm text-rose-500">Failed to load workouts.</p>
+          <p className="text-sm text-rose-500">{t.loadFailed}</p>
         ) : workouts.length === 0 ? (
-          <p className="text-zinc-600 dark:text-zinc-400">
-            No workouts yet. Press &ldquo;Start workout&rdquo; to record your first one.
-          </p>
+          <p className="text-zinc-600 dark:text-zinc-400">{t.empty}</p>
         ) : (
           <ul className="flex flex-col gap-3">
             {workouts.map((workout) => (
@@ -83,15 +93,17 @@ export default async function WorkoutsPage({
                 className="rounded-2xl border border-black/[.08] bg-white p-4 dark:border-white/[.145] dark:bg-zinc-900"
               >
                 <Link
-                  href={`/workouts/${workout.workoutId}`}
+                  href={`/${lang}/workouts/${workout.workoutId}`}
                   className="flex items-center justify-between gap-4"
                 >
                   <div className="flex flex-col gap-1">
                     <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                      Started: <FormattedDateTime value={workout.startedAt} />
+                      {t.startedPrefix}
+                      <FormattedDateTime value={workout.startedAt} lang={lang} />
                     </span>
                     <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                      Finished: <FormattedDateTime value={workout.finishedAt} />
+                      {t.finishedPrefix}
+                      <FormattedDateTime value={workout.finishedAt} lang={lang} />
                     </span>
                   </div>
                   <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">

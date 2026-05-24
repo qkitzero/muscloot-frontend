@@ -1,17 +1,26 @@
 'use client';
 
+import type { Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/getDictionary';
 import { useActionState } from 'react';
 import { registerUser, type RegisterFormState } from './actions';
 
 const initialState: RegisterFormState = {};
 
-export default function Register() {
-  const [state, formAction, isPending] = useActionState(registerUser, initialState);
+export default function RegisterForm({
+  lang,
+  dict,
+}: {
+  lang: Locale;
+  dict: Dictionary['register'];
+}) {
+  const boundAction = registerUser.bind(null, lang);
+  const [state, formAction, isPending] = useActionState(boundAction, initialState);
 
   return (
     <div className="mx-auto mt-12 max-w-lg rounded-2xl border border-black/[.08] bg-white p-8 dark:border-white/[.145] dark:bg-zinc-900">
       <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-        Create your account
+        {dict.title}
       </h1>
       <form action={formAction} className="space-y-4">
         <div>
@@ -19,7 +28,7 @@ export default function Register() {
             htmlFor="displayName"
             className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
           >
-            Display Name
+            {dict.displayName}
           </label>
           <input
             id="displayName"
@@ -28,8 +37,10 @@ export default function Register() {
             required
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
-          {state.fieldErrors?.displayName && (
-            <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.displayName}</p>
+          {state.fieldErrorKeys?.displayName && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.displayName]}
+            </p>
           )}
         </div>
 
@@ -38,7 +49,7 @@ export default function Register() {
             htmlFor="birthDate"
             className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
           >
-            Birth Date
+            {dict.birthDate}
           </label>
           <input
             id="birthDate"
@@ -47,8 +58,10 @@ export default function Register() {
             required
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
-          {state.fieldErrors?.birthDate && (
-            <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.birthDate}</p>
+          {state.fieldErrorKeys?.birthDate && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.birthDate]}
+            </p>
           )}
         </div>
 
@@ -57,10 +70,10 @@ export default function Register() {
           disabled={isPending}
           className="w-full rounded-full bg-foreground py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 dark:hover:bg-[#ccc]"
         >
-          {isPending ? 'Registering...' : 'Register'}
+          {isPending ? dict.submitting : dict.submit}
         </button>
 
-        {state.error && <p className="text-sm text-rose-500">{state.error}</p>}
+        {state.errorKey && <p className="text-sm text-rose-500">{dict.errors[state.errorKey]}</p>}
       </form>
     </div>
   );

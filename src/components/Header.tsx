@@ -1,45 +1,53 @@
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import type { Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/getDictionary';
 import { getCurrentUser } from '@/lib/session';
 import Link from 'next/link';
 
-export default async function Header() {
+export default async function Header({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const user = await getCurrentUser();
 
   return (
     <header className="sticky top-0 z-20 flex w-full items-center justify-between border-b border-black/[.08] bg-white/80 px-6 py-3 backdrop-blur dark:border-white/[.145] dark:bg-black/80">
       <Link
-        href="/"
+        href={`/${lang}`}
         className="text-xl font-bold tracking-tight text-zinc-900 hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
       >
-        Muscloot
+        {dict.common.appName}
       </Link>
 
       <div className="flex items-center gap-3">
         {user ? (
           <>
             <Link
-              href="/workouts"
+              href={`/${lang}/workouts`}
               className="text-sm font-medium text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
             >
-              Workouts
+              {dict.header.workouts}
             </Link>
             <span className="hidden text-sm text-zinc-600 sm:inline dark:text-zinc-400">
               {user.displayName}
             </span>
+            {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/logout"
               className="rounded-full border border-solid border-black/[.08] px-5 py-2 text-sm font-medium transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
             >
-              Logout
+              {dict.common.logout}
             </a>
           </>
         ) : (
+          /* OAuth route handler: must be <a> to trigger a full browser navigation */
+          /* eslint-disable-next-line @next/next/no-html-link-for-pages */
           <a
             href="/api/auth/login"
             className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
           >
-            Login
+            {dict.common.login}
           </a>
         )}
+        <LanguageSwitcher lang={lang} label={dict.language.label} names={dict.language.names} />
       </div>
     </header>
   );

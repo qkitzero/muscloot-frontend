@@ -1,8 +1,10 @@
 'use client';
 
-import { useActionState, useState, useSyncExternalStore } from 'react';
 import ExerciseImage from '@/components/ExerciseImage';
-import type { components } from '../../../../../gen/exercise/v1/exercise.schema';
+import { interpolate } from '@/i18n/format';
+import type { Dictionary } from '@/i18n/getDictionary';
+import { useActionState, useState, useSyncExternalStore } from 'react';
+import type { components } from '../../../../../../gen/exercise/v1/exercise.schema';
 import { createSet, type CreateSetFormState } from './actions';
 
 type Exercise = components['schemas']['v1Exercise'];
@@ -28,10 +30,14 @@ export default function AddSetForm({
   workoutId,
   exercises,
   disabled,
+  dict,
+  kgUnit,
 }: {
   workoutId: string;
   exercises: Exercise[];
   disabled: boolean;
+  dict: Dictionary['addSet'];
+  kgUnit: string;
 }) {
   const [selectedExerciseId, setSelectedExerciseId] = useState('');
 
@@ -54,11 +60,11 @@ export default function AddSetForm({
     <form action={formAction} className="flex flex-col gap-4">
       <fieldset disabled={disabled}>
         <legend className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Exercise
+          {dict.exercise}
         </legend>
         <input type="hidden" name="exerciseId" value={selectedExerciseId} />
         {exercises.length === 0 ? (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">No exercises available.</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">{dict.noExercises}</p>
         ) : (
           <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {exercises.map((exercise) => {
@@ -91,8 +97,10 @@ export default function AddSetForm({
             })}
           </ul>
         )}
-        {state.fieldErrors?.exerciseId && (
-          <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.exerciseId}</p>
+        {state.fieldErrorKeys?.exerciseId && (
+          <p className="mt-1 text-sm text-rose-500">
+            {dict.errors[state.fieldErrorKeys.exerciseId]}
+          </p>
         )}
       </fieldset>
 
@@ -102,7 +110,7 @@ export default function AddSetForm({
             htmlFor="rep"
             className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
           >
-            Reps
+            {dict.reps}
           </label>
           <input
             id="rep"
@@ -114,8 +122,8 @@ export default function AddSetForm({
             disabled={disabled}
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
-          {state.fieldErrors?.rep && (
-            <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.rep}</p>
+          {state.fieldErrorKeys?.rep && (
+            <p className="mt-1 text-sm text-rose-500">{dict.errors[state.fieldErrorKeys.rep]}</p>
           )}
         </div>
 
@@ -124,7 +132,7 @@ export default function AddSetForm({
             htmlFor="weight"
             className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
           >
-            Weight (kg)
+            {interpolate(dict.weight, { unit: kgUnit })}
           </label>
           <input
             id="weight"
@@ -136,8 +144,10 @@ export default function AddSetForm({
             disabled={disabled}
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
-          {state.fieldErrors?.weight && (
-            <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.weight}</p>
+          {state.fieldErrorKeys?.weight && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.weight]}
+            </p>
           )}
         </div>
       </div>
@@ -147,7 +157,7 @@ export default function AddSetForm({
           htmlFor="trainedAt"
           className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
-          Trained at
+          {dict.trainedAt}
         </label>
         <input
           key={defaultTrainedAt}
@@ -159,8 +169,10 @@ export default function AddSetForm({
           defaultValue={defaultTrainedAt}
           className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
         />
-        {state.fieldErrors?.trainedAt && (
-          <p className="mt-1 text-sm text-rose-500">{state.fieldErrors.trainedAt}</p>
+        {state.fieldErrorKeys?.trainedAt && (
+          <p className="mt-1 text-sm text-rose-500">
+            {dict.errors[state.fieldErrorKeys.trainedAt]}
+          </p>
         )}
       </div>
 
@@ -169,10 +181,10 @@ export default function AddSetForm({
         disabled={disabled || isPending || !selectedExerciseId}
         className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 dark:hover:bg-[#ccc]"
       >
-        {isPending ? 'Recording…' : 'Add set'}
+        {isPending ? dict.submitting : dict.submit}
       </button>
 
-      {state.error && <p className="text-sm text-rose-500">{state.error}</p>}
+      {state.errorKey && <p className="text-sm text-rose-500">{dict.errors[state.errorKey]}</p>}
     </form>
   );
 }

@@ -1,14 +1,18 @@
 'use server';
 
 import { client as userClient } from '@/app/api/user/client';
+import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
+export type RegisterErrorKey = 'notSignedIn' | 'createFailed';
+export type RegisterFieldErrorKey = 'displayNameRequired' | 'birthDateInvalid';
+
 export type RegisterFormState = {
-  error?: string;
-  fieldErrors?: {
-    displayName?: string;
-    birthDate?: string;
+  errorKey?: RegisterErrorKey;
+  fieldErrorKeys?: {
+    displayName?: RegisterFieldErrorKey;
+    birthDate?: RegisterFieldErrorKey;
   };
 };
 
@@ -35,25 +39,26 @@ function parseBirthDate(raw: string): { year: number; month: number; day: number
 }
 
 export async function registerUser(
+  lang: string,
   _prev: RegisterFormState,
   formData: FormData,
 ): Promise<RegisterFormState> {
   const displayName = String(formData.get('displayName') ?? '').trim();
   const birthDateRaw = String(formData.get('birthDate') ?? '');
 
-  const fieldErrors: NonNullable<RegisterFormState['fieldErrors']> = {};
-  if (!displayName) fieldErrors.displayName = 'Display name is required.';
+  const fieldErrorKeys: NonNullable<RegisterFormState['fieldErrorKeys']> = {};
+  if (!displayName) fieldErrorKeys.displayName = 'displayNameRequired';
 
   const parsedDate = parseBirthDate(birthDateRaw);
-  if (!parsedDate) fieldErrors.birthDate = 'A valid birth date is required.';
+  if (!parsedDate) fieldErrorKeys.birthDate = 'birthDateInvalid';
 
-  if (Object.keys(fieldErrors).length > 0) {
-    return { fieldErrors };
+  if (Object.keys(fieldErrorKeys).length > 0) {
+    return { fieldErrorKeys };
   }
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { error: 'You must be signed in to register.' };
+    return { errorKey: 'notSignedIn' };
   }
 
   const { error } = await userClient.POST('/v1/user', {
@@ -65,8 +70,8 @@ export async function registerUser(
   });
 
   if (error) {
-    return { error: 'Failed to create user. Please try again.' };
+    return { errorKey: 'createFailed' };
   }
 
-  redirect('/');
+  redirect(localePrefix(lang) || '/');
 }
