@@ -13,6 +13,15 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // /api/auth/* are route handlers that respond with OAuth redirects; we
+    // intentionally use <a> so the browser performs a full navigation and
+    // follows the Set-Cookie / Location headers. The internal-link rule
+    // misfires on these once the app uses dynamic [lang] segments.
+    rules: {
+      "@next/next/no-html-link-for-pages": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;
