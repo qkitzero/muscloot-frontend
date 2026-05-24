@@ -1,6 +1,7 @@
 'use client';
 
 import ExerciseImage from '@/components/ExerciseImage';
+import { interpolate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import { useActionState, useState, useSyncExternalStore } from 'react';
 import type { components } from '../../../../../../gen/exercise/v1/exercise.schema';
@@ -24,10 +25,6 @@ const getClientNow = () => {
   }
   return cachedClientNow;
 };
-
-function interpolate(template: string, values: Record<string, string>): string {
-  return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? `{${key}}`);
-}
 
 export default function AddSetForm({
   workoutId,
