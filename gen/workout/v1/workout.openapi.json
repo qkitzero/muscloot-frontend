@@ -1,0 +1,323 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "workout/v1/workout.proto",
+        "version": "version not set"
+    },
+    "tags": [
+        {
+            "name": "WorkoutService"
+        }
+    ],
+    "paths": {
+        "/v1/workouts": {
+            "get": {
+                "operationId": "WorkoutService_ListWorkouts",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListWorkoutsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "tags": [
+                    "WorkoutService"
+                ]
+            }
+        },
+        "/v1/workouts/start": {
+            "post": {
+                "operationId": "WorkoutService_StartWorkout",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1StartWorkoutResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1StartWorkoutRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "WorkoutService"
+                ]
+            }
+        },
+        "/v1/workouts/{workoutId}": {
+            "get": {
+                "operationId": "WorkoutService_GetWorkout",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetWorkoutResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "workoutId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "WorkoutService"
+                ]
+            }
+        },
+        "/v1/workouts/{workoutId}/finish": {
+            "post": {
+                "operationId": "WorkoutService_FinishWorkout",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1FinishWorkoutResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "workoutId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkoutServiceFinishWorkoutBody"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "WorkoutService"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "WorkoutServiceFinishWorkoutBody": {
+                "type": "object"
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1FinishWorkoutResponse": {
+                "type": "object",
+                "properties": {
+                    "finishedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1GetWorkoutResponse": {
+                "type": "object",
+                "properties": {
+                    "workout": {
+                        "$ref": "#/components/schemas/v1Workout"
+                    },
+                    "sets": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Set"
+                        }
+                    }
+                }
+            },
+            "v1ListWorkoutsResponse": {
+                "type": "object",
+                "properties": {
+                    "workouts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Workout"
+                        }
+                    }
+                }
+            },
+            "v1Set": {
+                "type": "object",
+                "properties": {
+                    "setId": {
+                        "type": "string"
+                    },
+                    "workoutId": {
+                        "type": "string"
+                    },
+                    "exerciseId": {
+                        "type": "string"
+                    },
+                    "rep": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "trainedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1StartWorkoutRequest": {
+                "type": "object"
+            },
+            "v1StartWorkoutResponse": {
+                "type": "object",
+                "properties": {
+                    "workoutId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1Workout": {
+                "type": "object",
+                "properties": {
+                    "workoutId": {
+                        "type": "string"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "finishedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}

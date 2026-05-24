@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Lat pulldown">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="24" y1="24" x2="232" y2="24" stroke-width="8"/>
+    <circle cx="128" cy="42" r="9"/>
+    <line x1="128" y1="51" x2="128" y2="86"/>
+    <path d="M 52 102 L 90 88 L 166 88 L 204 102"/>
+    <line x1="108" y1="124" x2="86" y2="94"/>
+    <line x1="148" y1="124" x2="170" y2="94"/>
+    <circle cx="128" cy="118" r="12"/>
+    <line x1="128" y1="130" x2="128" y2="188"/>
+    <rect x="76" y="190" width="104" height="12" rx="4"/>
+    <line x1="100" y1="202" x2="94" y2="226"/>
+    <line x1="156" y1="202" x2="162" y2="226"/>
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+  </g>
+</svg>

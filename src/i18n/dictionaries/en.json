@@ -1,0 +1,116 @@
+{
+  "common": {
+    "appName": "Muscloot",
+    "login": "Login",
+    "logout": "Logout",
+    "back": "Back",
+    "loading": "Loading…",
+    "unknown": "—"
+  },
+  "header": {
+    "workouts": "Workouts"
+  },
+  "home": {
+    "welcome": "Welcome to Muscloot",
+    "signedInAs": "Signed in as {name}.",
+    "ctaLoggedIn": "Go to workouts",
+    "ctaLoggedOut": "Sign in to start tracking your workouts."
+  },
+  "register": {
+    "title": "Create your account",
+    "displayName": "Display Name",
+    "birthDate": "Birth Date",
+    "submit": "Register",
+    "submitting": "Registering...",
+    "errors": {
+      "displayNameRequired": "Display name is required.",
+      "birthDateInvalid": "A valid birth date is required.",
+      "notSignedIn": "You must be signed in to register.",
+      "createFailed": "Failed to create user. Please try again."
+    }
+  },
+  "workouts": {
+    "title": "Workouts",
+    "loginPrompt": "Sign in to view your workouts.",
+    "stats": "Stats",
+    "start": "Start workout",
+    "empty": "No workouts yet. Press “Start workout” to record your first one.",
+    "loadFailed": "Failed to load workouts.",
+    "startFailed": "Failed to start workout. Please try again.",
+    "status": {
+      "finished": "Finished",
+      "inProgress": "In progress"
+    },
+    "startedPrefix": "Started: ",
+    "finishedPrefix": "Finished: "
+  },
+  "workoutDetail": {
+    "title": "Workout",
+    "loginPrompt": "Sign in to view this workout.",
+    "loadFailed": "Failed to load workout.",
+    "backToWorkouts": "Back to workouts",
+    "detailsHeading": "Workout details",
+    "startedLabel": "Started",
+    "finishedLabel": "Finished",
+    "setsHeading": "Sets",
+    "setsEmpty": "No sets recorded yet.",
+    "unknownExercise": "Unknown exercise",
+    "setSummary": "{rep} reps × {weight} {unit}",
+    "addSetHeading": "Add set",
+    "finishButton": "Finish workout",
+    "finishFailed": "Failed to finish workout. Please try again.",
+    "loadExercisesFailed": "Failed to load exercises."
+  },
+  "addSet": {
+    "exercise": "Exercise",
+    "noExercises": "No exercises available.",
+    "reps": "Reps",
+    "weight": "Weight ({unit})",
+    "trainedAt": "Trained at",
+    "submit": "Add set",
+    "submitting": "Recording…",
+    "errors": {
+      "exerciseRequired": "Exercise is required.",
+      "repInvalid": "Reps must be a positive integer.",
+      "weightInvalid": "Weight must be zero or a positive number.",
+      "trainedAtInvalid": "A valid trained-at time is required.",
+      "notSignedIn": "You must be signed in to record a set.",
+      "createFailed": "Failed to record set. Please try again."
+    }
+  },
+  "stats": {
+    "title": "Workout stats",
+    "loginPrompt": "Sign in to view your stats.",
+    "loadFailed": "Failed to load workouts.",
+    "backToWorkouts": "Back to workouts",
+    "empty": "No workouts to visualize yet. Record your first workout to see your stats.",
+    "activityHeading": "Activity",
+    "volumeHeading": "Volume per workout",
+    "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
+    "heatmap": {
+      "summary": "{total, plural, one {# workout} other {# workouts}} on {days, plural, one {# day} other {# days}} (last {weeks} weeks)",
+      "noActivity": "No workout activity yet.",
+      "less": "Less",
+      "more": "More",
+      "ariaLabel": "Workout activity heatmap",
+      "tooltip": "{date}: {count, plural, one {# workout} other {# workouts}}",
+      "dayLabels": ["", "Mon", "", "Wed", "", "Fri", ""]
+    },
+    "volume": {
+      "empty": "No sets recorded yet — once you log sets, your volume will show up here.",
+      "ariaLabel": "Volume per workout",
+      "unit": "rep × kg",
+      "tooltip": "{date} — {value} ({unit})"
+    }
+  },
+  "language": {
+    "label": "Language",
+    "names": {
+      "en": "English",
+      "ja": "日本語"
+    }
+  },
+  "units": {
+    "kg": "kg"
+  }
+}

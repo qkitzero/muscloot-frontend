@@ -1,0 +1,82 @@
+'use client';
+
+import type { Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/getDictionary';
+import { useActionState } from 'react';
+import { registerUser, type RegisterFormState } from './actions';
+
+const initialState: RegisterFormState = {};
+
+export default function RegisterForm({
+  lang,
+  dict,
+}: {
+  lang: Locale;
+  dict: Dictionary['register'];
+}) {
+  const boundAction = registerUser.bind(null, lang);
+  const [state, formAction, isPending] = useActionState(boundAction, initialState);
+
+  return (
+    <div className="mx-auto mt-8 w-full max-w-lg rounded-2xl border border-black/[.08] bg-white p-5 sm:mt-12 sm:p-8 dark:border-white/[.145] dark:bg-zinc-900">
+      <h1 className="mb-6 text-center text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+        {dict.title}
+      </h1>
+      <form action={formAction} className="space-y-4">
+        <div>
+          <label
+            htmlFor="displayName"
+            className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            {dict.displayName}
+          </label>
+          <input
+            id="displayName"
+            name="displayName"
+            type="text"
+            autoComplete="nickname"
+            required
+            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+          />
+          {state.fieldErrorKeys?.displayName && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.displayName]}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="birthDate"
+            className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            {dict.birthDate}
+          </label>
+          <input
+            id="birthDate"
+            name="birthDate"
+            type="date"
+            autoComplete="bday"
+            required
+            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+          />
+          {state.fieldErrorKeys?.birthDate && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.birthDate]}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-foreground py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 dark:hover:bg-[#ccc]"
+        >
+          {isPending ? dict.submitting : dict.submit}
+        </button>
+
+        {state.errorKey && <p className="text-sm text-rose-500">{dict.errors[state.errorKey]}</p>}
+      </form>
+    </div>
+  );
+}

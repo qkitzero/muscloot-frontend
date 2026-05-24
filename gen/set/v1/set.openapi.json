@@ -1,0 +1,390 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "set/v1/set.proto",
+        "version": "version not set"
+    },
+    "tags": [
+        {
+            "name": "SetService"
+        }
+    ],
+    "paths": {
+        "/v1/sets": {
+            "get": {
+                "operationId": "SetService_ListSets",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListSetsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "SetService"
+                ]
+            },
+            "post": {
+                "operationId": "SetService_CreateSet",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1CreateSetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/v1CreateSetRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SetService"
+                ]
+            }
+        },
+        "/v1/sets/{setId}": {
+            "get": {
+                "operationId": "SetService_GetSet",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1GetSetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "setId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "SetService"
+                ]
+            },
+            "delete": {
+                "operationId": "SetService_DeleteSet",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1DeleteSetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "setId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "SetService"
+                ]
+            },
+            "patch": {
+                "operationId": "SetService_UpdateSet",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1UpdateSetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "setId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SetServiceUpdateSetBody"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "SetService"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SetServiceUpdateSetBody": {
+                "type": "object",
+                "properties": {
+                    "exerciseId": {
+                        "type": "string"
+                    },
+                    "rep": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "trainedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1CreateSetRequest": {
+                "type": "object",
+                "properties": {
+                    "workoutId": {
+                        "type": "string"
+                    },
+                    "exerciseId": {
+                        "type": "string"
+                    },
+                    "rep": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "trainedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1CreateSetResponse": {
+                "type": "object",
+                "properties": {
+                    "setId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1DeleteSetResponse": {
+                "type": "object"
+            },
+            "v1GetSetResponse": {
+                "type": "object",
+                "properties": {
+                    "set": {
+                        "$ref": "#/components/schemas/v1Set"
+                    }
+                }
+            },
+            "v1ListSetsResponse": {
+                "type": "object",
+                "properties": {
+                    "sets": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Set"
+                        }
+                    },
+                    "nextPageToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v1Set": {
+                "type": "object",
+                "properties": {
+                    "setId": {
+                        "type": "string"
+                    },
+                    "workoutId": {
+                        "type": "string"
+                    },
+                    "exerciseId": {
+                        "type": "string"
+                    },
+                    "rep": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "trainedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "v1UpdateSetResponse": {
+                "type": "object",
+                "properties": {
+                    "set": {
+                        "$ref": "#/components/schemas/v1Set"
+                    }
+                }
+            }
+        }
+    }
+}

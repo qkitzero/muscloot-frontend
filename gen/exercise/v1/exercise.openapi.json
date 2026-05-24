@@ -1,0 +1,133 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "exercise/v1/exercise.proto",
+        "version": "version not set"
+    },
+    "tags": [
+        {
+            "name": "ExerciseService"
+        }
+    ],
+    "paths": {
+        "/v1/exercises": {
+            "get": {
+                "operationId": "ExerciseService_ListExercises",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v1ListExercisesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An unexpected error response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/rpcStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "ExerciseService"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "exercisev1Muscle": {
+                "type": "object",
+                "properties": {
+                    "muscleId": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "protobufAny": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": {}
+            },
+            "rpcStatus": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/protobufAny"
+                        }
+                    }
+                }
+            },
+            "v1Exercise": {
+                "type": "object",
+                "properties": {
+                    "exerciseId": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "muscles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/exercisev1Muscle"
+                        }
+                    }
+                }
+            },
+            "v1ListExercisesResponse": {
+                "type": "object",
+                "properties": {
+                    "exercises": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v1Exercise"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
