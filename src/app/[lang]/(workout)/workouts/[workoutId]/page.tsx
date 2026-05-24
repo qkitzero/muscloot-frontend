@@ -46,7 +46,7 @@ export default async function WorkoutDetailPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
           {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
@@ -75,7 +75,7 @@ export default async function WorkoutDetailPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-rose-500">{t.loadFailed}</p>
           <Link
             href={`/${lang}/workouts`}
@@ -101,25 +101,25 @@ export default async function WorkoutDetailPage({
   const boundFinish = finishWorkout.bind(null, lang, workoutId);
 
   return (
-    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <Link
             href={`/${lang}/workouts`}
             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
           >
             ← {dict.common.back}
           </Link>
-          <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+          <span className="shrink-0 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
             {isFinished ? dict.workouts.status.finished : dict.workouts.status.inProgress}
           </span>
         </div>
 
-        <section className="rounded-2xl border border-black/[.08] bg-white p-5 dark:border-white/[.145] dark:bg-zinc-900">
-          <h1 className="mb-3 text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+        <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+          <h1 className="mb-3 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
             {t.detailsHeading}
           </h1>
-          <dl className="grid grid-cols-2 gap-y-2 text-sm">
+          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm sm:grid-cols-2">
             <dt className="text-zinc-500 dark:text-zinc-400">{t.startedLabel}</dt>
             <dd className="text-zinc-900 dark:text-zinc-50">
               <FormattedDateTime value={workout.startedAt} lang={lang} />
@@ -135,8 +135,8 @@ export default async function WorkoutDetailPage({
           <p className="text-sm text-rose-500">{t.finishFailed}</p>
         )}
 
-        <section className="rounded-2xl border border-black/[.08] bg-white p-5 dark:border-white/[.145] dark:bg-zinc-900">
-          <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+        <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+          <h2 className="mb-3 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
             {t.setsHeading}
           </h2>
           {sets.length === 0 ? (
@@ -147,9 +147,16 @@ export default async function WorkoutDetailPage({
                 const exercise = exerciseFor(set, exerciseById);
                 const label = exerciseLabel(set, exerciseById, t.unknownExercise);
                 return (
-                  <li key={set.setId} className="flex items-center gap-3 py-2 text-sm">
-                    <ExerciseImage code={exercise?.code} name={label} className="h-12 w-12" />
-                    <span className="flex-1 text-zinc-900 dark:text-zinc-50">{label}</span>
+                  <li
+                    key={set.setId}
+                    className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 text-sm"
+                  >
+                    <ExerciseImage
+                      code={exercise?.code}
+                      name={label}
+                      className="h-10 w-10 shrink-0 sm:h-12 sm:w-12"
+                    />
+                    <span className="min-w-0 flex-1 text-zinc-900 dark:text-zinc-50">{label}</span>
                     <span className="text-zinc-600 dark:text-zinc-400">
                       {translate(lang, t.setSummary, {
                         rep: set.rep ?? 0,
@@ -157,7 +164,7 @@ export default async function WorkoutDetailPage({
                         unit: dict.units.kg,
                       })}
                     </span>
-                    <span className="text-xs text-zinc-500 dark:text-zinc-500">
+                    <span className="w-full text-xs text-zinc-500 sm:w-auto sm:text-right dark:text-zinc-500">
                       <FormattedDateTime value={set.trainedAt} lang={lang} />
                     </span>
                   </li>
@@ -168,8 +175,8 @@ export default async function WorkoutDetailPage({
         </section>
 
         {!isFinished && (
-          <section className="rounded-2xl border border-black/[.08] bg-white p-5 dark:border-white/[.145] dark:bg-zinc-900">
-            <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+            <h2 className="mb-3 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
               {t.addSetHeading}
             </h2>
             <AddSetForm
@@ -189,7 +196,7 @@ export default async function WorkoutDetailPage({
           <form action={boundFinish}>
             <button
               type="submit"
-              className="w-full rounded-full border border-black/[.08] bg-white py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:bg-zinc-900 dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
+              className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full border border-black/[.08] bg-white py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:bg-zinc-900 dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
             >
               {t.finishButton}
             </button>
