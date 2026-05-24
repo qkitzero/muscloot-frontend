@@ -1,10 +1,15 @@
 'use server';
 
 import { client as workoutClient } from '@/app/api/workout/client';
+import { isLocale } from '@/i18n/config';
 import { getAccessToken } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
-export async function startWorkout() {
+function localePrefix(lang: string): string {
+  return isLocale(lang) ? `/${lang}` : '';
+}
+
+export async function startWorkout(lang: string) {
   const accessToken = await getAccessToken();
   if (!accessToken) {
     redirect('/api/auth/login');
@@ -15,9 +20,10 @@ export async function startWorkout() {
     body: {},
   });
 
+  const prefix = localePrefix(lang);
   if (error || !data?.workoutId) {
-    redirect('/workouts?error=start_failed');
+    redirect(`${prefix}/workouts?error=start_failed`);
   }
 
-  redirect(`/workouts/${data.workoutId}`);
+  redirect(`${prefix}/workouts/${data.workoutId}`);
 }

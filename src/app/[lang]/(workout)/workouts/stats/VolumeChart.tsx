@@ -1,9 +1,14 @@
 import FormattedDateTime from '@/components/FormattedDateTime';
+import type { Locale } from '@/i18n/config';
+import { translate } from '@/i18n/format';
+import type { Dictionary } from '@/i18n/getDictionary';
 import Link from 'next/link';
 import type { WorkoutVolume } from './aggregate';
 
 type Props = {
   data: WorkoutVolume[];
+  lang: Locale;
+  dict: Dictionary['stats']['volume'];
 };
 
 const CHART_HEIGHT = 180;
@@ -20,13 +25,9 @@ function formatVolume(value: number): string {
   return String(Math.round(value));
 }
 
-export default function VolumeChart({ data }: Props) {
+export default function VolumeChart({ data, lang, dict }: Props) {
   if (data.length === 0) {
-    return (
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">
-        No sets recorded yet — once you log sets, your volume will show up here.
-      </p>
-    );
+    return <p className="text-sm text-zinc-600 dark:text-zinc-400">{dict.empty}</p>;
   }
 
   const max = data.reduce((acc, d) => Math.max(acc, d.volume), 0);
@@ -44,7 +45,7 @@ export default function VolumeChart({ data }: Props) {
           height={totalHeight}
           viewBox={`0 0 ${chartWidth} ${totalHeight}`}
           role="img"
-          aria-label="Volume per workout"
+          aria-label={dict.ariaLabel}
         >
           {gridLines.map((ratio) => {
             const y = PADDING_TOP + CHART_HEIGHT * (1 - ratio);
@@ -86,7 +87,13 @@ export default function VolumeChart({ data }: Props) {
                 ry={2}
                 className="fill-emerald-500 dark:fill-emerald-500"
               >
-                <title>{`${entry.startedAt} — ${formatVolume(entry.volume)} (rep × kg)`}</title>
+                <title>
+                  {translate(lang, dict.tooltip, {
+                    date: entry.startedAt,
+                    value: formatVolume(entry.volume),
+                    unit: dict.unit,
+                  })}
+                </title>
               </rect>
             );
           })}
@@ -99,13 +106,14 @@ export default function VolumeChart({ data }: Props) {
           .map((entry) => (
             <li key={entry.workoutId} className="flex items-center justify-between gap-3 py-2">
               <Link
-                href={`/workouts/${entry.workoutId}`}
+                href={`/${lang}/workouts/${entry.workoutId}`}
                 className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
               >
-                <FormattedDateTime value={entry.startedAt} />
+                <FormattedDateTime value={entry.startedAt} lang={lang} />
               </Link>
               <span className="text-zinc-900 dark:text-zinc-50">
-                {formatVolume(entry.volume)} <span className="text-xs text-zinc-500">rep × kg</span>
+                {formatVolume(entry.volume)}{' '}
+                <span className="text-xs text-zinc-500">{dict.unit}</span>
               </span>
             </li>
           ))}

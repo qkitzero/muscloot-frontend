@@ -1,7 +1,12 @@
+import type { Locale } from '@/i18n/config';
+import { toIntlLocale, translate } from '@/i18n/format';
+import type { Dictionary } from '@/i18n/getDictionary';
 import type { DailyCount } from './aggregate';
 
 type Props = {
   data: DailyCount[];
+  lang: Locale;
+  dict: Dictionary['stats']['heatmap'];
 };
 
 const CELL_SIZE = 12;
@@ -19,11 +24,9 @@ function colorForCount(count: number, max: number): string {
   return 'fill-emerald-600 dark:fill-emerald-500';
 }
 
-export default function ActivityHeatmap({ data }: Props) {
+export default function ActivityHeatmap({ data, lang, dict }: Props) {
   if (data.length === 0) {
-    return (
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">No workout activity yet.</p>
-    );
+    return <p className="text-sm text-zinc-600 dark:text-zinc-400">{dict.noActivity}</p>;
   }
 
   const weeks: DailyCount[][] = [];
@@ -35,9 +38,6 @@ export default function ActivityHeatmap({ data }: Props) {
   const width = PADDING_LEFT + weeks.length * (CELL_SIZE + CELL_GAP);
   const height = PADDING_TOP + 7 * (CELL_SIZE + CELL_GAP);
 
-  const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
-
-  // Month labels: show the month name above the first column of each new month.
   type MonthLabel = { x: number; label: string };
   const monthLabels: MonthLabel[] = [];
   let lastMonth = -1;
@@ -48,7 +48,7 @@ export default function ActivityHeatmap({ data }: Props) {
     if (monthIndex !== lastMonth) {
       monthLabels.push({
         x: PADDING_LEFT + weekIndex * (CELL_SIZE + CELL_GAP),
-        label: new Date(firstDay.date).toLocaleString(undefined, { month: 'short' }),
+        label: new Date(firstDay.date).toLocaleString(toIntlLocale(lang), { month: 'short' }),
       });
       lastMonth = monthIndex;
     }
@@ -61,15 +61,19 @@ export default function ActivityHeatmap({ data }: Props) {
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between text-sm">
         <p className="text-zinc-700 dark:text-zinc-300">
-          {totalWorkouts} workouts on {activeDays} days (last {weeks.length} weeks)
+          {translate(lang, dict.summary, {
+            total: totalWorkouts,
+            days: activeDays,
+            weeks: weeks.length,
+          })}
         </p>
         <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-          <span>Less</span>
+          <span>{dict.less}</span>
           <span className="block size-3 rounded-sm bg-zinc-200 dark:bg-zinc-800" />
           <span className="block size-3 rounded-sm bg-emerald-300 dark:bg-emerald-900" />
           <span className="block size-3 rounded-sm bg-emerald-500 dark:bg-emerald-700" />
           <span className="block size-3 rounded-sm bg-emerald-600 dark:bg-emerald-500" />
-          <span>More</span>
+          <span>{dict.more}</span>
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -78,7 +82,7 @@ export default function ActivityHeatmap({ data }: Props) {
           height={height}
           viewBox={`0 0 ${width} ${height}`}
           role="img"
-          aria-label="Workout activity heatmap"
+          aria-label={dict.ariaLabel}
         >
           {monthLabels.map((m) => (
             <text
@@ -90,10 +94,10 @@ export default function ActivityHeatmap({ data }: Props) {
               {m.label}
             </text>
           ))}
-          {dayLabels.map((label, index) =>
+          {dict.dayLabels.map((label, index) =>
             label ? (
               <text
-                key={label}
+                key={`${label}-${index}`}
                 x={0}
                 y={PADDING_TOP + index * (CELL_SIZE + CELL_GAP) + CELL_SIZE - 2}
                 className="fill-zinc-500 text-[10px] dark:fill-zinc-400"
@@ -114,7 +118,9 @@ export default function ActivityHeatmap({ data }: Props) {
                 ry={2}
                 className={colorForCount(day.count, max)}
               >
-                <title>{`${day.date}: ${day.count} workout${day.count === 1 ? '' : 's'}`}</title>
+                <title>
+                  {translate(lang, dict.tooltip, { date: day.date, count: day.count })}
+                </title>
               </rect>
             )),
           )}
