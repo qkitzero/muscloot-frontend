@@ -1,13 +1,9 @@
 'use server';
 
 import { client as workoutClient } from '@/app/api/workout/client';
-import { isLocale } from '@/i18n/config';
+import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { redirect } from 'next/navigation';
-
-function localePrefix(lang: string): string {
-  return isLocale(lang) ? `/${lang}` : '';
-}
 
 export async function startWorkout(lang: string) {
   const accessToken = await getAccessToken();

@@ -1,4 +1,8 @@
-import type { Locale } from './config';
+import { isLocale, type Locale } from './config';
+
+export function localePrefix(lang: string): string {
+  return isLocale(lang) ? `/${lang}` : '';
+}
 
 const intlLocale: Record<Locale, string> = {
   en: 'en-US',

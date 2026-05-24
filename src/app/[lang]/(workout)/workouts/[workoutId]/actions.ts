@@ -2,7 +2,7 @@
 
 import { client as setClient } from '@/app/api/set/client';
 import { client as workoutClient } from '@/app/api/workout/client';
-import { isLocale } from '@/i18n/config';
+import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -32,10 +32,6 @@ function parseTrainedAt(raw: string): string | null {
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return null;
   return date.toISOString();
-}
-
-function localePrefix(lang: string): string {
-  return isLocale(lang) ? `/${lang}` : '';
 }
 
 export async function createSet(

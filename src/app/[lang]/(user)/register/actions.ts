@@ -1,7 +1,7 @@
 'use server';
 
 import { client as userClient } from '@/app/api/user/client';
-import { isLocale } from '@/i18n/config';
+import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
@@ -73,5 +73,5 @@ export async function registerUser(
     return { errorKey: 'createFailed' };
   }
 
-  redirect(isLocale(lang) ? `/${lang}` : '/');
+  redirect(localePrefix(lang) || '/');
 }
