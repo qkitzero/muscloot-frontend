@@ -32,6 +32,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         ) : (
           <>
             <p className="text-lg text-zinc-600 dark:text-zinc-400">{dict.home.ctaLoggedOut}</p>
+            {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/login"
               className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
