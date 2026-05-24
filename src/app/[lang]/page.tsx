@@ -12,31 +12,33 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const user = await getCurrentUser();
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
+    <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-4 py-12 sm:px-6 sm:py-16 dark:bg-black">
       <div className="flex w-full max-w-2xl flex-col items-center gap-6 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
           {dict.home.welcome}
         </h1>
         {user ? (
           <>
-            <p className="text-lg text-zinc-700 dark:text-zinc-300">
+            <p className="text-sm text-zinc-700 sm:text-base dark:text-zinc-300">
               {translate(lang, dict.home.signedInAs, { name: user.displayName ?? '' })}
             </p>
             <Link
               href={`/${lang}/workouts`}
-              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-foreground px-6 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
             >
               {dict.home.ctaLoggedIn}
             </Link>
           </>
         ) : (
           <>
-            <p className="text-lg text-zinc-600 dark:text-zinc-400">{dict.home.ctaLoggedOut}</p>
+            <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
+              {dict.home.ctaLoggedOut}
+            </p>
             {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/login"
-              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-foreground px-6 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
             >
               {dict.common.login}
             </a>
