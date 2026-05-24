@@ -28,7 +28,7 @@ export default async function WorkoutsPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
           {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
@@ -55,21 +55,21 @@ export default async function WorkoutsPage({
     workout.finishedAt ? t.status.finished : t.status.inProgress;
 
   return (
-    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-6 py-12 dark:bg-black">
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
-        <div className="flex items-center justify-between gap-3">
-          <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">{t.title}</h1>
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <div className="flex flex-1 items-center justify-end gap-2 sm:flex-none">
             <Link
               href={`/${lang}/workouts/stats`}
-              className="rounded-full border border-black/[.08] px-5 py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
+              className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-black/[.08] px-4 py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] sm:flex-none sm:px-5 dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
             >
               {t.stats}
             </Link>
-            <form action={boundStart}>
+            <form action={boundStart} className="flex-1 sm:flex-none">
               <button
                 type="submit"
-                className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+                className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] sm:w-auto sm:px-5 dark:hover:bg-[#ccc]"
               >
                 {t.start}
               </button>
@@ -94,9 +94,9 @@ export default async function WorkoutsPage({
               >
                 <Link
                   href={`/${lang}/workouts/${workout.workoutId}`}
-                  className="flex items-center justify-between gap-4"
+                  className="flex items-center justify-between gap-3"
                 >
-                  <div className="flex flex-col gap-1">
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
                       {t.startedPrefix}
                       <FormattedDateTime value={workout.startedAt} lang={lang} />
@@ -106,7 +106,7 @@ export default async function WorkoutsPage({
                       <FormattedDateTime value={workout.finishedAt} lang={lang} />
                     </span>
                   </div>
-                  <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                  <span className="shrink-0 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                     {statusLabel(workout)}
                   </span>
                 </Link>
