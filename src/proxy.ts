@@ -1,12 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { defaultLocale, locales, type Locale } from '@/i18n/config';
+import { defaultLocale, isLocale, locales, type Locale } from '@/i18n/config';
 
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 
 function negotiateLocale(request: NextRequest): Locale {
   const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (cookie && (locales as readonly string[]).includes(cookie)) {
-    return cookie as Locale;
+  if (cookie && isLocale(cookie)) {
+    return cookie;
   }
 
   const header = request.headers.get('accept-language');
