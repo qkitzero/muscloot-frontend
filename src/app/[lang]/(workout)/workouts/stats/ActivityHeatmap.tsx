@@ -59,7 +59,7 @@ export default function ActivityHeatmap({ data, lang, dict }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm">
         <p className="text-zinc-700 dark:text-zinc-300">
           {translate(lang, dict.summary, {
             total: totalWorkouts,
