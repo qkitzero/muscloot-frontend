@@ -1,0 +1,116 @@
+{
+  "common": {
+    "appName": "Muscloot",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "back": "戻る",
+    "loading": "読み込み中…",
+    "unknown": "—"
+  },
+  "header": {
+    "workouts": "ワークアウト"
+  },
+  "home": {
+    "welcome": "Muscloot へようこそ",
+    "signedInAs": "{name} としてサインイン中。",
+    "ctaLoggedIn": "ワークアウトへ",
+    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。"
+  },
+  "register": {
+    "title": "アカウントを作成",
+    "displayName": "表示名",
+    "birthDate": "生年月日",
+    "submit": "登録",
+    "submitting": "登録中...",
+    "errors": {
+      "displayNameRequired": "表示名を入力してください。",
+      "birthDateInvalid": "有効な生年月日を入力してください。",
+      "notSignedIn": "登録するにはサインインが必要です。",
+      "createFailed": "ユーザーの作成に失敗しました。もう一度お試しください。"
+    }
+  },
+  "workouts": {
+    "title": "ワークアウト",
+    "loginPrompt": "サインインしてワークアウトを表示します。",
+    "stats": "統計",
+    "start": "ワークアウト開始",
+    "empty": "まだワークアウトがありません。「ワークアウト開始」を押して最初の1件を記録しましょう。",
+    "loadFailed": "ワークアウトの読み込みに失敗しました。",
+    "startFailed": "ワークアウトの開始に失敗しました。もう一度お試しください。",
+    "status": {
+      "finished": "完了",
+      "inProgress": "実行中"
+    },
+    "startedPrefix": "開始: ",
+    "finishedPrefix": "終了: "
+  },
+  "workoutDetail": {
+    "title": "ワークアウト",
+    "loginPrompt": "サインインしてこのワークアウトを表示します。",
+    "loadFailed": "ワークアウトの読み込みに失敗しました。",
+    "backToWorkouts": "ワークアウト一覧に戻る",
+    "detailsHeading": "ワークアウト詳細",
+    "startedLabel": "開始",
+    "finishedLabel": "終了",
+    "setsHeading": "セット",
+    "setsEmpty": "まだセットが記録されていません。",
+    "unknownExercise": "不明な種目",
+    "setSummary": "{rep} 回 × {weight} {unit}",
+    "addSetHeading": "セットを追加",
+    "finishButton": "ワークアウトを終了",
+    "finishFailed": "ワークアウトの終了に失敗しました。もう一度お試しください。",
+    "loadExercisesFailed": "種目の読み込みに失敗しました。"
+  },
+  "addSet": {
+    "exercise": "種目",
+    "noExercises": "利用可能な種目がありません。",
+    "reps": "回数",
+    "weight": "重量 ({unit})",
+    "trainedAt": "実施日時",
+    "submit": "セットを追加",
+    "submitting": "記録中…",
+    "errors": {
+      "exerciseRequired": "種目を選択してください。",
+      "repInvalid": "回数は正の整数で入力してください。",
+      "weightInvalid": "重量は 0 以上の数値で入力してください。",
+      "trainedAtInvalid": "有効な実施日時を入力してください。",
+      "notSignedIn": "セットを記録するにはサインインが必要です。",
+      "createFailed": "セットの記録に失敗しました。もう一度お試しください。"
+    }
+  },
+  "stats": {
+    "title": "ワークアウト統計",
+    "loginPrompt": "サインインして統計を表示します。",
+    "loadFailed": "ワークアウトの読み込みに失敗しました。",
+    "backToWorkouts": "ワークアウト一覧に戻る",
+    "empty": "まだ可視化できるワークアウトがありません。最初のワークアウトを記録すると統計が表示されます。",
+    "activityHeading": "アクティビティ",
+    "volumeHeading": "ワークアウト別ボリューム",
+    "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
+    "heatmap": {
+      "summary": "直近 {weeks} 週間で {days} 日に {total} 回のワークアウト",
+      "noActivity": "まだワークアウトのアクティビティがありません。",
+      "less": "少",
+      "more": "多",
+      "ariaLabel": "ワークアウトアクティビティのヒートマップ",
+      "tooltip": "{date}: {count} 回のワークアウト",
+      "dayLabels": ["", "月", "", "水", "", "金", ""]
+    },
+    "volume": {
+      "empty": "まだセットが記録されていません。セットを記録するとボリュームが表示されます。",
+      "ariaLabel": "ワークアウト別ボリューム",
+      "unit": "回 × kg",
+      "tooltip": "{date} — {value} ({unit})"
+    }
+  },
+  "language": {
+    "label": "言語",
+    "names": {
+      "en": "English",
+      "ja": "日本語"
+    }
+  },
+  "units": {
+    "kg": "kg"
+  }
+}
