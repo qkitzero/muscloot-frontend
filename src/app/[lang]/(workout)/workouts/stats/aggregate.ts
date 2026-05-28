@@ -29,7 +29,6 @@ export function buildDailyCounts(workouts: Workout[], weeks: number): DailyCount
 
   const start = new Date(today);
   start.setDate(start.getDate() - (totalDays - 1));
-  // Align the start to the previous Sunday so the grid lays out cleanly.
   start.setDate(start.getDate() - start.getDay());
 
   const counts = new Map<string, number>();

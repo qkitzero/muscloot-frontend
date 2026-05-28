@@ -34,7 +34,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
               {dict.home.ctaLoggedOut}
             </p>
-            {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/login"

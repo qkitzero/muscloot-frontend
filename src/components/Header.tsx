@@ -28,7 +28,6 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
             <span className="hidden max-w-[10rem] truncate text-sm text-zinc-600 sm:inline-block dark:text-zinc-400">
               {user.displayName}
             </span>
-            {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/api/auth/logout"
@@ -38,7 +37,6 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
             </a>
           </>
         ) : (
-          /* OAuth route handler: must be <a> to trigger a full browser navigation */
           /* eslint-disable-next-line @next/next/no-html-link-for-pages */
           <a
             href="/api/auth/login"

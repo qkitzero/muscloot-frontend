@@ -48,7 +48,6 @@ export default async function WorkoutDetailPage({
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
           <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
-          {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/api/auth/login"
