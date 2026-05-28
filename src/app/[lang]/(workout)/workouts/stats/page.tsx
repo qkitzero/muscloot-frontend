@@ -1,4 +1,5 @@
 import { client as workoutClient } from '@/app/api/workout/client';
+import LoginLink from '@/components/LoginLink';
 import { isLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/getDictionary';
 import { getAccessToken } from '@/lib/session';
@@ -14,11 +15,7 @@ type Set = workoutSchema['schemas']['v1Set'];
 
 const HEATMAP_WEEKS = 12;
 
-export default async function WorkoutStatsPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
+export default async function WorkoutStatsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = await getDictionary(lang);
@@ -29,15 +26,13 @@ export default async function WorkoutStatsPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+            {t.title}
+          </h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-          <a
-            href="/api/auth/login"
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
-          >
+          <LoginLink className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">
             {dict.common.login}
-          </a>
+          </LoginLink>
         </div>
       </main>
     );
@@ -51,7 +46,9 @@ export default async function WorkoutStatsPage({
     return (
       <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
         <div className="flex w-full max-w-3xl flex-col gap-6">
-          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+            {t.title}
+          </h1>
           <p className="text-sm text-rose-500">{t.loadFailed}</p>
           <Link
             href={`/${lang}/workouts`}
@@ -100,7 +97,9 @@ export default async function WorkoutStatsPage({
           >
             ← {t.backToWorkouts}
           </Link>
-          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+            {t.title}
+          </h1>
         </div>
 
         {workouts.length === 0 ? (

@@ -3,6 +3,7 @@ import { fetchAllSets } from '@/app/api/set/list';
 import { client as workoutClient } from '@/app/api/workout/client';
 import ExerciseImage from '@/components/ExerciseImage';
 import FormattedDateTime from '@/components/FormattedDateTime';
+import LoginLink from '@/components/LoginLink';
 import { isLocale } from '@/i18n/config';
 import { translate } from '@/i18n/format';
 import { getDictionary } from '@/i18n/getDictionary';
@@ -52,13 +53,9 @@ export default async function WorkoutDetailPage({
             {t.title}
           </h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-          <a
-            href="/api/auth/login"
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
-          >
+          <LoginLink className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">
             {dict.common.login}
-          </a>
+          </LoginLink>
         </div>
       </main>
     );
