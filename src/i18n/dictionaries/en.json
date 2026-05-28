@@ -59,7 +59,9 @@
     "addSetHeading": "Add set",
     "finishButton": "Finish workout",
     "finishFailed": "Failed to finish workout. Please try again.",
-    "loadExercisesFailed": "Failed to load exercises."
+    "loadExercisesFailed": "Failed to load exercises.",
+    "prBadgeWeight": "Personal best (weight)",
+    "prBadgeVolume": "Personal best (volume)"
   },
   "addSet": {
     "exercise": "Exercise",
@@ -76,7 +78,8 @@
       "trainedAtInvalid": "A valid trained-at time is required.",
       "notSignedIn": "You must be signed in to record a set.",
       "createFailed": "Failed to record set. Please try again."
-    }
+    },
+    "prBanner": "🎉 New personal best!"
   },
   "stats": {
     "title": "Workout stats",

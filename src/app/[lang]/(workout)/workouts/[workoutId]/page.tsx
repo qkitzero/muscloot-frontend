@@ -1,4 +1,5 @@
 import { client as exerciseClient } from '@/app/api/exercise/client';
+import { fetchAllSets } from '@/app/api/set/list';
 import { client as workoutClient } from '@/app/api/workout/client';
 import ExerciseImage from '@/components/ExerciseImage';
 import FormattedDateTime from '@/components/FormattedDateTime';
@@ -12,6 +13,7 @@ import type { components as exerciseSchema } from '../../../../../../gen/exercis
 import type { components as workoutSchema } from '../../../../../../gen/workout/v1/workout.schema';
 import AddSetForm from './AddSetForm';
 import { finishWorkout } from './actions';
+import { computePrFlags } from './records';
 
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
@@ -46,7 +48,9 @@ export default async function WorkoutDetailPage({
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+            {t.title}
+          </h1>
           <p className="text-zinc-600 dark:text-zinc-400">{t.loginPrompt}</p>
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
@@ -60,7 +64,7 @@ export default async function WorkoutDetailPage({
     );
   }
 
-  const [workoutResult, exercisesResult] = await Promise.all([
+  const [workoutResult, exercisesResult, allSetsResult] = await Promise.all([
     workoutClient.GET('/v1/workouts/{workoutId}', {
       params: { path: { workoutId } },
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -68,13 +72,16 @@ export default async function WorkoutDetailPage({
     exerciseClient.GET('/v1/exercises', {
       headers: { Authorization: `Bearer ${accessToken}` },
     }),
+    fetchAllSets(accessToken),
   ]);
 
   if (workoutResult.error || !workoutResult.data?.workout) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">{t.title}</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 sm:text-2xl dark:text-zinc-50">
+            {t.title}
+          </h1>
           <p className="text-rose-500">{t.loadFailed}</p>
           <Link
             href={`/${lang}/workouts`}
@@ -95,6 +102,7 @@ export default async function WorkoutDetailPage({
       .filter((exercise): exercise is Exercise & { exerciseId: string } => !!exercise.exerciseId)
       .map((exercise) => [exercise.exerciseId, exercise]),
   );
+  const prFlagsById = computePrFlags(allSetsResult.sets);
   const isFinished = !!workout.finishedAt;
 
   const boundFinish = finishWorkout.bind(null, lang, workoutId);
@@ -145,6 +153,7 @@ export default async function WorkoutDetailPage({
               {sets.map((set) => {
                 const exercise = exerciseFor(set, exerciseById);
                 const label = exerciseLabel(set, exerciseById, t.unknownExercise);
+                const prFlags = set.setId ? prFlagsById.get(set.setId) : undefined;
                 return (
                   <li
                     key={set.setId}
@@ -163,6 +172,30 @@ export default async function WorkoutDetailPage({
                         unit: dict.units.kg,
                       })}
                     </span>
+                    {prFlags && (
+                      <span className="flex shrink-0 items-center gap-0.5 leading-none">
+                        {prFlags.weight && (
+                          <span
+                            role="img"
+                            aria-label={t.prBadgeWeight}
+                            title={t.prBadgeWeight}
+                            className="text-base"
+                          >
+                            👑
+                          </span>
+                        )}
+                        {prFlags.volume && (
+                          <span
+                            role="img"
+                            aria-label={t.prBadgeVolume}
+                            title={t.prBadgeVolume}
+                            className="text-base"
+                          >
+                            💪
+                          </span>
+                        )}
+                      </span>
+                    )}
                     <span className="w-full text-xs text-zinc-500 sm:w-auto sm:text-right dark:text-zinc-500">
                       <FormattedDateTime value={set.trainedAt} lang={lang} />
                     </span>
@@ -184,6 +217,7 @@ export default async function WorkoutDetailPage({
               disabled={isFinished}
               dict={dict.addSet}
               kgUnit={dict.units.kg}
+              prLabels={{ weight: t.prBadgeWeight, volume: t.prBadgeVolume }}
             />
             {exercisesResult.error && (
               <p className="mt-2 text-sm text-rose-500">{t.loadExercisesFailed}</p>

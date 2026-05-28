@@ -1,11 +1,13 @@
 'use server';
 
 import { client as setClient } from '@/app/api/set/client';
+import { fetchAllSets } from '@/app/api/set/list';
 import { client as workoutClient } from '@/app/api/workout/client';
 import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { computePrFlags, type PrFlags } from './records';
 
 export type CreateSetErrorKey = 'notSignedIn' | 'createFailed';
 export type CreateSetFieldErrorKey =
@@ -22,6 +24,7 @@ export type CreateSetFormState = {
     weight?: CreateSetFieldErrorKey;
     trainedAt?: CreateSetFieldErrorKey;
   };
+  pr?: PrFlags;
 };
 
 const TIMEZONE_SUFFIX = /(Z|[+-]\d{2}:?\d{2})$/i;
@@ -69,7 +72,7 @@ export async function createSet(
     return { errorKey: 'notSignedIn' };
   }
 
-  const { error } = await setClient.POST('/v1/sets', {
+  const { error, data } = await setClient.POST('/v1/sets', {
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {
       workoutId,
@@ -84,8 +87,17 @@ export async function createSet(
     return { errorKey: 'createFailed' };
   }
 
+  const newSetId = data?.setId;
+  let pr: PrFlags | undefined;
+  if (newSetId) {
+    const allSets = await fetchAllSets(accessToken);
+    if (!allSets.error) {
+      pr = computePrFlags(allSets.sets).get(newSetId);
+    }
+  }
+
   revalidatePath(`/workouts/${workoutId}`);
-  return {};
+  return pr && (pr.weight || pr.volume) ? { pr } : {};
 }
 
 export async function finishWorkout(lang: string, workoutId: string) {
