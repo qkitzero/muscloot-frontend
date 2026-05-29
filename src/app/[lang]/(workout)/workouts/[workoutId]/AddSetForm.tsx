@@ -42,9 +42,10 @@ export default function AddSetForm({
   prLabels: { weight: string; volume: string };
 }) {
   const [selectedExerciseId, setSelectedExerciseId] = useState('');
+  const [showPr, setShowPr] = useState(false);
 
   const boundAction = createSet.bind(null, workoutId);
-  const wrappedAction = (prev: CreateSetFormState, formData: FormData) => {
+  const wrappedAction = async (prev: CreateSetFormState, formData: FormData) => {
     const raw = String(formData.get('trainedAt') ?? '');
     if (raw) {
       const local = new Date(raw);
@@ -52,14 +53,16 @@ export default function AddSetForm({
         formData.set('trainedAt', local.toISOString());
       }
     }
-    return boundAction(prev, formData);
+    const result = await boundAction(prev, formData);
+    setShowPr(!!result.pr && (result.pr.weight || result.pr.volume));
+    return result;
   };
   const [state, formAction, isPending] = useActionState(wrappedAction, initialState);
 
   const defaultTrainedAt = useSyncExternalStore(noopSubscribe, getClientNow, emptyDefault);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} onChange={() => setShowPr(false)} className="flex flex-col gap-4">
       <fieldset disabled={disabled}>
         <legend className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           {dict.exercise}
@@ -76,7 +79,10 @@ export default function AddSetForm({
                 <li key={id || exercise.code}>
                   <button
                     type="button"
-                    onClick={() => setSelectedExerciseId(id)}
+                    onClick={() => {
+                      setSelectedExerciseId(id);
+                      setShowPr(false);
+                    }}
                     disabled={!id}
                     aria-pressed={isSelected}
                     className={`flex w-full flex-col items-center gap-1 rounded-xl border p-2 text-center transition-colors disabled:opacity-50 ${
@@ -188,7 +194,7 @@ export default function AddSetForm({
 
       {state.errorKey && <p className="text-sm text-rose-500">{dict.errors[state.errorKey]}</p>}
 
-      {state.pr && (state.pr.weight || state.pr.volume) && (
+      {showPr && state.pr && (state.pr.weight || state.pr.volume) && (
         <p
           role="status"
           aria-live="polite"
