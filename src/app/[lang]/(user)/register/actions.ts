@@ -24,8 +24,6 @@ function parseBirthDate(raw: string): { year: number; month: number; day: number
   const month = Number(match[2]);
   const day = Number(match[3]);
 
-  // Reject rollovers such as 2024-02-31 → Mar 2 by checking the UTC fields
-  // round-trip to the same y/m/d.
   const date = new Date(Date.UTC(year, month - 1, day));
   if (
     date.getUTCFullYear() !== year ||

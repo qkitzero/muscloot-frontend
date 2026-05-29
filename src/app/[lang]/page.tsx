@@ -1,3 +1,4 @@
+import LoginLink from '@/components/LoginLink';
 import { isLocale } from '@/i18n/config';
 import { translate } from '@/i18n/format';
 import { getDictionary } from '@/i18n/getDictionary';
@@ -34,14 +35,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
               {dict.home.ctaLoggedOut}
             </p>
-            {/* OAuth route handler: must be <a> to trigger a full browser navigation */}
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a
-              href="/api/auth/login"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-foreground px-6 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
-            >
+            <LoginLink className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-foreground px-6 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">
               {dict.common.login}
-            </a>
+            </LoginLink>
           </>
         )}
       </div>

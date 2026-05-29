@@ -32,17 +32,20 @@ export default function AddSetForm({
   disabled,
   dict,
   kgUnit,
+  prLabels,
 }: {
   workoutId: string;
   exercises: Exercise[];
   disabled: boolean;
   dict: Dictionary['addSet'];
   kgUnit: string;
+  prLabels: { weight: string; volume: string };
 }) {
   const [selectedExerciseId, setSelectedExerciseId] = useState('');
+  const [showPr, setShowPr] = useState(false);
 
   const boundAction = createSet.bind(null, workoutId);
-  const wrappedAction = (prev: CreateSetFormState, formData: FormData) => {
+  const wrappedAction = async (prev: CreateSetFormState, formData: FormData) => {
     const raw = String(formData.get('trainedAt') ?? '');
     if (raw) {
       const local = new Date(raw);
@@ -50,14 +53,16 @@ export default function AddSetForm({
         formData.set('trainedAt', local.toISOString());
       }
     }
-    return boundAction(prev, formData);
+    const result = await boundAction(prev, formData);
+    setShowPr(!!result.pr && (result.pr.weight || result.pr.volume));
+    return result;
   };
   const [state, formAction, isPending] = useActionState(wrappedAction, initialState);
 
   const defaultTrainedAt = useSyncExternalStore(noopSubscribe, getClientNow, emptyDefault);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} onChange={() => setShowPr(false)} className="flex flex-col gap-4">
       <fieldset disabled={disabled}>
         <legend className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           {dict.exercise}
@@ -74,7 +79,10 @@ export default function AddSetForm({
                 <li key={id || exercise.code}>
                   <button
                     type="button"
-                    onClick={() => setSelectedExerciseId(id)}
+                    onClick={() => {
+                      setSelectedExerciseId(id);
+                      setShowPr(false);
+                    }}
                     disabled={!id}
                     aria-pressed={isSelected}
                     className={`flex w-full flex-col items-center gap-1 rounded-xl border p-2 text-center transition-colors disabled:opacity-50 ${
@@ -147,9 +155,7 @@ export default function AddSetForm({
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
           {state.fieldErrorKeys?.weight && (
-            <p className="mt-1 text-sm text-rose-500">
-              {dict.errors[state.fieldErrorKeys.weight]}
-            </p>
+            <p className="mt-1 text-sm text-rose-500">{dict.errors[state.fieldErrorKeys.weight]}</p>
           )}
         </div>
       </div>
@@ -187,6 +193,26 @@ export default function AddSetForm({
       </button>
 
       {state.errorKey && <p className="text-sm text-rose-500">{dict.errors[state.errorKey]}</p>}
+
+      {showPr && state.pr && (state.pr.weight || state.pr.volume) && (
+        <p
+          role="status"
+          aria-live="polite"
+          className="flex flex-wrap items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"
+        >
+          <span>{dict.prBanner}</span>
+          {state.pr.weight && (
+            <span role="img" aria-label={prLabels.weight} title={prLabels.weight}>
+              👑
+            </span>
+          )}
+          {state.pr.volume && (
+            <span role="img" aria-label={prLabels.volume} title={prLabels.volume}>
+              💪
+            </span>
+          )}
+        </p>
+      )}
     </form>
   );
 }
