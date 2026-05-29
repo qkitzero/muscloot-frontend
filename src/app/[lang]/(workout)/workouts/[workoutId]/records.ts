@@ -16,12 +16,18 @@ function volumeOf(set: RecordableSet): number {
   return (set.rep ?? 0) * (set.weight ?? 0);
 }
 
+function compare(a: string, b: string): number {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
 function chronological(a: RecordableSet, b: RecordableSet): number {
-  const t = (a.trainedAt ?? '').localeCompare(b.trainedAt ?? '');
+  const t = compare(a.trainedAt ?? '', b.trainedAt ?? '');
   if (t !== 0) return t;
-  const c = (a.createdAt ?? '').localeCompare(b.createdAt ?? '');
+  const c = compare(a.createdAt ?? '', b.createdAt ?? '');
   if (c !== 0) return c;
-  return (a.setId ?? '').localeCompare(b.setId ?? '');
+  return compare(a.setId ?? '', b.setId ?? '');
 }
 
 export function computePrFlags(sets: RecordableSet[]): Map<string, PrFlags> {
