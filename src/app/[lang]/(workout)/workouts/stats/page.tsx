@@ -8,7 +8,7 @@ import type { components as workoutSchema } from '../../../../../../gen/workout/
 import ActivityHeatmap from './ActivityHeatmap';
 import LifetimeVolumeCard from './LifetimeVolumeCard';
 import VolumeChart from './VolumeChart';
-import { buildDailyCounts, buildWorkoutVolumes, computeLifetimeVolume } from './aggregate';
+import { buildDailyCounts, buildWorkoutVolumes } from './aggregate';
 
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
@@ -90,7 +90,7 @@ export default async function WorkoutStatsPage({ params }: { params: Promise<{ l
 
   const dailyCounts = buildDailyCounts(workouts, HEATMAP_WEEKS);
   const workoutVolumes = buildWorkoutVolumes(detailEntries);
-  const lifetimeVolume = computeLifetimeVolume(detailEntries);
+  const lifetimeVolume = workoutVolumes.reduce((sum, w) => sum + w.volume, 0);
   const detailFailures = detailResults.filter(({ result }) => !!result.error).length;
 
   return (

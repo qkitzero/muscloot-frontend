@@ -63,14 +63,6 @@ export function computeWorkoutVolume(sets: Set[]): number {
   return volume;
 }
 
-export function computeLifetimeVolume(entries: { sets: Set[] }[]): number {
-  let total = 0;
-  for (const { sets } of entries) {
-    total += computeWorkoutVolume(sets);
-  }
-  return total;
-}
-
 export function buildWorkoutVolumes(entries: { workout: Workout; sets: Set[] }[]): WorkoutVolume[] {
   return entries
     .filter(({ workout }) => !!workout.workoutId && !!workout.startedAt)
