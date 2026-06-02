@@ -87,6 +87,22 @@
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
     "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
+    "lifetimeVolume": {
+      "heading": "Total volume lifted",
+      "unit": "kg",
+      "comparison": "≈ {value}",
+      "comparisons": {
+        "houseCat": "{count, plural, one {# house cat} other {# house cats}}",
+        "adult": "{count, plural, one {# adult} other {# adults}}",
+        "gorilla": "{count, plural, one {# gorilla} other {# gorillas}}",
+        "grandPiano": "{count, plural, one {# grand piano} other {# grand pianos}}",
+        "smallCar": "{count, plural, one {# small car} other {# small cars}}",
+        "elephant": "{count, plural, one {# elephant} other {# elephants}}",
+        "cityBus": "{count, plural, one {# city bus} other {# city buses}}",
+        "blueWhale": "{count, plural, one {# blue whale} other {# blue whales}}",
+        "jumboJet": "{count, plural, one {# jumbo jet} other {# jumbo jets}}"
+      }
+    },
     "heatmap": {
       "summary": "{total, plural, one {# workout} other {# workouts}} on {days, plural, one {# day} other {# days}} (last {weeks} weeks)",
       "noActivity": "No workout activity yet.",
