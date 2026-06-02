@@ -62,9 +62,7 @@ export function computeWorkoutVolume(sets: Set[]): number {
   return volume;
 }
 
-export function buildWorkoutVolumes(
-  entries: { workout: Workout; sets: Set[] }[],
-): WorkoutVolume[] {
+export function buildWorkoutVolumes(entries: { workout: Workout; sets: Set[] }[]): WorkoutVolume[] {
   return entries
     .filter(({ workout }) => !!workout.workoutId && !!workout.startedAt)
     .map(({ workout, sets }) => ({

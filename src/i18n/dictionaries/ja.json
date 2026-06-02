@@ -90,6 +90,22 @@
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
     "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
+    "lifetimeVolume": {
+      "heading": "累積総挙上ボリューム",
+      "unit": "kg",
+      "comparison": "≈ {value}",
+      "comparisons": {
+        "houseCat": "ネコ {count} 匹分",
+        "adult": "大人 {count} 人分",
+        "gorilla": "ゴリラ {count} 頭分",
+        "grandPiano": "グランドピアノ {count} 台分",
+        "smallCar": "小型車 {count} 台分",
+        "elephant": "ゾウ {count} 頭分",
+        "cityBus": "路線バス {count} 台分",
+        "blueWhale": "シロナガスクジラ {count} 頭分",
+        "jumboJet": "ジャンボジェット {count} 機分"
+      }
+    },
     "heatmap": {
       "summary": "直近 {weeks} 週間で {days} 日に {total} 回のワークアウト",
       "noActivity": "まだワークアウトのアクティビティがありません。",
