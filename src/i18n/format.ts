@@ -34,10 +34,7 @@ export function formatNumber(
 
 type InterpolationValue = string | number;
 
-export function interpolate(
-  template: string,
-  values: Record<string, InterpolationValue>,
-): string {
+export function interpolate(template: string, values: Record<string, InterpolationValue>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) =>
     key in values ? String(values[key]) : `{${key}}`,
   );
@@ -51,20 +48,51 @@ export function selectPlural(
   values: Record<string, InterpolationValue>,
 ): string {
   const pluralRules = new Intl.PluralRules(toIntlLocale(locale));
-  return template.replace(
-    /\{(\w+),\s*plural,\s*([^}]+)\}/g,
-    (_, key: string, body: string) => {
-      const raw = values[key];
-      const count = typeof raw === 'number' ? raw : Number(raw);
-      if (!Number.isFinite(count)) return '';
-      const cases = parsePluralCases(body);
+  let result = '';
+  let i = 0;
+  while (i < template.length) {
+    const open = template.indexOf('{', i);
+    if (open === -1) {
+      result += template.slice(i);
+      break;
+    }
+    let depth = 0;
+    let end = open;
+    for (; end < template.length; end++) {
+      if (template[end] === '{') depth++;
+      else if (template[end] === '}') {
+        depth--;
+        if (depth === 0) break;
+      }
+    }
+    if (depth !== 0) {
+      result += template.slice(i);
+      break;
+    }
+    const match = /^(\w+),\s*plural,\s*([\s\S]+)$/.exec(template.slice(open + 1, end));
+    if (!match) {
+      result += template.slice(i, open + 1);
+      i = open + 1;
+      continue;
+    }
+    result += template.slice(i, open);
+    const [, key, body] = match;
+    const raw = values[key!];
+    const count = typeof raw === 'number' ? raw : Number(raw);
+    if (Number.isFinite(count)) {
+      const cases = parsePluralCases(body!);
       const exact = cases.get(`=${count}`);
-      if (exact !== undefined) return exact.replace(/#/g, String(count));
-      const category = pluralRules.select(count) as PluralCategory;
-      const chosen = cases.get(category) ?? cases.get('other') ?? '';
-      return chosen.replace(/#/g, String(count));
-    },
-  );
+      if (exact !== undefined) {
+        result += exact.replace(/#/g, String(count));
+      } else {
+        const category = pluralRules.select(count) as PluralCategory;
+        const chosen = cases.get(category) ?? cases.get('other') ?? '';
+        result += chosen.replace(/#/g, String(count));
+      }
+    }
+    i = end + 1;
+  }
+  return result;
 }
 
 function parsePluralCases(body: string): Map<string, string> {
