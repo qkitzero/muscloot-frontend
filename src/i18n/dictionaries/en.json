@@ -90,6 +90,7 @@
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
     "muscleBalanceHeading": "Muscle group balance",
+    "muscleBalanceLoadFailed": "Could not load exercise data, so muscle balance may be incomplete.",
     "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
     "lifetimeVolume": {
       "heading": "Total volume lifted",

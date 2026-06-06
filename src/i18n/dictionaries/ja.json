@@ -90,6 +90,7 @@
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
     "muscleBalanceHeading": "筋群バランス",
+    "muscleBalanceLoadFailed": "種目データを読み込めなかったため、筋群バランスが不完全な可能性があります。",
     "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
     "lifetimeVolume": {
       "heading": "累積総挙上ボリューム",

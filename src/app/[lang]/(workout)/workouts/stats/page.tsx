@@ -105,6 +105,7 @@ export default async function WorkoutStatsPage({ params }: { params: Promise<{ l
   const muscleBalance = buildMuscleBalanceByPeriod(detailEntries, exerciseById, new Date());
   const lifetimeVolume = workoutVolumes.reduce((sum, w) => sum + w.volume, 0);
   const detailFailures = detailResults.filter(({ result }) => !!result.error).length;
+  const exercisesFailed = !!exercisesResult.error;
 
   return (
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
@@ -148,6 +149,9 @@ export default async function WorkoutStatsPage({ params }: { params: Promise<{ l
               <h2 className="mb-4 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
                 {t.muscleBalanceHeading}
               </h2>
+              {exercisesFailed && (
+                <p className="mb-3 text-xs text-rose-500">{t.muscleBalanceLoadFailed}</p>
+              )}
               <BodyMap byPeriod={muscleBalance} lang={lang} dict={t.muscleBalance} />
             </section>
           </>
