@@ -100,7 +100,7 @@ export function buildMuscleBalance(
       if (!set.exerciseId) continue;
       if (sinceMs !== null) {
         if (!set.trainedAt) continue;
-        if (new Date(set.trainedAt).getTime() < sinceMs) continue;
+        if (Date.parse(set.trainedAt) < sinceMs) continue;
       }
       const exercise = exerciseById.get(set.exerciseId);
       if (!exercise?.muscles) continue;
