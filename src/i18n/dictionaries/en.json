@@ -89,6 +89,8 @@
     "empty": "No workouts to visualize yet. Record your first workout to see your stats.",
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
+    "muscleBalanceHeading": "Muscle group balance",
+    "muscleBalanceLoadFailed": "Could not load exercise data, so muscle balance may be incomplete.",
     "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
     "lifetimeVolume": {
       "heading": "Total volume lifted",
@@ -120,6 +122,30 @@
       "ariaLabel": "Volume per workout",
       "unit": "rep × kg",
       "tooltip": "{date} — {value} ({unit})"
+    },
+    "muscleBalance": {
+      "empty": "No sets recorded yet — once you log sets, your muscle balance will show up here.",
+      "ariaLabel": "Muscle group training balance shown on front and back body maps",
+      "frontLabel": "Front",
+      "backLabel": "Back",
+      "unit": "rep × kg",
+      "tooltip": "{muscle} — {value} ({unit})",
+      "untrainedTooltip": "{muscle} — not trained yet",
+      "untrainedHint": "Under-trained: {muscles}",
+      "allTrained": "Every muscle group has been trained — nicely balanced!",
+      "periods": {
+        "week": "Last 7 days",
+        "month": "Last 30 days",
+        "all": "All time"
+      },
+      "muscles": {
+        "chest": "Chest",
+        "back": "Back",
+        "legs": "Legs",
+        "shoulders": "Shoulders",
+        "arms": "Arms",
+        "core": "Core"
+      }
     }
   },
   "language": {

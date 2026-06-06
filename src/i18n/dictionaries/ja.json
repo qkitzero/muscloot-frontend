@@ -89,6 +89,8 @@
     "empty": "まだ可視化できるワークアウトがありません。最初のワークアウトを記録すると統計が表示されます。",
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
+    "muscleBalanceHeading": "筋群バランス",
+    "muscleBalanceLoadFailed": "種目データを読み込めなかったため、筋群バランスが不完全な可能性があります。",
     "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
     "lifetimeVolume": {
       "heading": "累積総挙上ボリューム",
@@ -120,6 +122,30 @@
       "ariaLabel": "ワークアウト別ボリューム",
       "unit": "回 × kg",
       "tooltip": "{date} — {value} ({unit})"
+    },
+    "muscleBalance": {
+      "empty": "まだセットが記録されていません。セットを記録すると筋群バランスが表示されます。",
+      "ariaLabel": "前面・背面の人体図で表す筋群トレーニングバランス",
+      "frontLabel": "前面",
+      "backLabel": "背面",
+      "unit": "回 × kg",
+      "tooltip": "{muscle} — {value}（{unit}）",
+      "untrainedTooltip": "{muscle} — まだ鍛えていません",
+      "untrainedHint": "鍛えられていない部位: {muscles}",
+      "allTrained": "すべての筋群が鍛えられています。バランス良好です！",
+      "periods": {
+        "week": "直近7日",
+        "month": "直近30日",
+        "all": "全期間"
+      },
+      "muscles": {
+        "chest": "胸",
+        "back": "背中",
+        "legs": "脚",
+        "shoulders": "肩",
+        "arms": "腕",
+        "core": "体幹"
+      }
     }
   },
   "language": {
