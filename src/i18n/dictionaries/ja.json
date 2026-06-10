@@ -109,6 +109,40 @@
         "jumboJet": "ジャンボジェット {count} 機分"
       }
     },
+    "badges": {
+      "heading": "実績バッジ",
+      "unlockedSummary": "{unlocked} / {total} 解除",
+      "nextHeading": "次のマイルストーン",
+      "allUnlocked": "すべてのバッジを解除しました！",
+      "lockedLabel": "未解除",
+      "axes": {
+        "workoutCount": {
+          "name": "{threshold, plural, =1 {はじめてのワークアウト} other {ワークアウト # 回}}",
+          "description": "ワークアウトを {threshold} 回完了する",
+          "progress": "{current} / {threshold} 回"
+        },
+        "totalSets": {
+          "name": "累計 {threshold} セット",
+          "description": "累計 {threshold} セットを記録する",
+          "progress": "{current} / {threshold} セット"
+        },
+        "totalVolume": {
+          "name": "総ボリューム {threshold} kg",
+          "description": "累計 {threshold} kg を持ち上げる",
+          "progress": "{current} / {threshold} kg"
+        },
+        "maxWeight": {
+          "name": "{threshold} kg クラブ",
+          "description": "1 セットで {threshold} kg を挙げる",
+          "progress": "{current} / {threshold} kg"
+        },
+        "streakDays": {
+          "name": "{threshold} 日ストリーク",
+          "description": "{threshold} 日連続でワークアウトする",
+          "progress": "{current} / {threshold} 日"
+        }
+      }
+    },
     "heatmap": {
       "summary": "直近 {weeks} 週間で {days} 日に {total} 回のワークアウト",
       "noActivity": "まだワークアウトのアクティビティがありません。",
