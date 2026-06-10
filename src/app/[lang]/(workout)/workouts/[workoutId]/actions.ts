@@ -119,5 +119,5 @@ export async function finishWorkout(lang: string, workoutId: string) {
 
   revalidatePath(`/workouts/${workoutId}`);
   revalidatePath('/workouts');
-  redirect(`${prefix}/workouts`);
+  redirect(`${prefix}/workouts/${workoutId}?finished=1`);
 }
