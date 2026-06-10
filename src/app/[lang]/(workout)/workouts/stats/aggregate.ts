@@ -189,7 +189,7 @@ export function buildExerciseProgressions(
   for (const [exerciseId, points] of byExercise) {
     const exercise = exerciseById.get(exerciseId);
     if (!exercise?.name) continue;
-    points.sort((a, b) => a.date.localeCompare(b.date));
+    points.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
     result.push({ exerciseId, name: exercise.name, points });
   }
 
