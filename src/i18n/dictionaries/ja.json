@@ -61,7 +61,20 @@
     "finishFailed": "ワークアウトの終了に失敗しました。もう一度お試しください。",
     "loadExercisesFailed": "種目の読み込みに失敗しました。",
     "prBadgeWeight": "自己ベスト（重量）",
-    "prBadgeVolume": "自己ベスト（ボリューム）"
+    "prBadgeVolume": "自己ベスト（ボリューム）",
+    "summary": {
+      "title": "ワークアウト完了！",
+      "durationLabel": "所要時間",
+      "durationHoursMinutes": "{hours}時間{minutes}分",
+      "durationMinutes": "{minutes}分",
+      "setsLabel": "総セット数",
+      "setsValue": "{count} セット",
+      "volumeLabel": "総ボリューム",
+      "volumeValue": "{volume} {unit}",
+      "prHeading": "自己ベスト更新",
+      "prEmpty": "今回は記録更新なし。次回に期待！",
+      "close": "閉じる"
+    }
   },
   "addSet": {
     "exercise": "種目",

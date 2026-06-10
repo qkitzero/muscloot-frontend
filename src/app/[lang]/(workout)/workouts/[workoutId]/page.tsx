@@ -13,8 +13,10 @@ import { notFound } from 'next/navigation';
 import type { components as exerciseSchema } from '../../../../../../gen/exercise/v1/exercise.schema';
 import type { components as workoutSchema } from '../../../../../../gen/workout/v1/workout.schema';
 import AddSetForm from './AddSetForm';
+import WorkoutSummaryModal from './WorkoutSummaryModal';
 import { finishWorkout } from './actions';
 import { computePrFlags } from './records';
+import { buildWorkoutSummary } from './summary';
 
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
@@ -36,13 +38,13 @@ export default async function WorkoutDetailPage({
   searchParams,
 }: {
   params: Promise<{ lang: string; workoutId: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; finished?: string }>;
 }) {
   const { lang, workoutId } = await params;
   if (!isLocale(lang)) notFound();
   const dict = await getDictionary(lang);
   const t = dict.workoutDetail;
-  const { error: errorParam } = await searchParams;
+  const { error: errorParam, finished: finishedParam } = await searchParams;
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
@@ -101,6 +103,7 @@ export default async function WorkoutDetailPage({
   );
   const prFlagsById = computePrFlags(allSetsResult.sets);
   const isFinished = !!workout.finishedAt;
+  const showSummary = finishedParam === '1' && isFinished;
 
   const boundFinish = finishWorkout.bind(null, lang, workoutId);
 
@@ -233,6 +236,17 @@ export default async function WorkoutDetailPage({
           </form>
         )}
       </div>
+
+      {showSummary && (
+        <WorkoutSummaryModal
+          lang={lang}
+          summary={buildWorkoutSummary(workout, sets, prFlagsById, exerciseById)}
+          dict={t.summary}
+          kgUnit={dict.units.kg}
+          unknownLabel={dict.common.unknown}
+          prLabels={{ weight: t.prBadgeWeight, volume: t.prBadgeVolume }}
+        />
+      )}
     </main>
   );
 }

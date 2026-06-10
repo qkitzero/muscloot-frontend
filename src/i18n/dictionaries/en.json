@@ -61,7 +61,20 @@
     "finishFailed": "Failed to finish workout. Please try again.",
     "loadExercisesFailed": "Failed to load exercises.",
     "prBadgeWeight": "Personal best (weight)",
-    "prBadgeVolume": "Personal best (volume)"
+    "prBadgeVolume": "Personal best (volume)",
+    "summary": {
+      "title": "Workout complete!",
+      "durationLabel": "Duration",
+      "durationHoursMinutes": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "setsLabel": "Total sets",
+      "setsValue": "{count, plural, one {# set} other {# sets}}",
+      "volumeLabel": "Total volume",
+      "volumeValue": "{volume} {unit}",
+      "prHeading": "Personal records",
+      "prEmpty": "No new records this time — keep pushing!",
+      "close": "Close"
+    }
   },
   "addSet": {
     "exercise": "Exercise",
