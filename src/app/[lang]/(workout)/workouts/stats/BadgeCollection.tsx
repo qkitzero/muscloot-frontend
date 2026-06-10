@@ -75,7 +75,10 @@ export default function BadgeCollection({ progress, next, lang, dict }: Props) {
               <span className="text-2xl" aria-hidden>
                 {entry.unlocked ? AXIS_ICONS[entry.axis] : '🔒'}
               </span>
-              <span className="text-xs font-medium text-zinc-900 dark:text-zinc-50">{name}</span>
+              <span className="text-xs font-medium text-zinc-900 dark:text-zinc-50">
+                {!entry.unlocked && <span className="sr-only">{dict.lockedLabel}: </span>}
+                {name}
+              </span>
               {!entry.unlocked && (
                 <span className="text-[10px] tabular-nums text-zinc-500 dark:text-zinc-400">
                   {translate(lang, dict.axes[entry.axis].progress, values)}
