@@ -51,6 +51,33 @@ export type ExerciseProgression = {
   points: ProgressionPoint[];
 };
 
+export const MILESTONE_AXES = [
+  'workoutCount',
+  'totalSets',
+  'totalVolume',
+  'maxWeight',
+  'streakDays',
+] as const;
+export type MilestoneAxis = (typeof MILESTONE_AXES)[number];
+
+export const MILESTONE_THRESHOLDS: Record<MilestoneAxis, readonly number[]> = {
+  workoutCount: [1, 10, 50, 100, 250],
+  totalSets: [50, 250, 1000, 2500, 5000],
+  totalVolume: [10000, 50000, 250000, 1000000, 5000000],
+  maxWeight: [40, 60, 80, 100, 140],
+  streakDays: [3, 5, 7, 14, 30],
+};
+
+export type MilestoneStats = Record<MilestoneAxis, number>;
+
+export type MilestoneProgress = {
+  axis: MilestoneAxis;
+  threshold: number;
+  unlocked: boolean;
+  current: number;
+  ratio: number;
+};
+
 function toLocalDateKey(iso: string): string {
   const date = new Date(iso);
   const year = date.getFullYear();
@@ -194,4 +221,81 @@ export function buildExerciseProgressions(
   }
 
   return result.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function nextDateKey(key: string): string {
+  const [year, month, day] = key.split('-').map(Number);
+  const date = new Date(year!, month! - 1, day!);
+  date.setDate(date.getDate() + 1);
+  const nextYear = date.getFullYear();
+  const nextMonth = String(date.getMonth() + 1).padStart(2, '0');
+  const nextDay = String(date.getDate()).padStart(2, '0');
+  return `${nextYear}-${nextMonth}-${nextDay}`;
+}
+
+function computeLongestStreak(workouts: Workout[]): number {
+  const dateKeys = new Set<string>();
+  for (const workout of workouts) {
+    if (!workout.startedAt) continue;
+    dateKeys.add(toLocalDateKey(workout.startedAt));
+  }
+
+  const sorted = [...dateKeys].sort();
+  let longest = 0;
+  let current = 0;
+  let previous: string | null = null;
+  for (const key of sorted) {
+    current = previous !== null && nextDateKey(previous) === key ? current + 1 : 1;
+    longest = Math.max(longest, current);
+    previous = key;
+  }
+  return longest;
+}
+
+export function buildMilestoneStats(entries: { workout: Workout; sets: Set[] }[]): MilestoneStats {
+  let totalSets = 0;
+  let totalVolume = 0;
+  let maxWeight = 0;
+  for (const { sets } of entries) {
+    totalSets += sets.length;
+    totalVolume += computeWorkoutVolume(sets);
+    for (const set of sets) {
+      maxWeight = Math.max(maxWeight, set.weight ?? 0);
+    }
+  }
+
+  return {
+    workoutCount: entries.length,
+    totalSets,
+    totalVolume,
+    maxWeight,
+    streakDays: computeLongestStreak(entries.map(({ workout }) => workout)),
+  };
+}
+
+export function buildMilestoneProgress(stats: MilestoneStats): MilestoneProgress[] {
+  const result: MilestoneProgress[] = [];
+  for (const axis of MILESTONE_AXES) {
+    const current = stats[axis];
+    for (const threshold of MILESTONE_THRESHOLDS[axis]) {
+      result.push({
+        axis,
+        threshold,
+        unlocked: current >= threshold,
+        current,
+        ratio: Math.min(current / threshold, 1),
+      });
+    }
+  }
+  return result;
+}
+
+export function findNextMilestone(progress: MilestoneProgress[]): MilestoneProgress | null {
+  let next: MilestoneProgress | null = null;
+  for (const axis of MILESTONE_AXES) {
+    const candidate = progress.find((entry) => entry.axis === axis && !entry.unlocked);
+    if (!candidate) continue;
+    if (next === null || candidate.ratio > next.ratio) next = candidate;
+  }
+  return next;
 }
