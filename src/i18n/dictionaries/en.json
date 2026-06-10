@@ -90,6 +90,7 @@
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
     "muscleBalanceHeading": "Muscle group balance",
+    "progressionHeading": "Per-exercise progression",
     "muscleBalanceLoadFailed": "Could not load exercise data, so muscle balance may be incomplete.",
     "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
     "lifetimeVolume": {
@@ -122,6 +123,22 @@
       "ariaLabel": "Volume per workout",
       "unit": "rep × kg",
       "tooltip": "{date} — {value} ({unit})"
+    },
+    "progression": {
+      "empty": "No exercises to chart yet — once you log sets, per-exercise progression will show up here.",
+      "sparse": "Only one session recorded for this exercise. Log more sessions to see a trend.",
+      "selectLabel": "Select exercise",
+      "metricLabel": "Select metric",
+      "ariaLabel": "{metric} progression for {exercise}",
+      "tooltip": "{date} — {value} ({unit})",
+      "metrics": {
+        "maxWeight": "Max weight",
+        "volume": "Volume"
+      },
+      "units": {
+        "maxWeight": "kg",
+        "volume": "rep × kg"
+      }
     },
     "muscleBalance": {
       "empty": "No sets recorded yet — once you log sets, your muscle balance will show up here.",
