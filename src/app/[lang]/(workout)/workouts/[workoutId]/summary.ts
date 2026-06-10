@@ -8,6 +8,7 @@ type Set = workoutSchema['schemas']['v1Set'];
 type Exercise = exerciseSchema['schemas']['v1Exercise'];
 
 export type PrSummaryEntry = {
+  exerciseId: string;
   name: string;
   weight: boolean;
   volume: boolean;
@@ -51,6 +52,7 @@ export function buildWorkoutSummary(
     } else {
       const exercise = exerciseById.get(set.exerciseId);
       prByExercise.set(set.exerciseId, {
+        exerciseId: set.exerciseId,
         name: exercise?.name ?? exercise?.code ?? set.exerciseId,
         weight: flags.weight,
         volume: flags.volume,

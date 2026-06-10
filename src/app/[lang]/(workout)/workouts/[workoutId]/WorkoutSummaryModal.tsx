@@ -120,7 +120,7 @@ export default function WorkoutSummaryModal({
             </h3>
             <ul className="flex flex-col gap-1 text-sm">
               {summary.prs.map((pr) => (
-                <li key={pr.name} className="flex items-center justify-between gap-2">
+                <li key={pr.exerciseId} className="flex items-center justify-between gap-2">
                   <span className="min-w-0 flex-1 text-zinc-900 dark:text-zinc-50">{pr.name}</span>
                   <span className="flex shrink-0 items-center gap-0.5 leading-none">
                     {pr.weight && (
