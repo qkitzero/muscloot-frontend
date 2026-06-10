@@ -35,6 +35,22 @@ export type WorkoutVolume = {
   volume: number;
 };
 
+export const PROGRESSION_METRICS = ['maxWeight', 'volume'] as const;
+export type ProgressionMetric = (typeof PROGRESSION_METRICS)[number];
+
+export type ProgressionPoint = {
+  workoutId: string;
+  date: string;
+  maxWeight: number;
+  volume: number;
+};
+
+export type ExerciseProgression = {
+  exerciseId: string;
+  name: string;
+  points: ProgressionPoint[];
+};
+
 function toLocalDateKey(iso: string): string {
   const date = new Date(iso);
   const year = date.getFullYear();
@@ -139,4 +155,43 @@ export function buildWorkoutVolumes(entries: { workout: Workout; sets: Set[] }[]
       volume: computeWorkoutVolume(sets),
     }))
     .sort((a, b) => a.startedAt.localeCompare(b.startedAt));
+}
+
+export function buildExerciseProgressions(
+  entries: { workout: Workout; sets: Set[] }[],
+  exerciseById: Map<string, Exercise>,
+): ExerciseProgression[] {
+  const byExercise = new Map<string, ProgressionPoint[]>();
+
+  for (const { workout, sets } of entries) {
+    if (!workout.workoutId || !workout.startedAt) continue;
+
+    const perExercise = new Map<string, { maxWeight: number; volume: number }>();
+    for (const set of sets) {
+      if (!set.exerciseId) continue;
+      const weight = set.weight ?? 0;
+      const rep = set.rep ?? 0;
+      const current = perExercise.get(set.exerciseId) ?? { maxWeight: 0, volume: 0 };
+      current.maxWeight = Math.max(current.maxWeight, weight);
+      current.volume += rep * weight;
+      perExercise.set(set.exerciseId, current);
+    }
+
+    for (const [exerciseId, { maxWeight, volume }] of perExercise) {
+      if (maxWeight === 0 && volume === 0) continue;
+      const points = byExercise.get(exerciseId) ?? [];
+      points.push({ workoutId: workout.workoutId, date: workout.startedAt, maxWeight, volume });
+      byExercise.set(exerciseId, points);
+    }
+  }
+
+  const result: ExerciseProgression[] = [];
+  for (const [exerciseId, points] of byExercise) {
+    const exercise = exerciseById.get(exerciseId);
+    if (!exercise?.name) continue;
+    points.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+    result.push({ exerciseId, name: exercise.name, points });
+  }
+
+  return result.sort((a, b) => a.name.localeCompare(b.name));
 }

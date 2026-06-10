@@ -10,9 +10,15 @@ import type { components as exerciseSchema } from '../../../../../../gen/exercis
 import type { components as workoutSchema } from '../../../../../../gen/workout/v1/workout.schema';
 import ActivityHeatmap from './ActivityHeatmap';
 import BodyMap from './BodyMap';
+import ExerciseProgressChart from './ExerciseProgressChart';
 import LifetimeVolumeCard from './LifetimeVolumeCard';
 import VolumeChart from './VolumeChart';
-import { buildDailyCounts, buildMuscleBalanceByPeriod, buildWorkoutVolumes } from './aggregate';
+import {
+  buildDailyCounts,
+  buildExerciseProgressions,
+  buildMuscleBalanceByPeriod,
+  buildWorkoutVolumes,
+} from './aggregate';
 
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];
@@ -102,6 +108,7 @@ export default async function WorkoutStatsPage({ params }: { params: Promise<{ l
 
   const dailyCounts = buildDailyCounts(workouts, HEATMAP_WEEKS);
   const workoutVolumes = buildWorkoutVolumes(detailEntries);
+  const exerciseProgressions = buildExerciseProgressions(detailEntries, exerciseById);
   const muscleBalance = buildMuscleBalanceByPeriod(detailEntries, exerciseById, new Date());
   const lifetimeVolume = workoutVolumes.reduce((sum, w) => sum + w.volume, 0);
   const detailFailures = detailResults.filter(({ result }) => !!result.error).length;
@@ -143,6 +150,20 @@ export default async function WorkoutStatsPage({ params }: { params: Promise<{ l
                 <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>
               )}
               <VolumeChart data={workoutVolumes} lang={lang} dict={t.volume} />
+            </section>
+
+            <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">
+              <h2 className="mb-4 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
+                {t.progressionHeading}
+              </h2>
+              {detailFailures > 0 && (
+                <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>
+              )}
+              <ExerciseProgressChart
+                series={exerciseProgressions}
+                lang={lang}
+                dict={t.progression}
+              />
             </section>
 
             <section className="rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900">

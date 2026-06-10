@@ -90,6 +90,7 @@
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
     "muscleBalanceHeading": "筋群バランス",
+    "progressionHeading": "種目別の推移",
     "muscleBalanceLoadFailed": "種目データを読み込めなかったため、筋群バランスが不完全な可能性があります。",
     "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
     "lifetimeVolume": {
@@ -122,6 +123,22 @@
       "ariaLabel": "ワークアウト別ボリューム",
       "unit": "回 × kg",
       "tooltip": "{date} — {value} ({unit})"
+    },
+    "progression": {
+      "empty": "まだ推移を表示できる種目がありません。セットを記録すると種目別の推移が表示されます。",
+      "sparse": "この種目の記録が1回分しかありません。複数回記録すると推移が表示されます。",
+      "selectLabel": "種目を選択",
+      "metricLabel": "指標を選択",
+      "ariaLabel": "{exercise}の{metric}の推移",
+      "tooltip": "{date} — {value} ({unit})",
+      "metrics": {
+        "maxWeight": "最大重量",
+        "volume": "ボリューム"
+      },
+      "units": {
+        "maxWeight": "kg",
+        "volume": "回 × kg"
+      }
     },
     "muscleBalance": {
       "empty": "まだセットが記録されていません。セットを記録すると筋群バランスが表示されます。",
