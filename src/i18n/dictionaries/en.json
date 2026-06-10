@@ -109,6 +109,40 @@
         "jumboJet": "{count, plural, one {# jumbo jet} other {# jumbo jets}}"
       }
     },
+    "badges": {
+      "heading": "Badges",
+      "unlockedSummary": "{unlocked} / {total} unlocked",
+      "nextHeading": "Next milestone",
+      "allUnlocked": "All badges unlocked!",
+      "lockedLabel": "Locked",
+      "axes": {
+        "workoutCount": {
+          "name": "{threshold, plural, =1 {First workout} other {# workouts}}",
+          "description": "Complete {threshold, plural, =1 {your first workout} other {# workouts}}",
+          "progress": "{current} / {threshold} workouts"
+        },
+        "totalSets": {
+          "name": "{threshold} sets",
+          "description": "Log {threshold} sets in total",
+          "progress": "{current} / {threshold} sets"
+        },
+        "totalVolume": {
+          "name": "{threshold} kg lifted",
+          "description": "Lift {threshold} kg of total volume",
+          "progress": "{current} / {threshold} kg"
+        },
+        "maxWeight": {
+          "name": "{threshold} kg club",
+          "description": "Lift {threshold} kg in a single set",
+          "progress": "{current} / {threshold} kg"
+        },
+        "streakDays": {
+          "name": "{threshold}-day streak",
+          "description": "Work out {threshold} days in a row",
+          "progress": "{current} / {threshold} days"
+        }
+      }
+    },
     "heatmap": {
       "summary": "{total, plural, one {# workout} other {# workouts}} on {days, plural, one {# day} other {# days}} (last {weeks} weeks)",
       "noActivity": "No workout activity yet.",
