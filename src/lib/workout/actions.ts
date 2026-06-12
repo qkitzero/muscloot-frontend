@@ -6,8 +6,10 @@ import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { getAllSets } from './data';
+import { computePrFlags, type PrFlags } from './records';
 
-export type CreateSetErrorKey = 'notSignedIn' | 'createFailed';
+export type CreateSetErrorKey = 'createFailed';
 export type CreateSetFieldErrorKey =
   | 'exerciseRequired'
   | 'repInvalid'
@@ -22,6 +24,8 @@ export type CreateSetFormState = {
     weight?: CreateSetFieldErrorKey;
     trainedAt?: CreateSetFieldErrorKey;
   };
+  values?: { rep: string; weight: string };
+  pr?: PrFlags;
 };
 
 const TIMEZONE_SUFFIX = /(Z|[+-]\d{2}:?\d{2})$/i;
@@ -32,6 +36,33 @@ function parseTrainedAt(raw: string): string | null {
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return null;
   return date.toISOString();
+}
+
+function homePath(lang: string): string {
+  return localePrefix(lang) || '/';
+}
+
+export async function startWorkout(lang: string) {
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
+    redirect('/api/auth/login');
+  }
+
+  const { error, response } = await workoutClient.POST('/v1/workouts/start', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: {},
+  });
+
+  const home = homePath(lang);
+  if (error) {
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
+    redirect(`${home}?error=start_failed`);
+  }
+
+  revalidatePath('/[lang]', 'page');
+  redirect(home);
 }
 
 export async function createSet(
@@ -57,19 +88,21 @@ export async function createSet(
     fieldErrorKeys.weight = 'weightInvalid';
   }
 
-  const trainedAt = parseTrainedAt(trainedAtRaw);
+  const trainedAt = trainedAtRaw ? parseTrainedAt(trainedAtRaw) : new Date().toISOString();
   if (!trainedAt) fieldErrorKeys.trainedAt = 'trainedAtInvalid';
 
+  const values = { rep: repRaw, weight: weightRaw };
+
   if (Object.keys(fieldErrorKeys).length > 0) {
-    return { fieldErrorKeys };
+    return { fieldErrorKeys, values };
   }
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { errorKey: 'notSignedIn' };
+    redirect('/api/auth/login');
   }
 
-  const { error } = await setClient.POST('/v1/sets', {
+  const { error, data, response } = await setClient.POST('/v1/sets', {
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {
       workoutId,
@@ -81,31 +114,48 @@ export async function createSet(
   });
 
   if (error) {
-    return { errorKey: 'createFailed' };
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
+    return { errorKey: 'createFailed', values };
   }
 
-  revalidatePath(`/workouts/${workoutId}`);
-  return {};
+  const newSetId = data?.setId;
+  let pr: PrFlags | undefined;
+  if (newSetId) {
+    const allSets = await getAllSets(accessToken);
+    if (!allSets.error) {
+      pr = computePrFlags(allSets.sets).get(newSetId);
+    }
+  }
+
+  revalidatePath('/[lang]', 'page');
+  revalidatePath('/[lang]/workouts/[workoutId]', 'page');
+  return pr && (pr.weight || pr.volume) ? { pr } : {};
 }
 
-export async function finishWorkout(lang: string, workoutId: string) {
+export async function finishWorkout(lang: string, workoutId: string, returnTo: 'home' | 'detail') {
   const accessToken = await getAccessToken();
   if (!accessToken) {
     redirect('/api/auth/login');
   }
 
-  const { error } = await workoutClient.POST('/v1/workouts/{workoutId}/finish', {
+  const { error, response } = await workoutClient.POST('/v1/workouts/{workoutId}/finish', {
     params: { path: { workoutId } },
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {},
   });
 
-  const prefix = localePrefix(lang);
+  const home = homePath(lang);
+  const detail = `${localePrefix(lang)}/workouts/${workoutId}`;
   if (error) {
-    redirect(`${prefix}/workouts/${workoutId}?error=finish_failed`);
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
+    redirect(returnTo === 'home' ? `${home}?error=finish_failed` : `${detail}?error=finish_failed`);
   }
 
-  revalidatePath(`/workouts/${workoutId}`);
-  revalidatePath('/workouts');
-  redirect(`${prefix}/workouts`);
+  revalidatePath('/[lang]', 'page');
+  revalidatePath('/[lang]/workouts/[workoutId]', 'page');
+  redirect(returnTo === 'home' ? `${home}?finished=${workoutId}` : `${detail}?finished=1`);
 }

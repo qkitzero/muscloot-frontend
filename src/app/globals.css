@@ -19,6 +19,40 @@
   }
 }
 
+@theme {
+  --animate-summary-pop-in: summary-pop-in 0.35s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+  --animate-confetti-fall: confetti-fall 2.6s linear forwards;
+
+  @keyframes summary-pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.85) translateY(12px);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.03) translateY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes confetti-fall {
+    0% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(110vh) rotate(720deg);
+    }
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

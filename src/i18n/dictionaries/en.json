@@ -7,14 +7,36 @@
     "loading": "Loading…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "Workouts"
-  },
   "home": {
-    "welcome": "Welcome to Muscloot",
-    "signedInAs": "Signed in as {name}.",
-    "ctaLoggedIn": "Go to workouts",
-    "ctaLoggedOut": "Sign in to start tracking your workouts."
+    "demo": {
+      "banner": "You're viewing demo data. Sign in to start tracking your own workouts."
+    },
+    "session": {
+      "expired": "Your session has expired. Please sign in again."
+    },
+    "activeWorkout": {
+      "heading": "Current workout",
+      "emptyHeading": "Start your next workout",
+      "emptyLastWorkout": "{days, plural, one {# day} other {# days}} since your last workout",
+      "emptyTrainedToday": "You already trained today — nice work",
+      "emptyNoHistory": "Log your first workout to get started"
+    },
+    "history": {
+      "heading": "History",
+      "empty": "No past workouts yet"
+    },
+    "dashboard": {
+      "streakHeading": "Current streak",
+      "streakValue": "{days, plural, one {# day} other {# days}}",
+      "streakNone": "Work out today to start a streak",
+      "weekHeading": "Last 7 days",
+      "weekValue": "{count, plural, one {# workout} other {# workouts}}",
+      "milestoneHeading": "Next milestone",
+      "milestoneAllDone": "Workout and streak badges all unlocked!",
+      "viewAllBadges": "View all badges",
+      "empty": "No workouts yet — log your first one to light up this dashboard.",
+      "loadFailed": "Couldn't load your stats right now."
+    }
   },
   "register": {
     "title": "Create your account",
@@ -30,10 +52,8 @@
     }
   },
   "workouts": {
-    "title": "Workouts",
-    "loginPrompt": "Sign in to view your workouts.",
-    "stats": "Stats",
     "start": "Start workout",
+    "starting": "Starting…",
     "empty": "No workouts yet. Press “Start workout” to record your first one.",
     "loadFailed": "Failed to load workouts.",
     "startFailed": "Failed to start workout. Please try again.",
@@ -48,7 +68,6 @@
     "title": "Workout",
     "loginPrompt": "Sign in to view this workout.",
     "loadFailed": "Failed to load workout.",
-    "backToWorkouts": "Back to workouts",
     "detailsHeading": "Workout details",
     "startedLabel": "Started",
     "finishedLabel": "Finished",
@@ -58,8 +77,24 @@
     "setSummary": "{rep} reps × {weight} {unit}",
     "addSetHeading": "Add set",
     "finishButton": "Finish workout",
+    "finishing": "Finishing…",
     "finishFailed": "Failed to finish workout. Please try again.",
-    "loadExercisesFailed": "Failed to load exercises."
+    "loadExercisesFailed": "Failed to load exercises.",
+    "prBadgeWeight": "Personal best (weight)",
+    "prBadgeVolume": "Personal best (volume)",
+    "summary": {
+      "title": "Workout complete!",
+      "durationLabel": "Duration",
+      "durationHoursMinutes": "{hours}h {minutes}m",
+      "durationMinutes": "{minutes}m",
+      "setsLabel": "Total sets",
+      "setsValue": "{count, plural, one {# set} other {# sets}}",
+      "volumeLabel": "Total volume",
+      "volumeValue": "{volume} {unit}",
+      "prHeading": "Personal records",
+      "prEmpty": "No new records this time — keep pushing!",
+      "close": "Close"
+    }
   },
   "addSet": {
     "exercise": "Exercise",
@@ -67,6 +102,7 @@
     "reps": "Reps",
     "weight": "Weight ({unit})",
     "trainedAt": "Trained at",
+    "trainedAtToggle": "Change trained-at time (defaults to now)",
     "submit": "Add set",
     "submitting": "Recording…",
     "errors": {
@@ -74,19 +110,68 @@
       "repInvalid": "Reps must be a positive integer.",
       "weightInvalid": "Weight must be zero or a positive number.",
       "trainedAtInvalid": "A valid trained-at time is required.",
-      "notSignedIn": "You must be signed in to record a set.",
       "createFailed": "Failed to record set. Please try again."
-    }
+    },
+    "prBanner": "🎉 New personal best!"
   },
   "stats": {
     "title": "Workout stats",
-    "loginPrompt": "Sign in to view your stats.",
     "loadFailed": "Failed to load workouts.",
-    "backToWorkouts": "Back to workouts",
     "empty": "No workouts to visualize yet. Record your first workout to see your stats.",
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
+    "muscleBalanceHeading": "Muscle group balance",
+    "progressionHeading": "Per-exercise progression",
+    "muscleBalanceLoadFailed": "Could not load exercise data, so muscle balance may be incomplete.",
     "detailPartialFailure": "Some workouts could not be loaded; volume may be incomplete.",
+    "lifetimeVolume": {
+      "heading": "Total volume lifted",
+      "unit": "kg",
+      "comparison": "≈ {value}",
+      "comparisons": {
+        "houseCat": "{count, plural, one {# house cat} other {# house cats}}",
+        "adult": "{count, plural, one {# adult} other {# adults}}",
+        "gorilla": "{count, plural, one {# gorilla} other {# gorillas}}",
+        "grandPiano": "{count, plural, one {# grand piano} other {# grand pianos}}",
+        "smallCar": "{count, plural, one {# small car} other {# small cars}}",
+        "elephant": "{count, plural, one {# elephant} other {# elephants}}",
+        "cityBus": "{count, plural, one {# city bus} other {# city buses}}",
+        "blueWhale": "{count, plural, one {# blue whale} other {# blue whales}}",
+        "jumboJet": "{count, plural, one {# jumbo jet} other {# jumbo jets}}"
+      }
+    },
+    "badges": {
+      "heading": "Badges",
+      "unlockedSummary": "{unlocked} / {total} unlocked",
+      "lockedLabel": "Locked",
+      "axes": {
+        "workoutCount": {
+          "name": "{threshold, plural, =1 {First workout} other {# workouts}}",
+          "description": "Complete {threshold, plural, =1 {your first workout} other {# workouts}}",
+          "progress": "{current} / {threshold} workouts"
+        },
+        "totalSets": {
+          "name": "{threshold} sets",
+          "description": "Log {threshold} sets in total",
+          "progress": "{current} / {threshold} sets"
+        },
+        "totalVolume": {
+          "name": "{threshold} kg lifted",
+          "description": "Lift {threshold} kg of total volume",
+          "progress": "{current} / {threshold} kg"
+        },
+        "maxWeight": {
+          "name": "{threshold} kg club",
+          "description": "Lift {threshold} kg in a single set",
+          "progress": "{current} / {threshold} kg"
+        },
+        "streakDays": {
+          "name": "{threshold}-day streak",
+          "description": "Work out {threshold} days in a row",
+          "progress": "{current} / {threshold} days"
+        }
+      }
+    },
     "heatmap": {
       "summary": "{total, plural, one {# workout} other {# workouts}} on {days, plural, one {# day} other {# days}} (last {weeks} weeks)",
       "noActivity": "No workout activity yet.",
@@ -100,7 +185,48 @@
       "empty": "No sets recorded yet — once you log sets, your volume will show up here.",
       "ariaLabel": "Volume per workout",
       "unit": "rep × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "Showing the last {count} workouts"
+    },
+    "progression": {
+      "empty": "No exercises to chart yet — once you log sets, per-exercise progression will show up here.",
+      "sparse": "Only one session recorded for this exercise. Log more sessions to see a trend.",
+      "selectLabel": "Select exercise",
+      "metricLabel": "Select metric",
+      "ariaLabel": "{metric} progression for {exercise}",
+      "tooltip": "{date} — {value} ({unit})",
+      "metrics": {
+        "maxWeight": "Max weight",
+        "volume": "Volume"
+      },
+      "units": {
+        "maxWeight": "kg",
+        "volume": "rep × kg"
+      }
+    },
+    "muscleBalance": {
+      "empty": "No sets recorded yet — once you log sets, your muscle balance will show up here.",
+      "ariaLabel": "Muscle group training balance shown on front and back body maps",
+      "frontLabel": "Front",
+      "backLabel": "Back",
+      "unit": "rep × kg",
+      "tooltip": "{muscle} — {value} ({unit})",
+      "untrainedTooltip": "{muscle} — not trained yet",
+      "untrainedHint": "Under-trained: {muscles}",
+      "allTrained": "Every muscle group has been trained — nicely balanced!",
+      "periods": {
+        "week": "Last 7 days",
+        "month": "Last 30 days",
+        "all": "All time"
+      },
+      "muscles": {
+        "chest": "Chest",
+        "back": "Back",
+        "legs": "Legs",
+        "shoulders": "Shoulders",
+        "arms": "Arms",
+        "core": "Core"
+      }
     }
   },
   "language": {

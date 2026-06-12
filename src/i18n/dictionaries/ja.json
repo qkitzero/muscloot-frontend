@@ -7,14 +7,36 @@
     "loading": "読み込み中…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "ワークアウト"
-  },
   "home": {
-    "welcome": "Muscloot へようこそ",
-    "signedInAs": "{name} としてサインイン中。",
-    "ctaLoggedIn": "ワークアウトへ",
-    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。"
+    "demo": {
+      "banner": "デモデータを表示しています。サインインすると自分のワークアウトを記録できます。"
+    },
+    "session": {
+      "expired": "セッションの有効期限が切れました。再度サインインしてください。"
+    },
+    "activeWorkout": {
+      "heading": "進行中のワークアウト",
+      "emptyHeading": "次のワークアウトを始めましょう",
+      "emptyLastWorkout": "前回のワークアウトから {days, plural, other {# 日}}",
+      "emptyTrainedToday": "今日はすでにトレーニング済み。お疲れさまです",
+      "emptyNoHistory": "最初の 1 回を記録してみましょう"
+    },
+    "history": {
+      "heading": "履歴",
+      "empty": "まだ履歴がありません"
+    },
+    "dashboard": {
+      "streakHeading": "現在の連続記録",
+      "streakValue": "{days, plural, other {# 日}}",
+      "streakNone": "今日ワークアウトして連続記録を始めましょう",
+      "weekHeading": "直近 7 日間",
+      "weekValue": "{count, plural, other {# 回}}",
+      "milestoneHeading": "次のマイルストーン",
+      "milestoneAllDone": "ワークアウトと連続記録のバッジをすべて解除しました！",
+      "viewAllBadges": "すべてのバッジを見る",
+      "empty": "まだワークアウトがありません。最初の 1 回を記録してダッシュボードを灯しましょう。",
+      "loadFailed": "統計を読み込めませんでした。"
+    }
   },
   "register": {
     "title": "アカウントを作成",
@@ -30,10 +52,8 @@
     }
   },
   "workouts": {
-    "title": "ワークアウト",
-    "loginPrompt": "サインインしてワークアウトを表示します。",
-    "stats": "統計",
     "start": "ワークアウト開始",
+    "starting": "開始中…",
     "empty": "まだワークアウトがありません。「ワークアウト開始」を押して最初の1件を記録しましょう。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
     "startFailed": "ワークアウトの開始に失敗しました。もう一度お試しください。",
@@ -48,7 +68,6 @@
     "title": "ワークアウト",
     "loginPrompt": "サインインしてこのワークアウトを表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "detailsHeading": "ワークアウト詳細",
     "startedLabel": "開始",
     "finishedLabel": "終了",
@@ -58,8 +77,24 @@
     "setSummary": "{rep} 回 × {weight} {unit}",
     "addSetHeading": "セットを追加",
     "finishButton": "ワークアウトを終了",
+    "finishing": "終了中…",
     "finishFailed": "ワークアウトの終了に失敗しました。もう一度お試しください。",
-    "loadExercisesFailed": "種目の読み込みに失敗しました。"
+    "loadExercisesFailed": "種目の読み込みに失敗しました。",
+    "prBadgeWeight": "自己ベスト（重量）",
+    "prBadgeVolume": "自己ベスト（ボリューム）",
+    "summary": {
+      "title": "ワークアウト完了！",
+      "durationLabel": "所要時間",
+      "durationHoursMinutes": "{hours}時間{minutes}分",
+      "durationMinutes": "{minutes}分",
+      "setsLabel": "総セット数",
+      "setsValue": "{count} セット",
+      "volumeLabel": "総ボリューム",
+      "volumeValue": "{volume} {unit}",
+      "prHeading": "自己ベスト更新",
+      "prEmpty": "今回は記録更新なし。次回に期待！",
+      "close": "閉じる"
+    }
   },
   "addSet": {
     "exercise": "種目",
@@ -67,6 +102,7 @@
     "reps": "回数",
     "weight": "重量 ({unit})",
     "trainedAt": "実施日時",
+    "trainedAtToggle": "実施日時を変更（既定: 現在）",
     "submit": "セットを追加",
     "submitting": "記録中…",
     "errors": {
@@ -74,19 +110,68 @@
       "repInvalid": "回数は正の整数で入力してください。",
       "weightInvalid": "重量は 0 以上の数値で入力してください。",
       "trainedAtInvalid": "有効な実施日時を入力してください。",
-      "notSignedIn": "セットを記録するにはサインインが必要です。",
       "createFailed": "セットの記録に失敗しました。もう一度お試しください。"
-    }
+    },
+    "prBanner": "🎉 自己ベスト更新！"
   },
   "stats": {
     "title": "ワークアウト統計",
-    "loginPrompt": "サインインして統計を表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "empty": "まだ可視化できるワークアウトがありません。最初のワークアウトを記録すると統計が表示されます。",
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
+    "muscleBalanceHeading": "筋群バランス",
+    "progressionHeading": "種目別の推移",
+    "muscleBalanceLoadFailed": "種目データを読み込めなかったため、筋群バランスが不完全な可能性があります。",
     "detailPartialFailure": "一部のワークアウトを読み込めませんでした。ボリュームが不完全な可能性があります。",
+    "lifetimeVolume": {
+      "heading": "累積総挙上ボリューム",
+      "unit": "kg",
+      "comparison": "≈ {value}",
+      "comparisons": {
+        "houseCat": "ネコ {count} 匹分",
+        "adult": "大人 {count} 人分",
+        "gorilla": "ゴリラ {count} 頭分",
+        "grandPiano": "グランドピアノ {count} 台分",
+        "smallCar": "小型車 {count} 台分",
+        "elephant": "ゾウ {count} 頭分",
+        "cityBus": "路線バス {count} 台分",
+        "blueWhale": "シロナガスクジラ {count} 頭分",
+        "jumboJet": "ジャンボジェット {count} 機分"
+      }
+    },
+    "badges": {
+      "heading": "実績バッジ",
+      "unlockedSummary": "{unlocked} / {total} 解除",
+      "lockedLabel": "未解除",
+      "axes": {
+        "workoutCount": {
+          "name": "{threshold, plural, =1 {はじめてのワークアウト} other {ワークアウト # 回}}",
+          "description": "ワークアウトを {threshold} 回完了する",
+          "progress": "{current} / {threshold} 回"
+        },
+        "totalSets": {
+          "name": "累計 {threshold} セット",
+          "description": "累計 {threshold} セットを記録する",
+          "progress": "{current} / {threshold} セット"
+        },
+        "totalVolume": {
+          "name": "総ボリューム {threshold} kg",
+          "description": "累計 {threshold} kg を持ち上げる",
+          "progress": "{current} / {threshold} kg"
+        },
+        "maxWeight": {
+          "name": "{threshold} kg クラブ",
+          "description": "1 セットで {threshold} kg を挙げる",
+          "progress": "{current} / {threshold} kg"
+        },
+        "streakDays": {
+          "name": "{threshold} 日ストリーク",
+          "description": "{threshold} 日連続でワークアウトする",
+          "progress": "{current} / {threshold} 日"
+        }
+      }
+    },
     "heatmap": {
       "summary": "直近 {weeks} 週間で {days} 日に {total} 回のワークアウト",
       "noActivity": "まだワークアウトのアクティビティがありません。",
@@ -100,7 +185,48 @@
       "empty": "まだセットが記録されていません。セットを記録するとボリュームが表示されます。",
       "ariaLabel": "ワークアウト別ボリューム",
       "unit": "回 × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "直近 {count} 回のワークアウトを表示"
+    },
+    "progression": {
+      "empty": "まだ推移を表示できる種目がありません。セットを記録すると種目別の推移が表示されます。",
+      "sparse": "この種目の記録が1回分しかありません。複数回記録すると推移が表示されます。",
+      "selectLabel": "種目を選択",
+      "metricLabel": "指標を選択",
+      "ariaLabel": "{exercise}の{metric}の推移",
+      "tooltip": "{date} — {value} ({unit})",
+      "metrics": {
+        "maxWeight": "最大重量",
+        "volume": "ボリューム"
+      },
+      "units": {
+        "maxWeight": "kg",
+        "volume": "回 × kg"
+      }
+    },
+    "muscleBalance": {
+      "empty": "まだセットが記録されていません。セットを記録すると筋群バランスが表示されます。",
+      "ariaLabel": "前面・背面の人体図で表す筋群トレーニングバランス",
+      "frontLabel": "前面",
+      "backLabel": "背面",
+      "unit": "回 × kg",
+      "tooltip": "{muscle} — {value}（{unit}）",
+      "untrainedTooltip": "{muscle} — まだ鍛えていません",
+      "untrainedHint": "鍛えられていない部位: {muscles}",
+      "allTrained": "すべての筋群が鍛えられています。バランス良好です！",
+      "periods": {
+        "week": "直近7日",
+        "month": "直近30日",
+        "all": "全期間"
+      },
+      "muscles": {
+        "chest": "胸",
+        "back": "背中",
+        "legs": "脚",
+        "shoulders": "肩",
+        "arms": "腕",
+        "core": "体幹"
+      }
     }
   },
   "language": {
