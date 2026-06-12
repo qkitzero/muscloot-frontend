@@ -7,6 +7,7 @@ const PAGE_SIZE = 500;
 
 export async function fetchAllSets(accessToken: string): Promise<{ sets: Set[]; error?: unknown }> {
   const sets: Set[] = [];
+  const seenTokens = new Set<string>();
   let pageToken: string | undefined;
 
   while (true) {
@@ -17,6 +18,10 @@ export async function fetchAllSets(accessToken: string): Promise<{ sets: Set[]; 
     if (error) return { sets, error };
     if (data?.sets) sets.push(...data.sets);
     if (!data?.nextPageToken) return { sets };
+    if (seenTokens.has(data.nextPageToken)) {
+      return { sets, error: new Error('repeated page token') };
+    }
+    seenTokens.add(data.nextPageToken);
     pageToken = data.nextPageToken;
   }
 }
