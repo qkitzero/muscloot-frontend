@@ -8,9 +8,9 @@
     "unknown": "—"
   },
   "home": {
-    "welcome": "Muscloot へようこそ",
-    "signedInAs": "{name} としてサインイン中。",
-    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。",
+    "demo": {
+      "banner": "デモデータを表示しています。サインインすると自分のワークアウトを記録できます。"
+    },
     "activeWorkout": {
       "heading": "進行中のワークアウト"
     },

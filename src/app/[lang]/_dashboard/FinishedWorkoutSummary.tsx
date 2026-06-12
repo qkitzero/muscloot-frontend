@@ -15,7 +15,7 @@ type Props = {
 export default async function FinishedWorkoutSummary({ lang, dict, accessToken, workoutId }: Props) {
   const [detail, exercisesResult, allSets] = await Promise.all([
     getWorkoutDetail(accessToken, workoutId),
-    getExercises(accessToken),
+    getExercises(accessToken, lang),
     getAllSets(accessToken),
   ]);
 

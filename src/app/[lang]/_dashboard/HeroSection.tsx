@@ -13,7 +13,7 @@ import HomeDashboard from './HomeDashboard';
 type Props = {
   lang: Locale;
   dict: Dictionary;
-  accessToken: string;
+  accessToken: string | null;
 };
 
 export default async function HeroSection({ lang, dict, accessToken }: Props) {

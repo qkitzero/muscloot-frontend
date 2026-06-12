@@ -1,12 +1,12 @@
 'use server';
 
 import { client as setClient } from '@/app/api/set/client';
-import { fetchAllSets } from '@/app/api/set/list';
 import { client as workoutClient } from '@/app/api/workout/client';
 import { localePrefix } from '@/i18n/format';
 import { getAccessToken } from '@/lib/session';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { getAllSets } from './data';
 import { computePrFlags, type PrFlags } from './records';
 
 export type CreateSetErrorKey = 'notSignedIn' | 'createFailed';
@@ -114,7 +114,7 @@ export async function createSet(
   const newSetId = data?.setId;
   let pr: PrFlags | undefined;
   if (newSetId) {
-    const allSets = await fetchAllSets(accessToken);
+    const allSets = await getAllSets(accessToken);
     if (!allSets.error) {
       pr = computePrFlags(allSets.sets).get(newSetId);
     }

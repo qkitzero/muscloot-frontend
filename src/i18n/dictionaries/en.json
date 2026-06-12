@@ -8,9 +8,9 @@
     "unknown": "—"
   },
   "home": {
-    "welcome": "Welcome to Muscloot",
-    "signedInAs": "Signed in as {name}.",
-    "ctaLoggedOut": "Sign in to start tracking your workouts.",
+    "demo": {
+      "banner": "You're viewing demo data. Sign in to start tracking your own workouts."
+    },
     "activeWorkout": {
       "heading": "Current workout"
     },

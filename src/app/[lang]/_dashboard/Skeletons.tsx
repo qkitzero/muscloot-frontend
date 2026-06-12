@@ -7,7 +7,7 @@ function Bar({ className }: { className: string }) {
 
 export function HeroSkeleton() {
   return (
-    <div aria-hidden className="grid w-full animate-pulse grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+    <div aria-hidden className="grid w-full animate-pulse grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
       {[0, 1, 2].map((i) => (
         <div key={i} className={`${CARD_CLASS} flex h-28 flex-col`}>
           <Bar className="h-3 w-20" />
@@ -18,12 +18,26 @@ export function HeroSkeleton() {
   );
 }
 
-export function CardSkeleton() {
+export function ActiveCardSkeleton() {
   return (
-    <div aria-hidden className={`${CARD_CLASS} flex h-36 animate-pulse flex-col`}>
-      <Bar className="h-4 w-32" />
+    <div aria-hidden className={`${CARD_CLASS} flex h-48 animate-pulse flex-col lg:h-[28rem]`}>
+      <Bar className="h-4 w-40" />
       <Bar className="mt-4 h-3 w-full" />
+      <Bar className="mt-2 h-3 w-5/6" />
       <Bar className="mt-2 h-3 w-2/3" />
+      <div className="flex-1" />
+      <Bar className="h-10 w-full rounded-full" />
+    </div>
+  );
+}
+
+export function HistoryCardSkeleton() {
+  return (
+    <div aria-hidden className={`${CARD_CLASS} flex h-40 animate-pulse flex-col`}>
+      <Bar className="h-4 w-16" />
+      <Bar className="mt-4 h-3 w-full" />
+      <Bar className="mt-3 h-3 w-full" />
+      <Bar className="mt-3 h-3 w-5/6" />
     </div>
   );
 }
