@@ -3,28 +3,18 @@
 import ExerciseImage from '@/components/ExerciseImage';
 import { interpolate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import { useActionState, useState, useSyncExternalStore } from 'react';
-import type { components } from '../../../../../../gen/exercise/v1/exercise.schema';
-import { createSet, type CreateSetFormState } from './actions';
+import { useActionState, useRef, useState } from 'react';
+import type { components } from '../../../gen/exercise/v1/exercise.schema';
+import { createSet, type CreateSetFormState } from '@/lib/workout/actions';
 
 type Exercise = components['schemas']['v1Exercise'];
 
 const initialState: CreateSetFormState = {};
-const noopSubscribe = () => () => {};
-const emptyDefault = () => '';
 
 function toDatetimeLocalInputValue(date: Date): string {
   const offsetMs = date.getTimezoneOffset() * 60_000;
   return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
 }
-
-let cachedClientNow: string | undefined;
-const getClientNow = () => {
-  if (cachedClientNow === undefined) {
-    cachedClientNow = toDatetimeLocalInputValue(new Date());
-  }
-  return cachedClientNow;
-};
 
 export default function AddSetForm({
   workoutId,
@@ -41,8 +31,16 @@ export default function AddSetForm({
   kgUnit: string;
   prLabels: { weight: string; volume: string };
 }) {
-  const [selectedExerciseId, setSelectedExerciseId] = useState('');
+  const [selectedExerciseId, setSelectedExerciseId] = useState(exercises[0]?.exerciseId ?? '');
   const [showPr, setShowPr] = useState(false);
+  const trainedAtRef = useRef<HTMLInputElement>(null);
+  const effectiveExerciseId =
+    selectedExerciseId && exercises.some((exercise) => exercise.exerciseId === selectedExerciseId)
+      ? selectedExerciseId
+      : (exercises[0]?.exerciseId ?? '');
+  const selectedExercise = exercises.find(
+    (exercise) => exercise.exerciseId === effectiveExerciseId,
+  );
 
   const boundAction = createSet.bind(null, workoutId);
   const wrappedAction = async (prev: CreateSetFormState, formData: FormData) => {
@@ -59,51 +57,41 @@ export default function AddSetForm({
   };
   const [state, formAction, isPending] = useActionState(wrappedAction, initialState);
 
-  const defaultTrainedAt = useSyncExternalStore(noopSubscribe, getClientNow, emptyDefault);
-
   return (
-    <form action={formAction} onChange={() => setShowPr(false)} className="flex flex-col gap-4">
+    <form action={formAction} onChange={() => setShowPr(false)} className="flex flex-col gap-3">
       <fieldset disabled={disabled}>
         <legend className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           {dict.exercise}
         </legend>
-        <input type="hidden" name="exerciseId" value={selectedExerciseId} />
+        <input type="hidden" name="exerciseId" value={effectiveExerciseId} />
         {exercises.length === 0 ? (
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{dict.noExercises}</p>
         ) : (
-          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-            {exercises.map((exercise) => {
-              const id = exercise.exerciseId ?? '';
-              const isSelected = id !== '' && selectedExerciseId === id;
-              return (
-                <li key={id || exercise.code}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedExerciseId(id);
-                      setShowPr(false);
-                    }}
-                    disabled={!id}
-                    aria-pressed={isSelected}
-                    className={`flex w-full flex-col items-center gap-1 rounded-xl border p-2 text-center transition-colors disabled:opacity-50 ${
-                      isSelected
-                        ? 'border-foreground bg-zinc-100 dark:border-zinc-200 dark:bg-zinc-800'
-                        : 'border-black/[.08] bg-white hover:bg-zinc-50 dark:border-white/[.145] dark:bg-zinc-950 dark:hover:bg-zinc-900'
-                    }`}
-                  >
-                    <ExerciseImage
-                      code={exercise.code}
-                      name={exercise.name ?? exercise.code}
-                      className="h-14 w-14 sm:h-16 sm:w-16"
-                    />
-                    <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                      {exercise.name ?? exercise.code ?? id}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex items-center gap-3">
+            <ExerciseImage
+              code={selectedExercise?.code}
+              name={selectedExercise?.name ?? selectedExercise?.code}
+              className="h-14 w-14 shrink-0"
+            />
+            <select
+              value={effectiveExerciseId}
+              onChange={(event) => {
+                setSelectedExerciseId(event.target.value);
+                setShowPr(false);
+              }}
+              aria-label={dict.exercise}
+              className="w-full min-w-0 flex-1 rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+            >
+              {exercises.map((exercise) => {
+                const id = exercise.exerciseId ?? '';
+                return (
+                  <option key={id || exercise.code} value={id} disabled={!id}>
+                    {exercise.name ?? exercise.code ?? id}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         )}
         {state.fieldErrorKeys?.exerciseId && (
           <p className="mt-1 text-sm text-rose-500">
@@ -129,6 +117,7 @@ export default function AddSetForm({
             step={1}
             required
             disabled={disabled}
+            defaultValue={state.values?.rep}
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
           {state.fieldErrorKeys?.rep && (
@@ -149,9 +138,10 @@ export default function AddSetForm({
             type="number"
             inputMode="decimal"
             min={0}
-            step="0.5"
+            step="any"
             required
             disabled={disabled}
+            defaultValue={state.values?.weight}
             className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
           />
           {state.fieldErrorKeys?.weight && (
@@ -160,33 +150,45 @@ export default function AddSetForm({
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="trainedAt"
-          className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
-          {dict.trainedAt}
-        </label>
-        <input
-          key={defaultTrainedAt}
-          id="trainedAt"
-          name="trainedAt"
-          type="datetime-local"
-          required
-          disabled={disabled}
-          defaultValue={defaultTrainedAt}
-          className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
-        />
-        {state.fieldErrorKeys?.trainedAt && (
-          <p className="mt-1 text-sm text-rose-500">
-            {dict.errors[state.fieldErrorKeys.trainedAt]}
-          </p>
-        )}
-      </div>
+      <details
+        {...(state.fieldErrorKeys?.trainedAt ? { open: true } : {})}
+        onToggle={(event) => {
+          if (!event.currentTarget.open) return;
+          const input = trainedAtRef.current;
+          if (input && !input.value) {
+            input.value = toDatetimeLocalInputValue(new Date());
+          }
+        }}
+      >
+        <summary className="cursor-pointer list-none text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50">
+          {dict.trainedAtToggle}
+        </summary>
+        <div className="mt-2">
+          <label
+            htmlFor="trainedAt"
+            className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            {dict.trainedAt}
+          </label>
+          <input
+            ref={trainedAtRef}
+            id="trainedAt"
+            name="trainedAt"
+            type="datetime-local"
+            disabled={disabled}
+            className="w-full rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
+          />
+          {state.fieldErrorKeys?.trainedAt && (
+            <p className="mt-1 text-sm text-rose-500">
+              {dict.errors[state.fieldErrorKeys.trainedAt]}
+            </p>
+          )}
+        </div>
+      </details>
 
       <button
         type="submit"
-        disabled={disabled || isPending || !selectedExerciseId}
+        disabled={disabled || isPending || !effectiveExerciseId}
         className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-colors hover:bg-[#383838] disabled:opacity-50 sm:w-auto sm:self-start dark:hover:bg-[#ccc]"
       >
         {isPending ? dict.submitting : dict.submit}

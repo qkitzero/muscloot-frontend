@@ -21,12 +21,6 @@ export default async function Header({ lang, dict }: { lang: Locale; dict: Dicti
       <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:gap-3">
         {user ? (
           <>
-            <Link
-              href={`/${lang}/workouts`}
-              className="text-sm font-medium text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
-            >
-              {dict.header.workouts}
-            </Link>
             <span className="hidden max-w-[10rem] truncate text-sm text-zinc-600 sm:inline-block dark:text-zinc-400">
               {user.displayName}
             </span>

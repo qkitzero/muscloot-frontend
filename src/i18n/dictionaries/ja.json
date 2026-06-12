@@ -7,14 +7,36 @@
     "loading": "読み込み中…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "ワークアウト"
-  },
   "home": {
-    "welcome": "Muscloot へようこそ",
-    "signedInAs": "{name} としてサインイン中。",
-    "ctaLoggedIn": "ワークアウトへ",
-    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。"
+    "demo": {
+      "banner": "デモデータを表示しています。サインインすると自分のワークアウトを記録できます。"
+    },
+    "session": {
+      "expired": "セッションの有効期限が切れました。再度サインインしてください。"
+    },
+    "activeWorkout": {
+      "heading": "進行中のワークアウト",
+      "emptyHeading": "次のワークアウトを始めましょう",
+      "emptyLastWorkout": "前回のワークアウトから {days, plural, other {# 日}}",
+      "emptyTrainedToday": "今日はすでにトレーニング済み。お疲れさまです",
+      "emptyNoHistory": "最初の 1 回を記録してみましょう"
+    },
+    "history": {
+      "heading": "履歴",
+      "empty": "まだ履歴がありません"
+    },
+    "dashboard": {
+      "streakHeading": "現在の連続記録",
+      "streakValue": "{days, plural, other {# 日}}",
+      "streakNone": "今日ワークアウトして連続記録を始めましょう",
+      "weekHeading": "直近 7 日間",
+      "weekValue": "{count, plural, other {# 回}}",
+      "milestoneHeading": "次のマイルストーン",
+      "milestoneAllDone": "ワークアウトと連続記録のバッジをすべて解除しました！",
+      "viewAllBadges": "すべてのバッジを見る",
+      "empty": "まだワークアウトがありません。最初の 1 回を記録してダッシュボードを灯しましょう。",
+      "loadFailed": "統計を読み込めませんでした。"
+    }
   },
   "register": {
     "title": "アカウントを作成",
@@ -30,10 +52,8 @@
     }
   },
   "workouts": {
-    "title": "ワークアウト",
-    "loginPrompt": "サインインしてワークアウトを表示します。",
-    "stats": "統計",
     "start": "ワークアウト開始",
+    "starting": "開始中…",
     "empty": "まだワークアウトがありません。「ワークアウト開始」を押して最初の1件を記録しましょう。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
     "startFailed": "ワークアウトの開始に失敗しました。もう一度お試しください。",
@@ -48,7 +68,6 @@
     "title": "ワークアウト",
     "loginPrompt": "サインインしてこのワークアウトを表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "detailsHeading": "ワークアウト詳細",
     "startedLabel": "開始",
     "finishedLabel": "終了",
@@ -58,6 +77,7 @@
     "setSummary": "{rep} 回 × {weight} {unit}",
     "addSetHeading": "セットを追加",
     "finishButton": "ワークアウトを終了",
+    "finishing": "終了中…",
     "finishFailed": "ワークアウトの終了に失敗しました。もう一度お試しください。",
     "loadExercisesFailed": "種目の読み込みに失敗しました。",
     "prBadgeWeight": "自己ベスト（重量）",
@@ -82,6 +102,7 @@
     "reps": "回数",
     "weight": "重量 ({unit})",
     "trainedAt": "実施日時",
+    "trainedAtToggle": "実施日時を変更（既定: 現在）",
     "submit": "セットを追加",
     "submitting": "記録中…",
     "errors": {
@@ -89,16 +110,13 @@
       "repInvalid": "回数は正の整数で入力してください。",
       "weightInvalid": "重量は 0 以上の数値で入力してください。",
       "trainedAtInvalid": "有効な実施日時を入力してください。",
-      "notSignedIn": "セットを記録するにはサインインが必要です。",
       "createFailed": "セットの記録に失敗しました。もう一度お試しください。"
     },
     "prBanner": "🎉 自己ベスト更新！"
   },
   "stats": {
     "title": "ワークアウト統計",
-    "loginPrompt": "サインインして統計を表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "empty": "まだ可視化できるワークアウトがありません。最初のワークアウトを記録すると統計が表示されます。",
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",
@@ -125,8 +143,6 @@
     "badges": {
       "heading": "実績バッジ",
       "unlockedSummary": "{unlocked} / {total} 解除",
-      "nextHeading": "次のマイルストーン",
-      "allUnlocked": "すべてのバッジを解除しました！",
       "lockedLabel": "未解除",
       "axes": {
         "workoutCount": {
@@ -169,7 +185,8 @@
       "empty": "まだセットが記録されていません。セットを記録するとボリュームが表示されます。",
       "ariaLabel": "ワークアウト別ボリューム",
       "unit": "回 × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "直近 {count} 回のワークアウトを表示"
     },
     "progression": {
       "empty": "まだ推移を表示できる種目がありません。セットを記録すると種目別の推移が表示されます。",

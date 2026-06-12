@@ -11,7 +11,7 @@ import {
   type MuscleBalancePeriod,
   type MuscleCode,
   type MuscleVolume,
-} from './aggregate';
+} from '@/lib/workout/aggregate';
 import {
   type BodyView,
   MAX_SCALE,
@@ -19,7 +19,7 @@ import {
   VIEWBOX_HEIGHT,
   VIEWBOX_WIDTH,
   musclesForView,
-} from './bodyShapes';
+} from '@/lib/workout/bodyShapes';
 
 type Dict = Dictionary['stats']['muscleBalance'];
 

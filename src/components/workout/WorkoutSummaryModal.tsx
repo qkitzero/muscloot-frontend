@@ -5,7 +5,7 @@ import { formatNumber, translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { durationParts, type WorkoutSummary } from './summary';
+import { durationParts, type WorkoutSummary } from '@/lib/workout/summary';
 
 type SummaryDict = Dictionary['workoutDetail']['summary'];
 

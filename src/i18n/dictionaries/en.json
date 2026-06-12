@@ -7,14 +7,36 @@
     "loading": "Loading…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "Workouts"
-  },
   "home": {
-    "welcome": "Welcome to Muscloot",
-    "signedInAs": "Signed in as {name}.",
-    "ctaLoggedIn": "Go to workouts",
-    "ctaLoggedOut": "Sign in to start tracking your workouts."
+    "demo": {
+      "banner": "You're viewing demo data. Sign in to start tracking your own workouts."
+    },
+    "session": {
+      "expired": "Your session has expired. Please sign in again."
+    },
+    "activeWorkout": {
+      "heading": "Current workout",
+      "emptyHeading": "Start your next workout",
+      "emptyLastWorkout": "{days, plural, one {# day} other {# days}} since your last workout",
+      "emptyTrainedToday": "You already trained today — nice work",
+      "emptyNoHistory": "Log your first workout to get started"
+    },
+    "history": {
+      "heading": "History",
+      "empty": "No past workouts yet"
+    },
+    "dashboard": {
+      "streakHeading": "Current streak",
+      "streakValue": "{days, plural, one {# day} other {# days}}",
+      "streakNone": "Work out today to start a streak",
+      "weekHeading": "Last 7 days",
+      "weekValue": "{count, plural, one {# workout} other {# workouts}}",
+      "milestoneHeading": "Next milestone",
+      "milestoneAllDone": "Workout and streak badges all unlocked!",
+      "viewAllBadges": "View all badges",
+      "empty": "No workouts yet — log your first one to light up this dashboard.",
+      "loadFailed": "Couldn't load your stats right now."
+    }
   },
   "register": {
     "title": "Create your account",
@@ -30,10 +52,8 @@
     }
   },
   "workouts": {
-    "title": "Workouts",
-    "loginPrompt": "Sign in to view your workouts.",
-    "stats": "Stats",
     "start": "Start workout",
+    "starting": "Starting…",
     "empty": "No workouts yet. Press “Start workout” to record your first one.",
     "loadFailed": "Failed to load workouts.",
     "startFailed": "Failed to start workout. Please try again.",
@@ -48,7 +68,6 @@
     "title": "Workout",
     "loginPrompt": "Sign in to view this workout.",
     "loadFailed": "Failed to load workout.",
-    "backToWorkouts": "Back to workouts",
     "detailsHeading": "Workout details",
     "startedLabel": "Started",
     "finishedLabel": "Finished",
@@ -58,6 +77,7 @@
     "setSummary": "{rep} reps × {weight} {unit}",
     "addSetHeading": "Add set",
     "finishButton": "Finish workout",
+    "finishing": "Finishing…",
     "finishFailed": "Failed to finish workout. Please try again.",
     "loadExercisesFailed": "Failed to load exercises.",
     "prBadgeWeight": "Personal best (weight)",
@@ -82,6 +102,7 @@
     "reps": "Reps",
     "weight": "Weight ({unit})",
     "trainedAt": "Trained at",
+    "trainedAtToggle": "Change trained-at time (defaults to now)",
     "submit": "Add set",
     "submitting": "Recording…",
     "errors": {
@@ -89,16 +110,13 @@
       "repInvalid": "Reps must be a positive integer.",
       "weightInvalid": "Weight must be zero or a positive number.",
       "trainedAtInvalid": "A valid trained-at time is required.",
-      "notSignedIn": "You must be signed in to record a set.",
       "createFailed": "Failed to record set. Please try again."
     },
     "prBanner": "🎉 New personal best!"
   },
   "stats": {
     "title": "Workout stats",
-    "loginPrompt": "Sign in to view your stats.",
     "loadFailed": "Failed to load workouts.",
-    "backToWorkouts": "Back to workouts",
     "empty": "No workouts to visualize yet. Record your first workout to see your stats.",
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",
@@ -125,8 +143,6 @@
     "badges": {
       "heading": "Badges",
       "unlockedSummary": "{unlocked} / {total} unlocked",
-      "nextHeading": "Next milestone",
-      "allUnlocked": "All badges unlocked!",
       "lockedLabel": "Locked",
       "axes": {
         "workoutCount": {
@@ -169,7 +185,8 @@
       "empty": "No sets recorded yet — once you log sets, your volume will show up here.",
       "ariaLabel": "Volume per workout",
       "unit": "rep × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "Showing the last {count} workouts"
     },
     "progression": {
       "empty": "No exercises to chart yet — once you log sets, per-exercise progression will show up here.",

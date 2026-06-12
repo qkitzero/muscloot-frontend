@@ -1,17 +1,15 @@
 'use client';
 
-import FormattedDateTime from '@/components/FormattedDateTime';
 import type { Locale } from '@/i18n/config';
 import { translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import Link from 'next/link';
 import { useState } from 'react';
 import {
   type ExerciseProgression,
   PROGRESSION_METRICS,
   type ProgressionMetric,
   type ProgressionPoint,
-} from './aggregate';
+} from '@/lib/workout/aggregate';
 
 type Dict = Dictionary['stats']['progression'];
 
@@ -191,26 +189,6 @@ export default function ExerciseProgressChart({ series, lang, dict }: Props) {
           })}
         </svg>
       </div>
-
-      <ul className="flex flex-col divide-y divide-black/[.06] text-sm dark:divide-white/[.08]">
-        {points
-          .slice()
-          .reverse()
-          .map((point) => (
-            <li key={point.workoutId} className="flex items-center justify-between gap-3 py-2">
-              <Link
-                href={`/${lang}/workouts/${point.workoutId}`}
-                className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
-              >
-                <FormattedDateTime value={point.date} lang={lang} />
-              </Link>
-              <span className="text-zinc-900 tabular-nums dark:text-zinc-50">
-                {formatValue(metricValue(point, metric), metric)}{' '}
-                <span className="text-xs text-zinc-500">{unit}</span>
-              </span>
-            </li>
-          ))}
-      </ul>
     </div>
   );
 }
