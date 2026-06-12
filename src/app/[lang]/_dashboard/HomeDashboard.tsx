@@ -14,7 +14,7 @@ type Props = {
 };
 
 const CARD_CLASS =
-  'flex flex-col rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900';
+  'flex min-h-28 flex-col rounded-2xl border border-black/[.08] bg-white p-4 sm:p-5 dark:border-white/[.145] dark:bg-zinc-900';
 
 export default function HomeDashboard({
   lang,
@@ -33,7 +33,7 @@ export default function HomeDashboard({
     : null;
 
   return (
-    <div className="grid w-full grid-cols-1 gap-3 text-left sm:grid-cols-3 sm:gap-4">
+    <div className="grid w-full grid-cols-1 gap-4 text-left sm:grid-cols-3 sm:gap-6">
       <section className={CARD_CLASS}>
         <h2 className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
           {dict.streakHeading}

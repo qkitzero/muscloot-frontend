@@ -16,7 +16,7 @@
     },
     "history": {
       "heading": "History",
-      "showOlder": "Show older workouts ({count})"
+      "empty": "No past workouts yet"
     },
     "dashboard": {
       "streakHeading": "Current streak",
@@ -136,8 +136,6 @@
     "badges": {
       "heading": "Badges",
       "unlockedSummary": "{unlocked} / {total} unlocked",
-      "nextHeading": "Next milestone",
-      "allUnlocked": "All badges unlocked!",
       "lockedLabel": "Locked",
       "axes": {
         "workoutCount": {
@@ -180,7 +178,8 @@
       "empty": "No sets recorded yet — once you log sets, your volume will show up here.",
       "ariaLabel": "Volume per workout",
       "unit": "rep × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "Showing the last {count} workouts"
     },
     "progression": {
       "empty": "No exercises to chart yet — once you log sets, per-exercise progression will show up here.",

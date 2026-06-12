@@ -1,8 +1,6 @@
-import FormattedDateTime from '@/components/FormattedDateTime';
 import type { Locale } from '@/i18n/config';
 import { translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import Link from 'next/link';
 import type { WorkoutVolume } from '@/lib/workout/aggregate';
 
 type Props = {
@@ -11,6 +9,7 @@ type Props = {
   dict: Dictionary['stats']['volume'];
 };
 
+const MAX_BARS = 18;
 const CHART_HEIGHT = 180;
 const BAR_WIDTH = 18;
 const BAR_GAP = 8;
@@ -30,9 +29,10 @@ export default function VolumeChart({ data, lang, dict }: Props) {
     return <p className="text-sm text-zinc-600 dark:text-zinc-400">{dict.empty}</p>;
   }
 
-  const max = data.reduce((acc, d) => Math.max(acc, d.volume), 0);
+  const visible = data.slice(-MAX_BARS);
+  const max = visible.reduce((acc, d) => Math.max(acc, d.volume), 0);
   const safeMax = max === 0 ? 1 : max;
-  const chartWidth = PADDING_LEFT + data.length * (BAR_WIDTH + BAR_GAP);
+  const chartWidth = PADDING_LEFT + visible.length * (BAR_WIDTH + BAR_GAP);
   const totalHeight = PADDING_TOP + CHART_HEIGHT + PADDING_BOTTOM;
 
   const gridLines = [0, 0.25, 0.5, 0.75, 1];
@@ -71,7 +71,7 @@ export default function VolumeChart({ data, lang, dict }: Props) {
               </g>
             );
           })}
-          {data.map((entry, index) => {
+          {visible.map((entry, index) => {
             const ratio = entry.volume / safeMax;
             const barHeight = CHART_HEIGHT * ratio;
             const x = PADDING_LEFT + index * (BAR_WIDTH + BAR_GAP);
@@ -99,25 +99,11 @@ export default function VolumeChart({ data, lang, dict }: Props) {
           })}
         </svg>
       </div>
-      <ul className="flex flex-col divide-y divide-black/[.06] text-sm dark:divide-white/[.08]">
-        {data
-          .slice()
-          .reverse()
-          .map((entry) => (
-            <li key={entry.workoutId} className="flex items-center justify-between gap-3 py-2">
-              <Link
-                href={`/${lang}/workouts/${entry.workoutId}`}
-                className="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
-              >
-                <FormattedDateTime value={entry.startedAt} lang={lang} />
-              </Link>
-              <span className="text-zinc-900 dark:text-zinc-50">
-                {formatVolume(entry.volume)}{' '}
-                <span className="text-xs text-zinc-500">{dict.unit}</span>
-              </span>
-            </li>
-          ))}
-      </ul>
+      {data.length > MAX_BARS && (
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          {translate(lang, dict.lastN, { count: MAX_BARS })}
+        </p>
+      )}
     </div>
   );
 }

@@ -13,14 +13,13 @@ import {
   buildMilestoneStats,
   buildMuscleBalanceByPeriod,
   buildWorkoutVolumes,
-  findNextMilestone,
 } from '@/lib/workout/aggregate';
 import { getExercises, getWorkoutEntries } from '@/lib/workout/data';
 
 type Props = {
   lang: Locale;
   dict: Dictionary;
-  accessToken: string;
+  accessToken: string | null;
 };
 
 const HEATMAP_WEEKS = 12;
@@ -33,7 +32,7 @@ export default async function StatsSection({ lang, dict, accessToken }: Props) {
   const t = dict.stats;
   const [entriesResult, exercisesResult] = await Promise.all([
     getWorkoutEntries(accessToken),
-    getExercises(accessToken),
+    getExercises(accessToken, lang),
   ]);
 
   if (entriesResult.error) {
@@ -63,46 +62,55 @@ export default async function StatsSection({ lang, dict, accessToken }: Props) {
   const muscleBalance = buildMuscleBalanceByPeriod(entries, exerciseById, new Date());
   const lifetimeVolume = workoutVolumes.reduce((sum, w) => sum + w.volume, 0);
   const milestoneProgress = buildMilestoneProgress(buildMilestoneStats(entries));
-  const nextMilestone = findNextMilestone(milestoneProgress);
   const detailFailures = entriesResult.failures;
   const exercisesFailed = !!exercisesResult.error;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <h2 className="text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
         {t.title}
       </h2>
 
-      <LifetimeVolumeCard total={lifetimeVolume} lang={lang} dict={t.lifetimeVolume} />
+      <div className="gap-4 sm:gap-6 lg:columns-2 [&>*]:mb-4 [&>*]:break-inside-avoid sm:[&>*]:mb-6">
+        <LifetimeVolumeCard total={lifetimeVolume} lang={lang} dict={t.lifetimeVolume} />
 
-      <section id="badges" className={CARD_CLASS}>
-        <h3 className={HEADING_CLASS}>{t.badges.heading}</h3>
-        {detailFailures > 0 && <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>}
-        <BadgeCollection progress={milestoneProgress} next={nextMilestone} lang={lang} dict={t.badges} />
-      </section>
+        <section id="badges" className={CARD_CLASS}>
+          <h3 className={HEADING_CLASS}>{t.badges.heading}</h3>
+          {detailFailures > 0 && (
+            <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>
+          )}
+          <BadgeCollection progress={milestoneProgress} lang={lang} dict={t.badges} />
+        </section>
 
-      <section className={CARD_CLASS}>
-        <h3 className={HEADING_CLASS}>{t.activityHeading}</h3>
-        <ActivityHeatmap data={dailyCounts} lang={lang} dict={t.heatmap} />
-      </section>
+        <section className={CARD_CLASS}>
+          <h3 className={HEADING_CLASS}>{t.activityHeading}</h3>
+          <ActivityHeatmap data={dailyCounts} lang={lang} dict={t.heatmap} />
+        </section>
 
-      <section className={CARD_CLASS}>
-        <h3 className={HEADING_CLASS}>{t.volumeHeading}</h3>
-        {detailFailures > 0 && <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>}
-        <VolumeChart data={workoutVolumes} lang={lang} dict={t.volume} />
-      </section>
+        <section className={CARD_CLASS}>
+          <h3 className={HEADING_CLASS}>{t.volumeHeading}</h3>
+          {detailFailures > 0 && (
+            <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>
+          )}
+          <VolumeChart data={workoutVolumes} lang={lang} dict={t.volume} />
+        </section>
 
-      <section className={CARD_CLASS}>
-        <h3 className={HEADING_CLASS}>{t.progressionHeading}</h3>
-        {detailFailures > 0 && <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>}
-        <ExerciseProgressChart series={exerciseProgressions} lang={lang} dict={t.progression} />
-      </section>
+        <section className={CARD_CLASS}>
+          <h3 className={HEADING_CLASS}>{t.progressionHeading}</h3>
+          {detailFailures > 0 && (
+            <p className="mb-3 text-xs text-rose-500">{t.detailPartialFailure}</p>
+          )}
+          <ExerciseProgressChart series={exerciseProgressions} lang={lang} dict={t.progression} />
+        </section>
 
-      <section className={CARD_CLASS}>
-        <h3 className={HEADING_CLASS}>{t.muscleBalanceHeading}</h3>
-        {exercisesFailed && <p className="mb-3 text-xs text-rose-500">{t.muscleBalanceLoadFailed}</p>}
-        <BodyMap byPeriod={muscleBalance} lang={lang} dict={t.muscleBalance} />
-      </section>
+        <section className={CARD_CLASS}>
+          <h3 className={HEADING_CLASS}>{t.muscleBalanceHeading}</h3>
+          {exercisesFailed && (
+            <p className="mb-3 text-xs text-rose-500">{t.muscleBalanceLoadFailed}</p>
+          )}
+          <BodyMap byPeriod={muscleBalance} lang={lang} dict={t.muscleBalance} />
+        </section>
+      </div>
     </div>
   );
 }

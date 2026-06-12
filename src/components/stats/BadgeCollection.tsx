@@ -13,12 +13,11 @@ const AXIS_ICONS: Record<MilestoneAxis, string> = {
 
 type Props = {
   progress: MilestoneProgress[];
-  next: MilestoneProgress | null;
   lang: Locale;
   dict: Dictionary['stats']['badges'];
 };
 
-export default function BadgeCollection({ progress, next, lang, dict }: Props) {
+export default function BadgeCollection({ progress, lang, dict }: Props) {
   const unlockedCount = progress.filter((entry) => entry.unlocked).length;
 
   const templateValues = (entry: MilestoneProgress) => ({
@@ -36,28 +35,7 @@ export default function BadgeCollection({ progress, next, lang, dict }: Props) {
         })}
       </p>
 
-      {next ? (
-        <div className="flex flex-col gap-1.5">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
-              {dict.nextHeading}: {translate(lang, dict.axes[next.axis].name, templateValues(next))}
-            </p>
-            <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-              {translate(lang, dict.axes[next.axis].progress, templateValues(next))}
-            </p>
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-            <div
-              className="h-full rounded-full bg-emerald-500"
-              style={{ width: `${Math.round(next.ratio * 100)}%` }}
-            />
-          </div>
-        </div>
-      ) : (
-        <p className="text-sm text-emerald-600 dark:text-emerald-400">{dict.allUnlocked}</p>
-      )}
-
-      <ul className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+      <ul className="grid max-h-72 grid-cols-3 gap-3 overflow-y-auto pr-1 sm:grid-cols-5">
         {progress.map((entry) => {
           const values = templateValues(entry);
           const name = translate(lang, dict.axes[entry.axis].name, values);

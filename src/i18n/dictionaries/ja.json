@@ -16,7 +16,7 @@
     },
     "history": {
       "heading": "履歴",
-      "showOlder": "過去のワークアウトを表示 ({count})"
+      "empty": "まだ履歴がありません"
     },
     "dashboard": {
       "streakHeading": "現在の連続記録",
@@ -136,8 +136,6 @@
     "badges": {
       "heading": "実績バッジ",
       "unlockedSummary": "{unlocked} / {total} 解除",
-      "nextHeading": "次のマイルストーン",
-      "allUnlocked": "すべてのバッジを解除しました！",
       "lockedLabel": "未解除",
       "axes": {
         "workoutCount": {
@@ -180,7 +178,8 @@
       "empty": "まだセットが記録されていません。セットを記録するとボリュームが表示されます。",
       "ariaLabel": "ワークアウト別ボリューム",
       "unit": "回 × kg",
-      "tooltip": "{date} — {value} ({unit})"
+      "tooltip": "{date} — {value} ({unit})",
+      "lastN": "直近 {count} 回のワークアウトを表示"
     },
     "progression": {
       "empty": "まだ推移を表示できる種目がありません。セットを記録すると種目別の推移が表示されます。",
