@@ -46,6 +46,7 @@
   },
   "workouts": {
     "start": "Start workout",
+    "starting": "Starting…",
     "empty": "No workouts yet. Press “Start workout” to record your first one.",
     "loadFailed": "Failed to load workouts.",
     "startFailed": "Failed to start workout. Please try again.",
@@ -69,6 +70,7 @@
     "setSummary": "{rep} reps × {weight} {unit}",
     "addSetHeading": "Add set",
     "finishButton": "Finish workout",
+    "finishing": "Finishing…",
     "finishFailed": "Failed to finish workout. Please try again.",
     "loadExercisesFailed": "Failed to load exercises.",
     "prBadgeWeight": "Personal best (weight)",

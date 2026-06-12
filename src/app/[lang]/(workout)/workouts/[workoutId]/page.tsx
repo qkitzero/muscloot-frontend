@@ -1,6 +1,7 @@
 import FormattedDateTime from '@/components/FormattedDateTime';
 import LoginLink from '@/components/LoginLink';
 import AddSetForm from '@/components/workout/AddSetForm';
+import PendingButton from '@/components/workout/PendingButton';
 import SetList from '@/components/workout/SetList';
 import WorkoutSummaryModal from '@/components/workout/WorkoutSummaryModal';
 import { isLocale } from '@/i18n/config';
@@ -45,7 +46,7 @@ export default async function WorkoutDetailPage({
 
   const [workoutResult, exercisesResult, allSetsResult] = await Promise.all([
     getWorkoutDetail(accessToken, workoutId),
-    getExercises(accessToken),
+    getExercises(accessToken, lang),
     getAllSets(accessToken),
   ]);
 
@@ -150,12 +151,12 @@ export default async function WorkoutDetailPage({
 
         {!isFinished && (
           <form action={boundFinish}>
-            <button
-              type="submit"
-              className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full border border-black/[.08] bg-white py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:bg-zinc-900 dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
+            <PendingButton
+              pendingLabel={t.finishing}
+              className="inline-flex min-h-[44px] w-full items-center justify-center rounded-full border border-black/[.08] bg-white py-2 text-sm font-medium text-zinc-900 transition-colors hover:bg-black/[.04] disabled:opacity-50 dark:border-white/[.145] dark:bg-zinc-900 dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
             >
               {t.finishButton}
-            </button>
+            </PendingButton>
           </form>
         )}
       </div>

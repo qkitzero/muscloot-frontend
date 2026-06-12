@@ -46,6 +46,7 @@
   },
   "workouts": {
     "start": "ワークアウト開始",
+    "starting": "開始中…",
     "empty": "まだワークアウトがありません。「ワークアウト開始」を押して最初の1件を記録しましょう。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
     "startFailed": "ワークアウトの開始に失敗しました。もう一度お試しください。",
@@ -69,6 +70,7 @@
     "setSummary": "{rep} 回 × {weight} {unit}",
     "addSetHeading": "セットを追加",
     "finishButton": "ワークアウトを終了",
+    "finishing": "終了中…",
     "finishFailed": "ワークアウトの終了に失敗しました。もう一度お試しください。",
     "loadExercisesFailed": "種目の読み込みに失敗しました。",
     "prBadgeWeight": "自己ベスト（重量）",
