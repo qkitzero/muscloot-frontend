@@ -45,7 +45,7 @@ function HistoryItem({
       {linked ? (
         <Link
           href={`/${lang}/workouts/${workout.workoutId}`}
-          className="-mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-2.5 hover:bg-black/[.03] dark:hover:bg-white/[.06]"
+          className="flex items-center justify-between gap-3 rounded-lg py-2.5 hover:bg-black/[.03] dark:hover:bg-white/[.06]"
         >
           {content}
         </Link>
@@ -71,9 +71,9 @@ export default async function HistorySection({ lang, dict, accessToken }: Props)
 
   const linked = accessToken !== null;
   const active = findActiveWorkout(workouts);
-  const past = workouts.filter(
-    (workout) => !!workout.workoutId && workout.workoutId !== active?.workoutId,
-  );
+  const past = workouts
+    .filter((workout) => !!workout.workoutId && workout.workoutId !== active?.workoutId)
+    .sort((a, b) => (b.startedAt ?? '').localeCompare(a.startedAt ?? ''));
 
   return (
     <section className={CARD_CLASS}>
@@ -85,7 +85,7 @@ export default async function HistorySection({ lang, dict, accessToken }: Props)
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{dict.home.history.empty}</p>
         </div>
       ) : (
-        <ul className="grid max-h-72 grid-cols-1 gap-x-8 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="max-h-72 overflow-y-auto pr-1">
           {past.map((workout) => (
             <HistoryItem
               key={workout.workoutId}
