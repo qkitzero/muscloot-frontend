@@ -12,7 +12,11 @@
       "banner": "You're viewing demo data. Sign in to start tracking your own workouts."
     },
     "activeWorkout": {
-      "heading": "Current workout"
+      "heading": "Current workout",
+      "emptyHeading": "Start your next workout",
+      "emptyLastWorkout": "{days, plural, one {# day} other {# days}} since your last workout",
+      "emptyTrainedToday": "You already trained today — nice work",
+      "emptyNoHistory": "Log your first workout to get started"
     },
     "history": {
       "heading": "History",

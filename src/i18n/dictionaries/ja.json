@@ -12,7 +12,11 @@
       "banner": "デモデータを表示しています。サインインすると自分のワークアウトを記録できます。"
     },
     "activeWorkout": {
-      "heading": "進行中のワークアウト"
+      "heading": "進行中のワークアウト",
+      "emptyHeading": "次のワークアウトを始めましょう",
+      "emptyLastWorkout": "前回のワークアウトから {days, plural, other {# 日}}",
+      "emptyTrainedToday": "今日はすでにトレーニング済み。お疲れさまです",
+      "emptyNoHistory": "最初の 1 回を記録してみましょう"
     },
     "history": {
       "heading": "履歴",
