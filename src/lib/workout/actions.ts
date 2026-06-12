@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import { getAllSets } from './data';
 import { computePrFlags, type PrFlags } from './records';
 
-export type CreateSetErrorKey = 'notSignedIn' | 'createFailed';
+export type CreateSetErrorKey = 'createFailed';
 export type CreateSetFieldErrorKey =
   | 'exerciseRequired'
   | 'repInvalid'
@@ -48,13 +48,16 @@ export async function startWorkout(lang: string) {
     redirect('/api/auth/login');
   }
 
-  const { error } = await workoutClient.POST('/v1/workouts/start', {
+  const { error, response } = await workoutClient.POST('/v1/workouts/start', {
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {},
   });
 
   const home = homePath(lang);
   if (error) {
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
     redirect(`${home}?error=start_failed`);
   }
 
@@ -96,10 +99,10 @@ export async function createSet(
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { errorKey: 'notSignedIn', values };
+    redirect('/api/auth/login');
   }
 
-  const { error, data } = await setClient.POST('/v1/sets', {
+  const { error, data, response } = await setClient.POST('/v1/sets', {
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {
       workoutId,
@@ -111,6 +114,9 @@ export async function createSet(
   });
 
   if (error) {
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
     return { errorKey: 'createFailed', values };
   }
 
@@ -134,7 +140,7 @@ export async function finishWorkout(lang: string, workoutId: string, returnTo: '
     redirect('/api/auth/login');
   }
 
-  const { error } = await workoutClient.POST('/v1/workouts/{workoutId}/finish', {
+  const { error, response } = await workoutClient.POST('/v1/workouts/{workoutId}/finish', {
     params: { path: { workoutId } },
     headers: { Authorization: `Bearer ${accessToken}` },
     body: {},
@@ -143,6 +149,9 @@ export async function finishWorkout(lang: string, workoutId: string, returnTo: '
   const home = homePath(lang);
   const detail = `${localePrefix(lang)}/workouts/${workoutId}`;
   if (error) {
+    if (response.status === 401) {
+      redirect('/api/auth/login');
+    }
     redirect(returnTo === 'home' ? `${home}?error=finish_failed` : `${detail}?error=finish_failed`);
   }
 

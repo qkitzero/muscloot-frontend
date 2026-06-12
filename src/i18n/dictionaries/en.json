@@ -11,6 +11,9 @@
     "demo": {
       "banner": "You're viewing demo data. Sign in to start tracking your own workouts."
     },
+    "session": {
+      "expired": "Your session has expired. Please sign in again."
+    },
     "activeWorkout": {
       "heading": "Current workout",
       "emptyHeading": "Start your next workout",
@@ -107,7 +110,6 @@
       "repInvalid": "Reps must be a positive integer.",
       "weightInvalid": "Weight must be zero or a positive number.",
       "trainedAtInvalid": "A valid trained-at time is required.",
-      "notSignedIn": "You must be signed in to record a set.",
       "createFailed": "Failed to record set. Please try again."
     },
     "prBanner": "🎉 New personal best!"

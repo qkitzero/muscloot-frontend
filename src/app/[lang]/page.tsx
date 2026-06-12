@@ -1,3 +1,4 @@
+import LoginLink from '@/components/LoginLink';
 import { isLocale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/getDictionary';
 import { getAccessToken, getCurrentUser } from '@/lib/session';
@@ -25,23 +26,31 @@ export default async function Home({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = await getDictionary(lang);
-  const user = await getCurrentUser();
-  const accessToken = user ? await getAccessToken() : null;
+  const sessionToken = await getAccessToken();
+  const user = sessionToken ? await getCurrentUser() : null;
+  const accessToken = user ? sessionToken : null;
+  const sessionExpired = !!sessionToken && !user;
   const { error: errorParam, finished: finishedParam } = await searchParams;
 
   return (
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 dark:bg-black">
       <div className="flex w-full max-w-6xl flex-col gap-4 sm:gap-6">
-        {!user && (
+        {sessionExpired && (
+          <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+            {dict.home.session.expired}{' '}
+            <LoginLink className="font-medium underline">{dict.common.login}</LoginLink>
+          </p>
+        )}
+        {!user && !sessionExpired && (
           <p className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
             {dict.home.demo.banner}
           </p>
         )}
 
-        {user && errorParam === 'start_failed' && (
+        {errorParam === 'start_failed' && (
           <p className="text-sm text-rose-500">{dict.workouts.startFailed}</p>
         )}
-        {user && errorParam === 'finish_failed' && (
+        {errorParam === 'finish_failed' && (
           <p className="text-sm text-rose-500">{dict.workoutDetail.finishFailed}</p>
         )}
 
