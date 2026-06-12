@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { toIntlLocale, translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import type { DailyCount } from './aggregate';
+import type { DailyCount } from '@/lib/workout/aggregate';
 
 type Props = {
   data: DailyCount[];

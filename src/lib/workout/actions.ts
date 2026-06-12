@@ -37,6 +37,30 @@ function parseTrainedAt(raw: string): string | null {
   return date.toISOString();
 }
 
+function homePath(lang: string): string {
+  return localePrefix(lang) || '/';
+}
+
+export async function startWorkout(lang: string) {
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
+    redirect('/api/auth/login');
+  }
+
+  const { error } = await workoutClient.POST('/v1/workouts/start', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: {},
+  });
+
+  const home = homePath(lang);
+  if (error) {
+    redirect(`${home}?error=start_failed`);
+  }
+
+  revalidatePath('/[lang]', 'page');
+  redirect(home);
+}
+
 export async function createSet(
   workoutId: string,
   _prev: CreateSetFormState,
@@ -96,11 +120,12 @@ export async function createSet(
     }
   }
 
-  revalidatePath(`/workouts/${workoutId}`);
+  revalidatePath('/[lang]', 'page');
+  revalidatePath('/[lang]/workouts/[workoutId]', 'page');
   return pr && (pr.weight || pr.volume) ? { pr } : {};
 }
 
-export async function finishWorkout(lang: string, workoutId: string) {
+export async function finishWorkout(lang: string, workoutId: string, returnTo: 'home' | 'detail') {
   const accessToken = await getAccessToken();
   if (!accessToken) {
     redirect('/api/auth/login');
@@ -112,12 +137,13 @@ export async function finishWorkout(lang: string, workoutId: string) {
     body: {},
   });
 
-  const prefix = localePrefix(lang);
+  const home = homePath(lang);
+  const detail = `${localePrefix(lang)}/workouts/${workoutId}`;
   if (error) {
-    redirect(`${prefix}/workouts/${workoutId}?error=finish_failed`);
+    redirect(returnTo === 'home' ? `${home}?error=finish_failed` : `${detail}?error=finish_failed`);
   }
 
-  revalidatePath(`/workouts/${workoutId}`);
-  revalidatePath('/workouts');
-  redirect(`${prefix}/workouts/${workoutId}?finished=1`);
+  revalidatePath('/[lang]', 'page');
+  revalidatePath('/[lang]/workouts/[workoutId]', 'page');
+  redirect(returnTo === 'home' ? `${home}?finished=${workoutId}` : `${detail}?finished=1`);
 }

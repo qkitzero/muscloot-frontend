@@ -7,14 +7,17 @@
     "loading": "Loading…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "Workouts"
-  },
   "home": {
     "welcome": "Welcome to Muscloot",
     "signedInAs": "Signed in as {name}.",
-    "ctaLoggedIn": "Go to workouts",
     "ctaLoggedOut": "Sign in to start tracking your workouts.",
+    "activeWorkout": {
+      "heading": "Current workout"
+    },
+    "history": {
+      "heading": "History",
+      "showOlder": "Show older workouts ({count})"
+    },
     "dashboard": {
       "streakHeading": "Current streak",
       "streakValue": "{days, plural, one {# day} other {# days}}",
@@ -42,9 +45,6 @@
     }
   },
   "workouts": {
-    "title": "Workouts",
-    "loginPrompt": "Sign in to view your workouts.",
-    "stats": "Stats",
     "start": "Start workout",
     "empty": "No workouts yet. Press “Start workout” to record your first one.",
     "loadFailed": "Failed to load workouts.",
@@ -60,7 +60,6 @@
     "title": "Workout",
     "loginPrompt": "Sign in to view this workout.",
     "loadFailed": "Failed to load workout.",
-    "backToWorkouts": "Back to workouts",
     "detailsHeading": "Workout details",
     "startedLabel": "Started",
     "finishedLabel": "Finished",
@@ -108,9 +107,7 @@
   },
   "stats": {
     "title": "Workout stats",
-    "loginPrompt": "Sign in to view your stats.",
     "loadFailed": "Failed to load workouts.",
-    "backToWorkouts": "Back to workouts",
     "empty": "No workouts to visualize yet. Record your first workout to see your stats.",
     "activityHeading": "Activity",
     "volumeHeading": "Volume per workout",

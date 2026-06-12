@@ -1,5 +1,5 @@
-import type { components as exerciseSchema } from '../../../../../../gen/exercise/v1/exercise.schema';
-import type { components as workoutSchema } from '../../../../../../gen/workout/v1/workout.schema';
+import type { components as exerciseSchema } from '../../../gen/exercise/v1/exercise.schema';
+import type { components as workoutSchema } from '../../../gen/workout/v1/workout.schema';
 
 type Workout = workoutSchema['schemas']['v1Workout'];
 type Set = workoutSchema['schemas']['v1Set'];

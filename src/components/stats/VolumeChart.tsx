@@ -3,7 +3,7 @@ import type { Locale } from '@/i18n/config';
 import { translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import Link from 'next/link';
-import type { WorkoutVolume } from './aggregate';
+import type { WorkoutVolume } from '@/lib/workout/aggregate';
 
 type Props = {
   data: WorkoutVolume[];

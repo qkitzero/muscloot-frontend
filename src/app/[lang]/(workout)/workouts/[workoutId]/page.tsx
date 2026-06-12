@@ -1,37 +1,17 @@
-import { client as exerciseClient } from '@/app/api/exercise/client';
-import { fetchAllSets } from '@/app/api/set/list';
-import { client as workoutClient } from '@/app/api/workout/client';
-import ExerciseImage from '@/components/ExerciseImage';
 import FormattedDateTime from '@/components/FormattedDateTime';
 import LoginLink from '@/components/LoginLink';
+import AddSetForm from '@/components/workout/AddSetForm';
+import SetList from '@/components/workout/SetList';
+import WorkoutSummaryModal from '@/components/workout/WorkoutSummaryModal';
 import { isLocale } from '@/i18n/config';
-import { translate } from '@/i18n/format';
 import { getDictionary } from '@/i18n/getDictionary';
 import { getAccessToken } from '@/lib/session';
+import { finishWorkout } from '@/lib/workout/actions';
+import { getAllSets, getExercises, getWorkoutDetail } from '@/lib/workout/data';
+import { computePrFlags, type PrFlags } from '@/lib/workout/records';
+import { buildWorkoutSummary } from '@/lib/workout/summary';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { components as exerciseSchema } from '../../../../../../gen/exercise/v1/exercise.schema';
-import type { components as workoutSchema } from '../../../../../../gen/workout/v1/workout.schema';
-import AddSetForm from './AddSetForm';
-import WorkoutSummaryModal from './WorkoutSummaryModal';
-import { finishWorkout } from './actions';
-import { computePrFlags } from './records';
-import { buildWorkoutSummary } from './summary';
-
-type Workout = workoutSchema['schemas']['v1Workout'];
-type Set = workoutSchema['schemas']['v1Set'];
-type Exercise = exerciseSchema['schemas']['v1Exercise'];
-
-function exerciseFor(set: Set, byId: Map<string, Exercise>): Exercise | undefined {
-  if (!set.exerciseId) return undefined;
-  return byId.get(set.exerciseId);
-}
-
-function exerciseLabel(set: Set, byId: Map<string, Exercise>, unknownLabel: string): string {
-  if (!set.exerciseId) return unknownLabel;
-  const exercise = byId.get(set.exerciseId);
-  return exercise?.name ?? exercise?.code ?? set.exerciseId;
-}
 
 export default async function WorkoutDetailPage({
   params,
@@ -64,17 +44,12 @@ export default async function WorkoutDetailPage({
   }
 
   const [workoutResult, exercisesResult, allSetsResult] = await Promise.all([
-    workoutClient.GET('/v1/workouts/{workoutId}', {
-      params: { path: { workoutId } },
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }),
-    exerciseClient.GET('/v1/exercises', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }),
-    fetchAllSets(accessToken),
+    getWorkoutDetail(accessToken, workoutId),
+    getExercises(accessToken),
+    getAllSets(accessToken),
   ]);
 
-  if (workoutResult.error || !workoutResult.data?.workout) {
+  if (workoutResult.error || !workoutResult.workout) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 dark:bg-black">
         <div className="flex w-full max-w-2xl flex-col items-center gap-4 text-center">
@@ -83,36 +58,34 @@ export default async function WorkoutDetailPage({
           </h1>
           <p className="text-rose-500">{t.loadFailed}</p>
           <Link
-            href={`/${lang}/workouts`}
+            href={`/${lang}`}
             className="rounded-full border border-black/[.08] px-5 py-2 text-sm font-medium transition-colors hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
           >
-            {t.backToWorkouts}
+            {dict.common.back}
           </Link>
         </div>
       </main>
     );
   }
 
-  const workout: Workout = workoutResult.data.workout;
-  const sets: Set[] = workoutResult.data.sets ?? [];
-  const exercises: Exercise[] = exercisesResult.data?.exercises ?? [];
-  const exerciseById = new Map<string, Exercise>(
-    exercises
-      .filter((exercise): exercise is Exercise & { exerciseId: string } => !!exercise.exerciseId)
-      .map((exercise) => [exercise.exerciseId, exercise]),
-  );
-  const prFlagsById = computePrFlags(allSetsResult.sets);
+  const workout = workoutResult.workout;
+  const sets = workoutResult.sets;
+  const exercises = exercisesResult.exercises;
+  const exerciseById = exercisesResult.exerciseById;
+  const prFlagsById = allSetsResult.error
+    ? new Map<string, PrFlags>()
+    : computePrFlags(allSetsResult.sets);
   const isFinished = !!workout.finishedAt;
   const showSummary = finishedParam === '1' && isFinished;
 
-  const boundFinish = finishWorkout.bind(null, lang, workoutId);
+  const boundFinish = finishWorkout.bind(null, lang, workoutId, 'detail');
 
   return (
     <main className="flex flex-1 flex-col items-center bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 dark:bg-black">
       <div className="flex w-full max-w-3xl flex-col gap-6">
         <div className="flex items-center justify-between gap-2">
           <Link
-            href={`/${lang}/workouts`}
+            href={`/${lang}`}
             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
           >
             ← {dict.common.back}
@@ -146,64 +119,14 @@ export default async function WorkoutDetailPage({
           <h2 className="mb-3 text-base font-semibold text-zinc-900 sm:text-lg dark:text-zinc-50">
             {t.setsHeading}
           </h2>
-          {sets.length === 0 ? (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">{t.setsEmpty}</p>
-          ) : (
-            <ul className="flex flex-col divide-y divide-black/[.06] dark:divide-white/[.08]">
-              {sets.map((set) => {
-                const exercise = exerciseFor(set, exerciseById);
-                const label = exerciseLabel(set, exerciseById, t.unknownExercise);
-                const prFlags = set.setId ? prFlagsById.get(set.setId) : undefined;
-                return (
-                  <li
-                    key={set.setId}
-                    className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 text-sm"
-                  >
-                    <ExerciseImage
-                      code={exercise?.code}
-                      name={label}
-                      className="h-10 w-10 shrink-0 sm:h-12 sm:w-12"
-                    />
-                    <span className="min-w-0 flex-1 text-zinc-900 dark:text-zinc-50">{label}</span>
-                    <span className="text-zinc-600 dark:text-zinc-400">
-                      {translate(lang, t.setSummary, {
-                        rep: set.rep ?? 0,
-                        weight: set.weight ?? 0,
-                        unit: dict.units.kg,
-                      })}
-                    </span>
-                    {prFlags && (
-                      <span className="flex shrink-0 items-center gap-0.5 leading-none">
-                        {prFlags.weight && (
-                          <span
-                            role="img"
-                            aria-label={t.prBadgeWeight}
-                            title={t.prBadgeWeight}
-                            className="text-base"
-                          >
-                            👑
-                          </span>
-                        )}
-                        {prFlags.volume && (
-                          <span
-                            role="img"
-                            aria-label={t.prBadgeVolume}
-                            title={t.prBadgeVolume}
-                            className="text-base"
-                          >
-                            💪
-                          </span>
-                        )}
-                      </span>
-                    )}
-                    <span className="w-full text-xs text-zinc-500 sm:w-auto sm:text-right dark:text-zinc-500">
-                      <FormattedDateTime value={set.trainedAt} lang={lang} />
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          <SetList
+            sets={sets}
+            exerciseById={exerciseById}
+            prFlagsById={prFlagsById}
+            lang={lang}
+            dict={t}
+            kgUnit={dict.units.kg}
+          />
         </section>
 
         {!isFinished && (
@@ -219,7 +142,7 @@ export default async function WorkoutDetailPage({
               kgUnit={dict.units.kg}
               prLabels={{ weight: t.prBadgeWeight, volume: t.prBadgeVolume }}
             />
-            {exercisesResult.error && (
+            {!!exercisesResult.error && (
               <p className="mt-2 text-sm text-rose-500">{t.loadExercisesFailed}</p>
             )}
           </section>

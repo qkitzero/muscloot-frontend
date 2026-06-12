@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { formatNumber, translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import type { MilestoneAxis, MilestoneProgress } from './aggregate';
+import type { MilestoneAxis, MilestoneProgress } from '@/lib/workout/aggregate';
 
 const AXIS_ICONS: Record<MilestoneAxis, string> = {
   workoutCount: '🏋️',

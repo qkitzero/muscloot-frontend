@@ -2,7 +2,7 @@ import type { Locale } from '@/i18n/config';
 import { formatNumber, translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import Link from 'next/link';
-import type { MilestoneProgress } from './(workout)/workouts/stats/aggregate';
+import type { MilestoneProgress } from '@/lib/workout/aggregate';
 
 type Props = {
   lang: Locale;
@@ -81,7 +81,7 @@ export default function HomeDashboard({
               {dict.milestoneAllDone}
             </p>
             <Link
-              href={`/${lang}/workouts/stats`}
+              href="#badges"
               className="text-xs text-zinc-600 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
             >
               {dict.viewAllBadges}

@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { formatNumber, translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
-import { pickComparison } from './comparisons';
+import { pickComparison } from '@/lib/workout/comparisons';
 
 type Props = {
   total: number;

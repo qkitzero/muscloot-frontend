@@ -4,8 +4,8 @@ import ExerciseImage from '@/components/ExerciseImage';
 import { interpolate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import { useActionState, useState, useSyncExternalStore } from 'react';
-import type { components } from '../../../../../../gen/exercise/v1/exercise.schema';
-import { createSet, type CreateSetFormState } from './actions';
+import type { components } from '../../../gen/exercise/v1/exercise.schema';
+import { createSet, type CreateSetFormState } from '@/lib/workout/actions';
 
 type Exercise = components['schemas']['v1Exercise'];
 

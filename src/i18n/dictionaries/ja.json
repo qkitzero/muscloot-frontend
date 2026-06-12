@@ -7,14 +7,17 @@
     "loading": "読み込み中…",
     "unknown": "—"
   },
-  "header": {
-    "workouts": "ワークアウト"
-  },
   "home": {
     "welcome": "Muscloot へようこそ",
     "signedInAs": "{name} としてサインイン中。",
-    "ctaLoggedIn": "ワークアウトへ",
     "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。",
+    "activeWorkout": {
+      "heading": "進行中のワークアウト"
+    },
+    "history": {
+      "heading": "履歴",
+      "showOlder": "過去のワークアウトを表示 ({count})"
+    },
     "dashboard": {
       "streakHeading": "現在の連続記録",
       "streakValue": "{days, plural, other {# 日}}",
@@ -42,9 +45,6 @@
     }
   },
   "workouts": {
-    "title": "ワークアウト",
-    "loginPrompt": "サインインしてワークアウトを表示します。",
-    "stats": "統計",
     "start": "ワークアウト開始",
     "empty": "まだワークアウトがありません。「ワークアウト開始」を押して最初の1件を記録しましょう。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
@@ -60,7 +60,6 @@
     "title": "ワークアウト",
     "loginPrompt": "サインインしてこのワークアウトを表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "detailsHeading": "ワークアウト詳細",
     "startedLabel": "開始",
     "finishedLabel": "終了",
@@ -108,9 +107,7 @@
   },
   "stats": {
     "title": "ワークアウト統計",
-    "loginPrompt": "サインインして統計を表示します。",
     "loadFailed": "ワークアウトの読み込みに失敗しました。",
-    "backToWorkouts": "ワークアウト一覧に戻る",
     "empty": "まだ可視化できるワークアウトがありません。最初のワークアウトを記録すると統計が表示されます。",
     "activityHeading": "アクティビティ",
     "volumeHeading": "ワークアウト別ボリューム",

@@ -11,7 +11,7 @@ import {
   PROGRESSION_METRICS,
   type ProgressionMetric,
   type ProgressionPoint,
-} from './aggregate';
+} from '@/lib/workout/aggregate';
 
 type Dict = Dictionary['stats']['progression'];
 
