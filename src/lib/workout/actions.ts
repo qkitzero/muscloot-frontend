@@ -24,6 +24,7 @@ export type CreateSetFormState = {
     weight?: CreateSetFieldErrorKey;
     trainedAt?: CreateSetFieldErrorKey;
   };
+  values?: { rep: string; weight: string };
   pr?: PrFlags;
 };
 
@@ -84,16 +85,18 @@ export async function createSet(
     fieldErrorKeys.weight = 'weightInvalid';
   }
 
-  const trainedAt = parseTrainedAt(trainedAtRaw);
+  const trainedAt = trainedAtRaw ? parseTrainedAt(trainedAtRaw) : new Date().toISOString();
   if (!trainedAt) fieldErrorKeys.trainedAt = 'trainedAtInvalid';
 
+  const values = { rep: repRaw, weight: weightRaw };
+
   if (Object.keys(fieldErrorKeys).length > 0) {
-    return { fieldErrorKeys };
+    return { fieldErrorKeys, values };
   }
 
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { errorKey: 'notSignedIn' };
+    return { errorKey: 'notSignedIn', values };
   }
 
   const { error, data } = await setClient.POST('/v1/sets', {
@@ -108,7 +111,7 @@ export async function createSet(
   });
 
   if (error) {
-    return { errorKey: 'createFailed' };
+    return { errorKey: 'createFailed', values };
   }
 
   const newSetId = data?.setId;

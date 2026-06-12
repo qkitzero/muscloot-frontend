@@ -99,6 +99,7 @@
     "reps": "回数",
     "weight": "重量 ({unit})",
     "trainedAt": "実施日時",
+    "trainedAtToggle": "実施日時を変更（既定: 現在）",
     "submit": "セットを追加",
     "submitting": "記録中…",
     "errors": {

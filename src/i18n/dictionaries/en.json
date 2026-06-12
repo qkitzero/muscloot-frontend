@@ -99,6 +99,7 @@
     "reps": "Reps",
     "weight": "Weight ({unit})",
     "trainedAt": "Trained at",
+    "trainedAtToggle": "Change trained-at time (defaults to now)",
     "submit": "Add set",
     "submitting": "Recording…",
     "errors": {
