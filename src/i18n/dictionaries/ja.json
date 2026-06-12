@@ -14,7 +14,19 @@
     "welcome": "Muscloot へようこそ",
     "signedInAs": "{name} としてサインイン中。",
     "ctaLoggedIn": "ワークアウトへ",
-    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。"
+    "ctaLoggedOut": "サインインしてワークアウトの記録を始めましょう。",
+    "dashboard": {
+      "streakHeading": "現在の連続記録",
+      "streakValue": "{days, plural, other {# 日}}",
+      "streakNone": "今日ワークアウトして連続記録を始めましょう",
+      "weekHeading": "直近 7 日間",
+      "weekValue": "{count, plural, other {# 回}}",
+      "milestoneHeading": "次のマイルストーン",
+      "milestoneAllDone": "ワークアウトと連続記録のバッジをすべて解除しました！",
+      "viewAllBadges": "すべてのバッジを見る",
+      "empty": "まだワークアウトがありません。最初の 1 回を記録してダッシュボードを灯しましょう。",
+      "loadFailed": "統計を読み込めませんでした。"
+    }
   },
   "register": {
     "title": "アカウントを作成",

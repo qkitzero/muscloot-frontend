@@ -233,7 +233,17 @@ function nextDateKey(key: string): string {
   return `${nextYear}-${nextMonth}-${nextDay}`;
 }
 
-function computeLongestStreak(workouts: Workout[]): number {
+function previousDateKey(key: string): string {
+  const [year, month, day] = key.split('-').map(Number);
+  const date = new Date(year!, month! - 1, day!);
+  date.setDate(date.getDate() - 1);
+  const prevYear = date.getFullYear();
+  const prevMonth = String(date.getMonth() + 1).padStart(2, '0');
+  const prevDay = String(date.getDate()).padStart(2, '0');
+  return `${prevYear}-${prevMonth}-${prevDay}`;
+}
+
+export function computeLongestStreak(workouts: Workout[]): number {
   const dateKeys = new Set<string>();
   for (const workout of workouts) {
     if (!workout.startedAt) continue;
@@ -250,6 +260,41 @@ function computeLongestStreak(workouts: Workout[]): number {
     previous = key;
   }
   return longest;
+}
+
+export function computeCurrentStreak(workouts: Workout[], now: Date = new Date()): number {
+  const dateKeys = new Set<string>();
+  for (const workout of workouts) {
+    if (!workout.startedAt) continue;
+    dateKeys.add(toLocalDateKey(workout.startedAt));
+  }
+
+  let anchor = toLocalDateKey(now.toISOString());
+  if (!dateKeys.has(anchor)) anchor = previousDateKey(anchor);
+  if (!dateKeys.has(anchor)) return 0;
+
+  let streak = 0;
+  let cursor = anchor;
+  while (dateKeys.has(cursor)) {
+    streak += 1;
+    cursor = previousDateKey(cursor);
+  }
+  return streak;
+}
+
+export function countWorkoutsSince(
+  workouts: Workout[],
+  days: number,
+  now: Date = new Date(),
+): number {
+  const sinceMs = now.getTime() - days * 24 * 60 * 60 * 1000;
+  let count = 0;
+  for (const workout of workouts) {
+    if (!workout.startedAt) continue;
+    if (Date.parse(workout.startedAt) < sinceMs) continue;
+    count += 1;
+  }
+  return count;
 }
 
 export function buildMilestoneStats(entries: { workout: Workout; sets: Set[] }[]): MilestoneStats {
@@ -274,9 +319,17 @@ export function buildMilestoneStats(entries: { workout: Workout; sets: Set[] }[]
 }
 
 export function buildMilestoneProgress(stats: MilestoneStats): MilestoneProgress[] {
+  return buildMilestoneProgressForAxes(stats, MILESTONE_AXES);
+}
+
+export function buildMilestoneProgressForAxes(
+  stats: Partial<MilestoneStats>,
+  axes: readonly MilestoneAxis[],
+): MilestoneProgress[] {
   const result: MilestoneProgress[] = [];
-  for (const axis of MILESTONE_AXES) {
+  for (const axis of axes) {
     const current = stats[axis];
+    if (current === undefined) continue;
     for (const threshold of MILESTONE_THRESHOLDS[axis]) {
       result.push({
         axis,

@@ -14,7 +14,19 @@
     "welcome": "Welcome to Muscloot",
     "signedInAs": "Signed in as {name}.",
     "ctaLoggedIn": "Go to workouts",
-    "ctaLoggedOut": "Sign in to start tracking your workouts."
+    "ctaLoggedOut": "Sign in to start tracking your workouts.",
+    "dashboard": {
+      "streakHeading": "Current streak",
+      "streakValue": "{days, plural, one {# day} other {# days}}",
+      "streakNone": "Work out today to start a streak",
+      "weekHeading": "Last 7 days",
+      "weekValue": "{count, plural, one {# workout} other {# workouts}}",
+      "milestoneHeading": "Next milestone",
+      "milestoneAllDone": "Workout and streak badges all unlocked!",
+      "viewAllBadges": "View all badges",
+      "empty": "No workouts yet — log your first one to light up this dashboard.",
+      "loadFailed": "Couldn't load your stats right now."
+    }
   },
   "register": {
     "title": "Create your account",
