@@ -7,6 +7,7 @@ import { translate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
 import { finishWorkout, startWorkout } from '@/lib/workout/actions';
 import {
+  compareIsoDesc,
   findActiveWorkout,
   getAllSets,
   getExercises,
@@ -33,7 +34,7 @@ const CARD_CLASS =
 function daysSinceLastWorkout(workouts: Workout[], now: Date): number | null {
   const latest = workouts
     .filter((workout) => !!workout.startedAt)
-    .sort((a, b) => (b.startedAt ?? '').localeCompare(a.startedAt ?? ''))[0];
+    .sort((a, b) => compareIsoDesc(a.startedAt, b.startedAt))[0];
   if (!latest?.startedAt) return null;
   const last = new Date(latest.startedAt);
   last.setHours(0, 0, 0, 0);
@@ -52,9 +53,7 @@ function sortByRecentUse(exercises: Exercise[], sets: Set[]): Exercise[] {
   }
   const used = exercises
     .filter((exercise) => !!exercise.exerciseId && lastUsedAt.has(exercise.exerciseId))
-    .sort((a, b) =>
-      lastUsedAt.get(b.exerciseId!)!.localeCompare(lastUsedAt.get(a.exerciseId!)!),
-    );
+    .sort((a, b) => compareIsoDesc(lastUsedAt.get(a.exerciseId!), lastUsedAt.get(b.exerciseId!)));
   const unused = exercises.filter(
     (exercise) => !exercise.exerciseId || !lastUsedAt.has(exercise.exerciseId),
   );
@@ -127,9 +126,7 @@ export default async function ActiveWorkoutSection({ lang, dict, accessToken }: 
   }
 
   const prFlagsById = allSets.error ? new Map<string, PrFlags>() : computePrFlags(allSets.sets);
-  const sortedSets = [...detail.sets].sort((a, b) =>
-    (b.trainedAt ?? '').localeCompare(a.trainedAt ?? ''),
-  );
+  const sortedSets = [...detail.sets].sort((a, b) => compareIsoDesc(a.trainedAt, b.trainedAt));
   const sortedExercises = allSets.error
     ? exercisesResult.exercises
     : sortByRecentUse(exercisesResult.exercises, allSets.sets);

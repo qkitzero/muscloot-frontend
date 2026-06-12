@@ -1,7 +1,7 @@
 import FormattedDateTime from '@/components/FormattedDateTime';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/getDictionary';
-import { findActiveWorkout, getWorkouts } from '@/lib/workout/data';
+import { compareIsoDesc, findActiveWorkout, getWorkouts } from '@/lib/workout/data';
 import Link from 'next/link';
 import type { components } from '../../../../gen/workout/v1/workout.schema';
 
@@ -73,7 +73,7 @@ export default async function HistorySection({ lang, dict, accessToken }: Props)
   const active = findActiveWorkout(workouts);
   const past = workouts
     .filter((workout) => !!workout.workoutId && workout.workoutId !== active?.workoutId)
-    .sort((a, b) => (b.startedAt ?? '').localeCompare(a.startedAt ?? ''));
+    .sort((a, b) => compareIsoDesc(a.startedAt, b.startedAt));
 
   return (
     <section className={CARD_CLASS}>

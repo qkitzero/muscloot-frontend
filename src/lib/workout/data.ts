@@ -74,7 +74,11 @@ export const getWorkoutDetail = cache(
 export const getWorkoutEntries = cache(
   async (
     accessToken: string | null,
-  ): Promise<{ entries: { workout: Workout; sets: Set[] }[]; failures: number; error?: unknown }> => {
+  ): Promise<{
+    entries: { workout: Workout; sets: Set[] }[];
+    failures: number;
+    error?: unknown;
+  }> => {
     if (accessToken === null) return { entries: getDemoData().entries, failures: 0 };
     const [{ workouts, error }, allSets] = await Promise.all([
       getWorkouts(accessToken),
@@ -106,8 +110,16 @@ export const getAllSets = cache(
   },
 );
 
+export function compareIsoDesc(a: string | undefined, b: string | undefined): number {
+  const left = a ?? '';
+  const right = b ?? '';
+  if (left < right) return 1;
+  if (left > right) return -1;
+  return 0;
+}
+
 export function findActiveWorkout(workouts: Workout[]): Workout | undefined {
   return workouts
     .filter((workout) => !!workout.workoutId && !workout.finishedAt)
-    .sort((a, b) => (b.startedAt ?? '').localeCompare(a.startedAt ?? ''))[0];
+    .sort((a, b) => compareIsoDesc(a.startedAt, b.startedAt))[0];
 }
