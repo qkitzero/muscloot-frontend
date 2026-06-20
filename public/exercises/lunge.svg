@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Lunge">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="128" cy="64" r="12"/>
+    <line x1="128" y1="76" x2="128" y2="138"/>
+    <line x1="128" y1="138" x2="172" y2="170"/>
+    <line x1="172" y1="170" x2="172" y2="218"/>
+    <line x1="128" y1="138" x2="92" y2="180"/>
+    <line x1="92" y1="180" x2="74" y2="218"/>
+  </g>
+</svg>

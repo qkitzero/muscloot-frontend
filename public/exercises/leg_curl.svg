@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Leg curl">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <rect x="40" y="170" width="150" height="12" rx="4"/>
+    <line x1="56" y1="182" x2="48" y2="208"/>
+    <line x1="174" y1="182" x2="182" y2="208"/>
+    <circle cx="56" cy="156" r="12"/>
+    <line x1="68" y1="158" x2="150" y2="168"/>
+    <line x1="150" y1="168" x2="186" y2="168"/>
+    <line x1="186" y1="168" x2="170" y2="110"/>
+    <circle cx="168" cy="106" r="10"/>
+  </g>
+</svg>

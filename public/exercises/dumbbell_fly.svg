@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Dumbbell fly">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+    .pl{fill:currentColor;stroke:none}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <rect x="48" y="186" width="160" height="12" rx="4"/>
+    <line x1="64" y1="198" x2="54" y2="226"/>
+    <line x1="192" y1="198" x2="202" y2="226"/>
+    <circle cx="188" cy="170" r="12"/>
+    <line x1="176" y1="170" x2="100" y2="170"/>
+    <line x1="100" y1="170" x2="78" y2="186"/>
+    <line x1="140" y1="168" x2="112" y2="116"/>
+    <line x1="140" y1="168" x2="168" y2="116"/>
+    <path d="M 110 112 Q 140 86 170 112" stroke-width="4" opacity="0.5"/>
+    <line x1="103" y1="110" x2="121" y2="110" stroke-width="5"/>
+    <rect class="pl" x="91" y="97" width="11" height="26" rx="3"/>
+    <rect class="pl" x="122" y="97" width="11" height="26" rx="3"/>
+    <line x1="159" y1="110" x2="177" y2="110" stroke-width="5"/>
+    <rect class="pl" x="147" y="97" width="11" height="26" rx="3"/>
+    <rect class="pl" x="178" y="97" width="11" height="26" rx="3"/>
+  </g>
+</svg>

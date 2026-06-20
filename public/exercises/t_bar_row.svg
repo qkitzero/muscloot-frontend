@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="T-bar row">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="30" cy="210" r="7"/>
+    <line x1="30" y1="210" x2="150" y2="150"/>
+    <circle cx="150" cy="152" r="17"/>
+    <circle cx="168" cy="143" r="17"/>
+    <circle cx="210" cy="120" r="12"/>
+    <line x1="200" y1="126" x2="160" y2="164"/>
+    <line x1="160" y1="164" x2="150" y2="210"/>
+    <line x1="160" y1="164" x2="174" y2="210"/>
+    <line x1="182" y1="138" x2="140" y2="158"/>
+  </g>
+</svg>

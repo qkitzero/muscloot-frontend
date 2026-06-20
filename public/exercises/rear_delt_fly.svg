@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Rear delt fly">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+    .pl{fill:currentColor;stroke:none}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="186" cy="118" r="12"/>
+    <line x1="174" y1="124" x2="110" y2="150"/>
+    <line x1="110" y1="150" x2="100" y2="214"/>
+    <line x1="110" y1="150" x2="120" y2="214"/>
+    <line x1="150" y1="136" x2="108" y2="184"/>
+    <line x1="150" y1="136" x2="192" y2="184"/>
+    <path d="M 108 184 Q 150 150 192 184" stroke-width="4" opacity="0.5"/>
+    <line x1="104" y1="178" x2="104" y2="196" stroke-width="5"/>
+    <rect class="pl" x="91" y="166" width="26" height="11" rx="3"/>
+    <rect class="pl" x="91" y="197" width="26" height="11" rx="3"/>
+    <line x1="196" y1="178" x2="196" y2="196" stroke-width="5"/>
+    <rect class="pl" x="183" y="166" width="26" height="11" rx="3"/>
+    <rect class="pl" x="183" y="197" width="26" height="11" rx="3"/>
+  </g>
+</svg>
