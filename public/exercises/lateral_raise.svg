@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Lateral raise">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+    .pl{fill:currentColor;stroke:none}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="128" cy="60" r="12"/>
+    <line x1="128" y1="72" x2="128" y2="150"/>
+    <line x1="128" y1="150" x2="110" y2="216"/>
+    <line x1="128" y1="150" x2="146" y2="216"/>
+    <line x1="128" y1="92" x2="74" y2="92"/>
+    <line x1="128" y1="92" x2="182" y2="92"/>
+    <line x1="61" y1="92" x2="79" y2="92" stroke-width="5"/>
+    <rect class="pl" x="49" y="79" width="11" height="26" rx="3"/>
+    <rect class="pl" x="80" y="79" width="11" height="26" rx="3"/>
+    <line x1="177" y1="92" x2="195" y2="92" stroke-width="5"/>
+    <rect class="pl" x="165" y="79" width="11" height="26" rx="3"/>
+    <rect class="pl" x="196" y="79" width="11" height="26" rx="3"/>
+  </g>
+</svg>
