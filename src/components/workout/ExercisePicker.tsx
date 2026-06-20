@@ -57,7 +57,7 @@ function groupByMuscle(dict: Dict, exercises: Exercise[]): Group[] {
   };
 
   return [...byMuscle.entries()]
-    .sort(([a], [b]) => order(a) - order(b) || a.localeCompare(b))
+    .sort(([a], [b]) => order(a) - order(b) || (a < b ? -1 : a > b ? 1 : 0))
     .map(([code, items]) => ({
       key: code || 'uncategorized',
       label: muscleGroupLabel(dict, code),
@@ -223,10 +223,7 @@ export default function ExercisePicker({
               </p>
             </div>
 
-            <ul
-              role="listbox"
-              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-3"
-            >
+            <ul className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-3">
               {filtered.length === 0 ? (
                 <li className="px-3 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
                   {dict.noResults}
@@ -246,8 +243,7 @@ export default function ExercisePicker({
                           <li key={id || exercise.code}>
                             <button
                               type="button"
-                              role="option"
-                              aria-selected={isSelected}
+                              aria-current={isSelected || undefined}
                               disabled={!id}
                               onClick={() => select(id)}
                               className={`flex min-h-[52px] w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:hover:bg-zinc-800 ${
