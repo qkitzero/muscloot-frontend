@@ -45,10 +45,15 @@ export interface components {
             code?: string;
             name?: string;
             category?: string;
-            muscles?: components["schemas"]["exercisev1Muscle"][];
+            muscles?: components["schemas"]["v1MuscleContribution"][];
         };
         v1ListExercisesResponse: {
             exercises?: components["schemas"]["v1Exercise"][];
+        };
+        v1MuscleContribution: {
+            muscle?: components["schemas"]["exercisev1Muscle"];
+            /** Format: float */
+            ratio?: number;
         };
     };
     responses: never;

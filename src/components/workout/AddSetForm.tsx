@@ -1,11 +1,11 @@
 'use client';
 
-import ExerciseImage from '@/components/ExerciseImage';
+import ExercisePicker from '@/components/workout/ExercisePicker';
 import { interpolate } from '@/i18n/format';
 import type { Dictionary } from '@/i18n/getDictionary';
+import { createSet, type CreateSetFormState } from '@/lib/workout/actions';
 import { useActionState, useRef, useState } from 'react';
 import type { components } from '../../../gen/exercise/v1/exercise.schema';
-import { createSet, type CreateSetFormState } from '@/lib/workout/actions';
 
 type Exercise = components['schemas']['v1Exercise'];
 
@@ -38,9 +38,6 @@ export default function AddSetForm({
     selectedExerciseId && exercises.some((exercise) => exercise.exerciseId === selectedExerciseId)
       ? selectedExerciseId
       : (exercises[0]?.exerciseId ?? '');
-  const selectedExercise = exercises.find(
-    (exercise) => exercise.exerciseId === effectiveExerciseId,
-  );
 
   const boundAction = createSet.bind(null, workoutId);
   const wrappedAction = async (prev: CreateSetFormState, formData: FormData) => {
@@ -67,31 +64,16 @@ export default function AddSetForm({
         {exercises.length === 0 ? (
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{dict.noExercises}</p>
         ) : (
-          <div className="flex items-center gap-3">
-            <ExerciseImage
-              code={selectedExercise?.code}
-              name={selectedExercise?.name ?? selectedExercise?.code}
-              className="h-14 w-14 shrink-0"
-            />
-            <select
-              value={effectiveExerciseId}
-              onChange={(event) => {
-                setSelectedExerciseId(event.target.value);
-                setShowPr(false);
-              }}
-              aria-label={dict.exercise}
-              className="w-full min-w-0 flex-1 rounded-lg border border-black/[.08] bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-400 disabled:opacity-50 sm:text-sm dark:border-white/[.145] dark:bg-zinc-950 dark:text-zinc-50"
-            >
-              {exercises.map((exercise) => {
-                const id = exercise.exerciseId ?? '';
-                return (
-                  <option key={id || exercise.code} value={id} disabled={!id}>
-                    {exercise.name ?? exercise.code ?? id}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <ExercisePicker
+            exercises={exercises}
+            value={effectiveExerciseId}
+            onChange={(exerciseId) => {
+              setSelectedExerciseId(exerciseId);
+              setShowPr(false);
+            }}
+            disabled={disabled}
+            dict={dict}
+          />
         )}
         {state.fieldErrorKeys?.exerciseId && (
           <p className="mt-1 text-sm text-rose-500">

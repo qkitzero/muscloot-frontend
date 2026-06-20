@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Barbell curl">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="128" cy="60" r="12"/>
+    <line x1="128" y1="72" x2="128" y2="150"/>
+    <line x1="128" y1="150" x2="112" y2="216"/>
+    <line x1="128" y1="150" x2="144" y2="216"/>
+    <line x1="116" y1="92" x2="108" y2="138"/>
+    <line x1="140" y1="92" x2="148" y2="138"/>
+    <line x1="108" y1="138" x2="116" y2="118"/>
+    <line x1="148" y1="138" x2="140" y2="118"/>
+    <line x1="40" y1="118" x2="216" y2="118" stroke-width="9"/>
+    <circle cx="60" cy="118" r="20"/>
+    <circle cx="196" cy="118" r="20"/>
+    <circle cx="60" cy="118" r="6"/>
+    <circle cx="196" cy="118" r="6"/>
+  </g>
+</svg>

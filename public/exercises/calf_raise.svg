@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Calf raise">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <line x1="150" y1="200" x2="224" y2="200"/>
+    <line x1="150" y1="200" x2="150" y2="228"/>
+    <circle cx="172" cy="70" r="12"/>
+    <line x1="172" y1="82" x2="172" y2="150"/>
+    <line x1="172" y1="150" x2="166" y2="196"/>
+    <line x1="166" y1="196" x2="188" y2="196"/>
+    <line x1="166" y1="196" x2="156" y2="188"/>
+    <path d="M 110 124 L 110 88" stroke-width="4" opacity="0.5"/>
+    <path d="M 100 100 L 110 86 L 120 100" stroke-width="4" opacity="0.5"/>
+  </g>
+</svg>
