@@ -109,7 +109,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/exercisev1Muscle"
+            "$ref": "#/definitions/v1MuscleContribution"
           }
         }
       }
@@ -123,6 +123,18 @@
             "type": "object",
             "$ref": "#/definitions/v1Exercise"
           }
+        }
+      }
+    },
+    "v1MuscleContribution": {
+      "type": "object",
+      "properties": {
+        "muscle": {
+          "$ref": "#/definitions/exercisev1Muscle"
+        },
+        "ratio": {
+          "type": "number",
+          "format": "float"
         }
       }
     }

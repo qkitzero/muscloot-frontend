@@ -99,6 +99,25 @@
   "addSet": {
     "exercise": "Exercise",
     "noExercises": "No exercises available.",
+    "searchPlaceholder": "Search exercises",
+    "noResults": "No matching exercises.",
+    "change": "Change",
+    "selectPrompt": "Select an exercise",
+    "close": "Close",
+    "resultCount": "{count} exercises",
+    "uncategorized": "Other",
+    "muscleGroups": {
+      "chest": "Chest",
+      "back": "Back",
+      "legs": "Legs",
+      "shoulders": "Shoulders",
+      "arms": "Arms",
+      "core": "Core"
+    },
+    "types": {
+      "compound": "Compound",
+      "isolation": "Isolation"
+    },
     "reps": "Reps",
     "weight": "Weight ({unit})",
     "trainedAt": "Trained at",

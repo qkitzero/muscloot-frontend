@@ -149,9 +149,11 @@ export function buildMuscleBalance(
       if (!exercise?.muscles) continue;
       const volume = (set.rep ?? 0) * (set.weight ?? 0);
       if (volume === 0) continue;
-      for (const muscle of exercise.muscles) {
-        if (!muscle.code || !isMuscleCode(muscle.code)) continue;
-        totals.set(muscle.code, (totals.get(muscle.code) ?? 0) + volume);
+      for (const contribution of exercise.muscles) {
+        const code = contribution.muscle?.code;
+        if (!code || !isMuscleCode(code)) continue;
+        const ratio = contribution.ratio ?? 1;
+        totals.set(code, (totals.get(code) ?? 0) + volume * ratio);
       }
     }
   }

@@ -99,6 +99,25 @@
   "addSet": {
     "exercise": "種目",
     "noExercises": "利用可能な種目がありません。",
+    "searchPlaceholder": "種目を検索",
+    "noResults": "該当する種目がありません。",
+    "change": "変更",
+    "selectPrompt": "種目を選択",
+    "close": "閉じる",
+    "resultCount": "{count} 種目",
+    "uncategorized": "その他",
+    "muscleGroups": {
+      "chest": "胸",
+      "back": "背中",
+      "legs": "脚",
+      "shoulders": "肩",
+      "arms": "腕",
+      "core": "体幹"
+    },
+    "types": {
+      "compound": "多関節種目",
+      "isolation": "単関節種目"
+    },
     "reps": "回数",
     "weight": "重量 ({unit})",
     "trainedAt": "実施日時",
