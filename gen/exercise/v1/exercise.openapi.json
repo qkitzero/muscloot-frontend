@@ -112,7 +112,7 @@
                     "muscles": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/exercisev1Muscle"
+                            "$ref": "#/components/schemas/v1MuscleContribution"
                         }
                     }
                 }
@@ -125,6 +125,18 @@
                         "items": {
                             "$ref": "#/components/schemas/v1Exercise"
                         }
+                    }
+                }
+            },
+            "v1MuscleContribution": {
+                "type": "object",
+                "properties": {
+                    "muscle": {
+                        "$ref": "#/components/schemas/exercisev1Muscle"
+                    },
+                    "ratio": {
+                        "type": "number",
+                        "format": "float"
                     }
                 }
             }
