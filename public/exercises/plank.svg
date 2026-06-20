@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Plank">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <circle cx="58" cy="150" r="12"/>
+    <line x1="70" y1="154" x2="200" y2="186"/>
+    <line x1="200" y1="186" x2="226" y2="208"/>
+    <line x1="84" y1="160" x2="86" y2="206"/>
+    <line x1="86" y1="206" x2="54" y2="206"/>
+  </g>
+</svg>

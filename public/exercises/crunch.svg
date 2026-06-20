@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Crunch">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="206" x2="236" y2="206" stroke-width="4" opacity="0.5"/>
+    <circle cx="78" cy="148" r="12"/>
+    <line x1="84" y1="158" x2="120" y2="198"/>
+    <line x1="120" y1="198" x2="150" y2="148"/>
+    <line x1="150" y1="148" x2="170" y2="198"/>
+    <line x1="86" y1="152" x2="116" y2="164"/>
+  </g>
+</svg>
