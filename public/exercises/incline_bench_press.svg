@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Incline bench press">
+  <style>
+    svg{color:#3f3f46}
+    @media (prefers-color-scheme:dark){svg{color:#e4e4e7}}
+    .ex{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <g class="ex">
+    <line x1="20" y1="230" x2="236" y2="230" stroke-width="4" opacity="0.5"/>
+    <line x1="58" y1="198" x2="120" y2="198"/>
+    <line x1="64" y1="198" x2="56" y2="226"/>
+    <line x1="114" y1="198" x2="122" y2="226"/>
+    <line x1="120" y1="198" x2="172" y2="124"/>
+    <line x1="150" y1="156" x2="150" y2="198"/>
+    <circle cx="176" cy="116" r="12"/>
+    <line x1="164" y1="124" x2="118" y2="190"/>
+    <line x1="118" y1="190" x2="92" y2="198"/>
+    <line x1="92" y1="198" x2="86" y2="226"/>
+    <line x1="148" y1="150" x2="150" y2="84"/>
+    <line x1="40" y1="78" x2="236" y2="78" stroke-width="9"/>
+    <circle cx="62" cy="78" r="20"/>
+    <circle cx="214" cy="78" r="20"/>
+    <circle cx="62" cy="78" r="6"/>
+    <circle cx="214" cy="78" r="6"/>
+  </g>
+</svg>
