@@ -29,7 +29,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.2.11",
+    "next": "16.3.4",
     "openapi-fetch": "^0.17.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
